@@ -1,0 +1,157 @@
+/* Animações */
+@keyframes ampliar {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.02);
+    }
+  }
+/* estilo geral */
+* {
+    font-family: "EB Garamond", serif;
+}
+
+body {
+    height: 100vh;
+    margin-bottom: 200px;
+}
+a, .bi {
+    text-decoration: none;
+    color: rgb(253, 136, 59);
+}
+
+.col-10 {
+    margin-bottom: 50px;
+}
+
+/* Estilo da navbar lateral*/
+/* barra de navegação fantasma */
+.navbar-lateral-fantasma {
+    width: clamp(5rem, 9vw, 12rem);
+}
+/* barra de navegação lateral */
+.navbar-lateral {
+    position: fixed;
+    padding: 20px;
+    height: 100%;
+    width: clamp(5rem, 8vw, 12rem);
+    border-right: 1px solid rgb(180, 180, 180);
+    background-color: white;
+
+}
+
+.navbar-lateral img {
+    border-radius: 50px;
+}
+
+.navbar-lateral {
+    font-size: x-large;
+}
+
+/* Título da página */
+.titulo-bloco {
+    position:absolute;
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+    margin-top: 5px;
+}
+
+/* btn dropdown user mobile*/
+.dropdown-item-mobile {
+    display: none;
+}
+/* btn dropdown user */
+.user-config {
+    height: 70px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.btn-group {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    width: 100%;
+}
+.btn-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    width: 100px;
+}
+
+.btn-group .bi-bell-fill {
+    font-size: x-large;
+}
+.btn-dropdown .bi {
+    font-size: xx-large;
+}
+
+.container {
+    margin-bottom: 30px;
+}
+
+.card-despesa:hover {
+    animation: ampliar 0s linear forwards;
+    background-color: rgb(245, 149, 149);
+}
+
+.card-receita:hover {
+    animation: ampliar 0s linear forwards;
+    background-color: rgb(179, 238, 131);
+
+}
+
+.card-despesa {
+    background-color: rgb(255, 157, 157);
+}
+
+.card-receita {
+    background-color: rgb(194, 255, 144);
+}
+
+/* Dialog - conteúdo oculto */
+dialog {
+    border: 1px solid gray;
+    margin-top: 10px;
+    width: 70vw;
+}
+
+/* modificações para telas menores que 768px */
+@media screen and (max-width: 768px) {
+    .navbar-lateral, .navbar-lateral-fantasma {
+        display: none;
+    }
+
+    .col-10 {
+        width: 100%;
+    }
+
+    .titulo-bloco {
+        justify-content: flex-start;
+    }
+
+    /* itens do dropdown */
+    .dropdown-item-mobile {
+        display: block;
+    }
+
+    /* tira os icones editar e excluir do bloco 4 - orçamentos */
+    tr td a {
+        display: none;
+    }
+
+}
+
+/* Telas grandes */
+@media screen and (min-width: 1440px) {
+    .titulo-bloco {
+        justify-content: flex-start;
+    }
+}

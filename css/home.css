@@ -1,0 +1,229 @@
+/* Keyframes - animações */
+@keyframes ampliar {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.02);
+    } 
+}
+
+/* estilo geral */
+* {
+    font-family: "EB Garamond", serif;
+}
+
+body {
+    height: 100vh;
+}
+a, .bi {
+    text-decoration: none;
+    color: rgb(253, 136, 59);
+}
+
+/* Estilo da navbar lateral*/
+/* barra de navegação fantasma */
+.navbar-lateral-fantasma {
+    width: clamp(5rem, 9vw, 12rem);
+}
+/* barra de navegação lateral */
+.navbar-lateral {
+    position: fixed;
+    padding: 20px;
+    height: 100%;
+    width: clamp(5rem, 8vw, 12rem);
+    border-right: 1px solid rgb(180, 180, 180);
+    background-color: white;
+
+}
+
+.navbar-lateral img {
+    border-radius: 50px;
+}
+
+.navbar-lateral {
+    font-size: x-large;
+}
+
+
+/* btn dropdown user mobile*/
+.dropdown-item-mobile {
+    display: none;
+}
+/* btn dropdown user */
+.user-config {
+    height: 70px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.btn-group {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    width: 100%;
+}
+.btn-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    width: 100px;
+}
+
+.btn-group .bi-bell-fill {
+    font-size: x-large;
+}
+.btn-dropdown .bi {
+    font-size: xx-large;
+}
+
+/* Bloco 1 - saudacoes */
+.bloco-saudacoes {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-bottom: 80px;
+    background-color: rgb(253, 136, 59);
+    color:white;
+    font-size: clamp(1rem, 3vw, 3rem);
+    font-weight: 600;
+}
+
+/* Gráfico e principais despesas */
+.card-despesa {
+    background-color: rgb(255, 157, 157);
+}
+/* Gráfico e principais despesas */
+.card-despesa:hover {
+    background-color: rgb(245, 149, 149);
+}
+/* Dados do patrimônio */
+.dados-pratimonio {
+    margin-bottom: 40px;
+    margin-top: 20px;
+    padding: 10px;
+    height: 50px;
+    background-color: rgb(255, 180, 130);
+    display: flex;
+    align-items: center;
+}
+
+/*Despesas e receitas */
+.bg-despesas-receitas {
+    background-color: rgb(255, 167, 108);
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.add-icon {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+    font-size: xx-large;
+    color: white;
+}
+
+.card-totais {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-left: 2px;
+}
+
+.card-totais h5 {
+    font-size: clamp(0.8rem, 2vw, 3rem);
+}
+
+.bi-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: clamp(3rem, 3vw, 8rem);
+}
+
+.card-mobile {
+    display: none;
+}
+
+/* Bloco 4 - Orçamentos */
+.card:hover {
+    animation: ampliar 0ms linear forwards;
+}
+
+.add-icon-orcamento {
+    color: white;
+    text-decoration: none;
+    font-size: xx-large;
+}
+
+table .bi {
+    margin: -50px;
+    font-size: x-large;
+}
+
+.bloco-saudacoes-mobile {
+    display: none;
+}
+
+
+/* modificações para telas menores que 768px */
+@media screen and (max-width: 768px) {
+    .navbar-lateral, .navbar-lateral-fantasma, .col-2 {
+        display: none;
+    }
+
+    .col-10 {
+        width: 100%;
+    }
+
+    /* itens do dropdown */
+    .dropdown-item-mobile {
+        display: block;
+    }
+
+    /* tira os icones editar e excluir do bloco 4 - orçamentos */
+    tr td a {
+        display: none;
+    }
+
+    .bloco-saudacoes {
+        display: none;
+    }
+
+    .bloco-saudacoes-mobile {
+        display: block;
+    }
+
+    .bi-card {
+        display: none;
+    }
+    
+    .card-mobile {
+        display: block;
+    }
+
+    .card-pc {
+        display: none;
+    }
+
+    .card-totais {
+        display: block;
+    }
+
+    .card-totais h5 {
+        font-size: larger;
+    }
+}
+
+@media screen and (max-width: 424px) {
+    .grafico-barra {
+        display: none;
+    }
+    
+}

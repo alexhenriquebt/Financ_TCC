@@ -1,0 +1,198 @@
+/*
+cor LOGO
+background-color: rgb(253, 136, 59);
+*/
+
+/* 
+cor dos icones do undraw
+#FD883E
+*/
+/* KEYFRAMES - animações */
+
+@keyframes ampliar {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.02);
+    }
+  }
+
+  /* estilo geral */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "EB Garamond", serif;
+}
+
+body {
+    height: 100vh;
+}
+
+p, footer a {
+    color: rgb(109, 0, 0);
+
+}
+
+
+
+/* Navbar e seção 1 */
+header {
+    background-image: linear-gradient(to left, rgb(255, 143, 68), #ffd18b);
+}
+
+.navbar {
+    width: 100%;
+    position: fixed;
+    opacity: 0.8;
+}
+/* animação do btn da navbar */
+.navbar .btn:hover {
+    animation: ampliar 0s linear forwards;
+}
+
+/* animação do texto na navbar */
+.navbar .nav-link:hover {
+    animation: ampliar 0s linear forwards;
+}
+
+.navbar-brand {
+    font-size: x-large;
+
+}
+
+.secao1 {
+    background-image: url("../img/bg_img_secao1.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10vh;
+    padding-top: 25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+.titulo-secao1 {
+    /* gradiente */
+    background-image: linear-gradient(to bottom, rgb(253, 136, 59), rgb(218, 118, 51));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* deixa o titulo responsivo */
+    font-size: clamp(4rem, 10vw, 10rem);
+}
+
+.container-titulo {
+    opacity: 0.89;
+    padding: 20px;
+    width: 100vw;
+}
+
+.secao1 h2 {
+    font-size: clamp(1rem, 2vw, 3rem);
+    color: rgb(185, 74, 0);
+}
+
+.secao1 .btn {
+    width: 120px;
+    border-radius: 50px;
+    font-size: clamp(1rem, 1.5vw, 4rem);
+}
+/* animação do btn */
+.secao1 .btn:hover {
+    animation-name: ampliar;
+    animation-duration: 0s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    
+}
+
+/* Seção 2 */
+.secao2 {
+    /* background-color: #fcdeb3; */
+    padding: 50px;
+    font-size: clamp(1rem, 1.5vw, 3rem);
+    
+}
+
+.conteudo-secao2 {
+    padding: 20px;
+}
+
+.img-secao2 {
+    border-radius: 10%;
+}
+
+/* Seção 3 */
+.secao3 {
+    background-color: #fcb046;
+    padding: 50px;
+    
+}
+
+.titulo-secao3, .box-secao3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.box-icon {
+    width: 0;
+    padding: 25px;
+    border-left: 2px solid black;
+}
+
+
+
+.box-secao3 p{
+    font-size: clamp(1rem, 1.5vw, 3rem);
+}
+.box-icon .bi {
+    font-size: clamp(1rem, 1.5vw, 3rem);
+}
+
+/* Seção 4 */
+.secao4 {
+    /* background-color: #fcdeb3; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 50px;
+}
+
+.box-dev {
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.text-secao3 {
+    font-size: clamp(1rem, 1.5vw, 3rem);
+}
+
+.box-dev img {
+    border-radius: 50%;
+}
+
+/* Footer */
+footer {
+    background-color: rgb(253, 136, 59) ;
+    border-top: 2px solid gray;
+    color: white;
+    font-size: clamp(1rem, 1vw, 3rem);
+    padding: 50px;
+    padding-bottom: 20px;
+}
+
+.btn-footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-footer .btn:hover {
+    animation: ampliar 0s linear forwards;
+
+}

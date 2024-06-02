@@ -1,0 +1,112 @@
+/* LAYOUT GERAL DA ENTRAR/CADASTRAR */
+
+/* animação */
+@keyframes show {
+
+	0%,
+	49.99% {
+		opacity: 0;
+		z-index: 1;
+	}
+
+	50%,
+	100% {
+		opacity: 1;
+		z-index: 5;
+	}
+}
+
+/* estilo geral */
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "EB Garamond", serif;
+}
+
+body {
+	background: #dd9f41;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-family: 'Montserrat', sans-serif;
+	height: 100vh;
+	margin: 0px;
+}
+
+/* estilo do conteúdo da página */
+
+.box {
+	font-family: "Roboto", sans-serif;
+	outline: 0;
+	background: #f2f2f2;
+	width: 50%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+	border-color: orange;
+	box-sizing: border-box;
+}
+
+.btn {
+	background-color: aquamarine;
+}
+
+.fundo {
+	border-radius: 20px;
+	box-shadow: 20px 20px 30px rgb(160, 159, 159);
+	background-image: linear-gradient(to left, rgb(253, 136, 59), rgb(255, 161, 98), #ffd18b);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.card_entrar {
+	padding: 15px;
+}
+
+.container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bloco-img-login,
+img {
+	border-start-end-radius: 20px;
+	border-end-end-radius: 20px;
+}
+
+.bloco-entrar {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+.btn-wrap {
+	position: relative;
+	text-align: center;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	font-size: clamp(1rem, 1.5vw, 3rem);
+}
+
+.btn-wrap button {
+	position: absolute;
+	margin-bottom: 40px;
+}
+
+/* modificações para telas menores que 765px */
+@media screen and (max-width: 765px) {
+	.card_entrar {
+		padding-top: 30px;
+	}
+	.bloco-img-login {
+		display: none;
+	}
+
+}
