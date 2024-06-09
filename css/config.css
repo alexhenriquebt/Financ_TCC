@@ -13,6 +13,8 @@
     font-family: "EB Garamond", serif;
 }
 
+
+
 body {
     height: 100vh;
     margin-bottom: 30px;
@@ -24,8 +26,9 @@ a, .bi {
 
 .img{
     width: 120%;
-    border: 3px solid black;
-    border-radius: 35%;
+    border: 1px solid orange;
+    border-radius: 50%;
+    margin-left: 30px;
 }
 
 .icone{
@@ -33,7 +36,7 @@ a, .bi {
 }
 
 .card{
-    border: 2px solid gray;
+    border: 1px solid orange;
 }
 
 /* Estilo da navbar lateral*/

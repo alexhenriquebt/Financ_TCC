@@ -11,7 +11,7 @@
 
 /* estilo geral */
 * {
-    font-family: "EB Garamond", serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 body {
@@ -115,14 +115,6 @@ table .bi {
 .despesa-pc, .despesa-mobile, .despesa-little-mobile, .receita-pc, .receita-mobile, .receita-little-mobile{
     padding: 50px;
     border-radius: 30px;
-}
-
-.despesa-pc, .despesa-mobile, .despesa-little-mobile {
-    background-color: rgb(255, 157, 157);
-}
-
-.receita-pc, .receita-mobile, .receita-little-mobile {
-    background-color: rgb(194, 255, 144);
 }
 
 .receita-little-mobile, .despesa-little-mobile{

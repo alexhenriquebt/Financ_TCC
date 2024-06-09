@@ -10,7 +10,7 @@
 
 /* estilo geral */
 * {
-    font-family: "EB Garamond", serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 body {
@@ -138,13 +138,13 @@ a, .bi {
 }
 
 .card-totais h5 {
-    font-size: clamp(0.8rem, 2vw, 3rem);
+    font-size: clamp(0.8rem, 1.3vw, 2.8rem);
 }
 
 .bi-card {
     margin-left: 1rem;
     margin-right: 1rem;
-    font-size: clamp(3rem, 3vw, 8rem);
+    font-size: clamp(2rem, 2vw, 6rem);
 }
 
 .card-mobile {

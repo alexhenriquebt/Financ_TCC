@@ -10,11 +10,6 @@
 	<!-- ------------------------- Framework ------------------------- -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<!-- ------------------------- Framework fim ------------------------- -->
-
-	<!-- ------------------------- APIs ------------------------- -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-	<!-- ------------------------- APIs fim ------------------------- -->
 	<!--  link bootstrap local - Pode haver algumas mudanças de layout com o bootstrap local, verifique a versão -->
 	<!-- 
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">

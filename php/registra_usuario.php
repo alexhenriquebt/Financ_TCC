@@ -14,6 +14,7 @@ $cmd->execute();
 //verifica se email ja existe na tblUsuario
 if ($cmd->rowCount() == 1) {
     header('Location: ../pg/cadastrar.php?cadastro=erro');
+    
 } else {
     //registra usuário no banco de dados
     $sql = "INSERT INTO tblUsuario(usuNome, usuEmail, usuSenha) VALUES (:n, :e, :s)";
