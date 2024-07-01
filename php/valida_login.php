@@ -1,7 +1,4 @@
 <?php
-//inicia sessão
-  session_start();
-
 //conecta com o banco de dados
 require_once "conexao.php";
 $conexao = novaConexao();
@@ -19,6 +16,10 @@ $resultado = $stmt->fetch();
 //email e senha estão corretos
 if($stmt->rowCount()==1) {
     $usuario = $resultado[1];
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['senha'] = $_POST['senha'];
+    $_SESSION['idUsuario'] = $resultado[0];
+    $_SESSION['telefone'] = $resultado[4];
     $_SESSION['usuario'] = $usuario;
     $_SESSION['logado'] = 'sim';
     header('Location: ../pg/home.php');

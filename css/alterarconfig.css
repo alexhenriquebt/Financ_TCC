@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  box-shadow: rgb(255, 191, 72) 0px 1px 2px 0px, rgb(255, 189, 67) 0px 1px 3px 1px;
+  padding: 50px;
+}

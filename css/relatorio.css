@@ -21,6 +21,10 @@ a, .bi {
     color: rgb(253, 136, 59);
 }
 
+.bi:hover {
+    color: rgb(218, 100, 22);
+}
+
 .col-10 {
     margin-bottom: 50px;
 }

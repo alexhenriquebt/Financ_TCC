@@ -4,22 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- ------------------------- Framework ------------------------- -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-
-  <!-- ------------------------- Framework fim ------------------------- -->
-
-  <link rel="shortcut icon" href="../img/icon_title.png" />
   <link rel="stylesheet" href="../css/receitas_despesas.css" />
-  <!-- ------------------------- Script do chart.js ------------------------- -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- ------------------------- Script do chart.js fim ------------------------- -->
+  <link rel="shortcut icon" href="../img/icon_title.png" />
   <title>Suas despesas</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -31,40 +25,40 @@
     <!-- ------------------------- volume para dar espaçamento fim ------------------------- -->
 
     <!-- ------------------------- navbar-lateral fixada ------------------------- -->
-    <div class="navbar-lateral text-center">
+    <div class="navbar-lateral text-center m-0">
       <div class="row g-5">
         <div class="col-12">
-          <a href="#" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Home">
+          <a href="home.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Home">
             <img src="../img/icon_title.png" alt="" class="img-fluid" />
           </a>
         </div>
         <div class="col-12">
-          <a href="#" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Orçamentos">
+          <a href="orcamentos.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Orçamentos">
             <i class="bi bi-cash-coin"></i>
           </a>
         </div>
         <div class="col-12">
-          <a href="#" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Despesas">
+          <a href="despesas.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Despesas">
             <i class="bi bi-graph-down-arrow"></i>
           </a>
         </div>
         <div class="col-12">
-          <a href="receitas.html" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Receitas">
+          <a href="receitas.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Receitas">
             <i class="bi bi-graph-up-arrow"></i>
           </a>
         </div>
         <div class="col-12">
-          <a href="#" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Relatórios">
+          <a href="relatorios.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Relatórios">
             <i class="bi bi-graph-up"></i>
           </a>
         </div>
         <div class="col-12">
-          <a href="#" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Configurações">
+          <a href="configuracoes.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Configurações">
             <i class="bi bi-gear"></i>
           </a>
         </div>
         <div class="col-12">
-          <a href="#" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Ajuda">
+          <a href="ajuda.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Ajuda">
             <i class="bi bi-info-circle"></i>
           </a>
         </div>
@@ -97,25 +91,25 @@
                   </button>
                   <ul class="dropdown-menu">
                     <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="home.html">Home</a>
+                      <a class="dropdown-item dropdown-item-mobile" href="home.php">Home</a>
                     </li>
                     <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="orcamentos.html">Orçamentos</a>
+                      <a class="dropdown-item dropdown-item-mobile" href="orcamentos.php">Orçamentos</a>
                     </li>
                     <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="despesas.html">Despesas</a>
+                      <a class="dropdown-item dropdown-item-mobile" href="despesas.php">Despesas</a>
                     </li>
                     <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="receitas.html">Receitas</a>
+                      <a class="dropdown-item dropdown-item-mobile" href="receitas.php">Receitas</a>
                     </li>
                     <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="relatorios.html">Relatórios</a>
+                      <a class="dropdown-item dropdown-item-mobile" href="relatorios.php">Relatórios</a>
                     </li>
                     <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="configuracoes.html">Configurações</a>
+                      <a class="dropdown-item dropdown-item-mobile" href="configuracoes.php">Configurações</a>
                     </li>
                     <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="ajuda.html">Ajuda</a>
+                      <a class="dropdown-item dropdown-item-mobile" href="ajuda.php">Ajuda</a>
                     </li>
                     <li>
                       <a class="dropdown-item" href="../php/logoff.php">Sair</a>
@@ -136,9 +130,63 @@
             <h3>Adicionar despesa</h3>
           </div>
           <div class="col-8 col-md-4">
-            <a class="add-icon" href="#">
-              <i class="bi bi-plus-circle-fill add-icon-orcamento"></i>
-            </a>
+              <i class="bi bi-plus-circle-fill add-icon" onclick="modalAdicionar()"></i>
+                <!-- Modal de adicionar -->
+                 <dialog id="modalAdicionar">
+                   <div class="container">
+                     <form class="row g-3" action="" method="post">
+
+                      <h4>Adicionar despesa</h4>
+                      <div class="col-12 col-md-6">
+                       <label>Nome</label>
+                       <input type="text" placeholder="Nome da despesa" class="form-control" required>
+                      </div>
+
+                      <div class="col-12 col-md-12">
+                       <label>Descrição</label>
+                       <textarea name="" id="" placeholder="Descrição" class="form-control"></textarea>
+                      </div>
+
+                      <div class="col-6 col-md-4">
+                       <label>Saldo</label>
+                       <input type="number" placeholder="Saldo" class="form-control" required>                       
+                      </div>
+
+                      <div class="col-8 col-md-4">
+                       <label>Categoria</label>
+                       <select name="" id="" class="form-control" required>
+                         <option value="">Moradia</option>
+                         <option value="">Alimentação</option>
+                         <option value="">Transporte</option>
+                         <option value="">Estudos</option>
+                         <option value="">Animais</option>
+                         <option value="">Viagem</option>
+                         <option value="">Outros</option>
+                       </select>
+                      </div>
+
+                      <div class="col-10 col-md-4">
+                       <label>Data</label>
+                       <input type="date" class="form-control" required>
+                      </div>
+
+                      <div class="col-6 col-md-4">
+                       <label>Situação</label>
+                       <select name="" id="" class="form-control" required>
+                         <option value="">Pago</option>
+                         <option value="">Não pago</option>
+                       </select>
+                      </div>
+
+                      <div class="text-center">
+                        <button class="btn btn-outline-success" type="submit">Adicionar</button>
+                      </div>
+                     </form>
+                   </div>
+
+                   <button class="btn btn-outline-danger" onclick="modalAdicionarFechar()">Fechar</button>
+                 </dialog>
+              <!-- Modal de adicionar -->
           </div>
 
           <div class="col-12 col-md-6">
@@ -208,9 +256,6 @@
                   <td>Trabalho</td>
                   <td>empresa</td>
                   <td>1.700,89</td>
-                  <td>
-                    <button>Visualizar</button>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -224,20 +269,19 @@
               <thead>
                 <tr>
                   <th>Nome</th>
+                  <th>Categoria</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Trabalho</td>
-                  <td>
-                    <button>Visualizar</button>
-                  </td>
+                  <td>empresa</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <!-- ------------------------- LAYOUT PARA MOBILE fim ------------------------- -->
+        <!-- ------------------------- LAYOUT PARA MOBILE MENOR fim ------------------------- -->
 
         <!-- TELA VAZIA -->
 <!--         
@@ -253,6 +297,7 @@
   </div>
 
 
+  <script src="../js/modals.js"></script>
   <!-- ------------------------- Popover ------------------------- -->
   <script src="../js/popup_notificacoes.js"></script>
   <!-- ------------------------- Popover fim ------------------------- -->

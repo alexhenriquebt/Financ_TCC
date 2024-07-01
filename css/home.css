@@ -21,6 +21,10 @@ a, .bi {
     color: rgb(253, 136, 59);
 }
 
+.bi:hover {
+    color: rgb(218, 100, 22);
+}
+
 /* Estilo da navbar lateral*/
 /* barra de navegação fantasma */
 .navbar-lateral-fantasma {
@@ -114,12 +118,6 @@ a, .bi {
 }
 
 /*Despesas e receitas */
-.bg-despesas-receitas {
-    background-color: rgb(255, 167, 108);
-    border-radius: 20px;
-    margin-bottom: 20px;
-}
-
 .add-icon {
     display: flex;
     align-items: center;

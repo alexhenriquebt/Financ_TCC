@@ -1,5 +1,6 @@
 <?php
 // CONEXÃO SERVIDOR
+session_start();
 function novaConexao()
 {
     $dsn='mysql:host=br612.hostgator.com.br;dbname=hubsap45_bd_financ';
@@ -40,5 +41,5 @@ function novaConexao()
         echo 'Erro ao conectar com Banco de Dados';
     }
 } //fecha a fç
-
-novaConexao(); */
+*/
+novaConexao();

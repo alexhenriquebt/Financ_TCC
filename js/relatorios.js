@@ -3,6 +3,8 @@ const modal = document.querySelector("dialog")
 const buttonClose = document.querySelector("dialog button")
 let contar = 0;
 
+
+// modal
 button.onclick = function() {
     if(contar == 0) {
         modal.show()
@@ -17,3 +19,6 @@ button.onclick = function() {
 buttonClose.onclick = function() {
     modal.close()
 }
+
+// funções
+

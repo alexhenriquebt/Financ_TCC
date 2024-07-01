@@ -10,7 +10,6 @@ $usuario = $_SESSION['usuario'];
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- ------------------- Framework ------------------- -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -21,17 +20,15 @@ $usuario = $_SESSION['usuario'];
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-    <!-- ------------------- Framework fim ------------------- -->
-    <link rel="shortcut icon" href="../img/icon_title.png" />
     <link rel="stylesheet" href="../css/home.css" />
-    <!-- Script do chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="shortcut icon" href="../img/icon_title.png" />
     <title>Home</title>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -43,11 +40,11 @@ $usuario = $_SESSION['usuario'];
       <!-- ------------------- volume para dar espaçamento fim ------------------- -->
 
       <!-- ------------------- navbar-lateral fixada ------------------- -->
-      <div class="navbar-lateral text-center">
+      <div class="navbar-lateral text-center m-0">
         <div class="row g-5">
           <div class="col-12">
             <a
-              href="home.html"
+              href="home.php"
               data-bs-toggle="popover"
               data-bs-trigger="hover focus"
               data-bs-content="Home"
@@ -57,7 +54,7 @@ $usuario = $_SESSION['usuario'];
           </div>
           <div class="col-12">
             <a
-              href="orçamentos.html"
+              href="orcamentos.php"
               data-bs-toggle="popover"
               data-bs-trigger="hover focus"
               data-bs-content="Orçamentos"
@@ -67,7 +64,7 @@ $usuario = $_SESSION['usuario'];
           </div>
           <div class="col-12">
             <a
-              href="despesas.html"
+              href="despesas.php"
               data-bs-toggle="popover"
               data-bs-trigger="hover focus"
               data-bs-content="Despesas"
@@ -77,7 +74,7 @@ $usuario = $_SESSION['usuario'];
           </div>
           <div class="col-12">
             <a
-              href="receitas.html"
+              href="receitas.php"
               data-bs-toggle="popover"
               data-bs-trigger="hover focus"
               data-bs-content="Receitas"
@@ -87,7 +84,7 @@ $usuario = $_SESSION['usuario'];
           </div>
           <div class="col-12">
             <a
-              href="relatorios.html"
+              href="relatorios.php"
               data-bs-toggle="popover"
               data-bs-trigger="hover focus"
               data-bs-content="Relatórios"
@@ -97,7 +94,7 @@ $usuario = $_SESSION['usuario'];
           </div>
           <div class="col-12">
             <a
-              href="configuracoes.html"
+              href="configuracoes.php"
               data-bs-toggle="popover"
               data-bs-trigger="hover focus"
               data-bs-content="Configurações"
@@ -107,7 +104,7 @@ $usuario = $_SESSION['usuario'];
           </div>
           <div class="col-12">
             <a
-              href="ajuda.html"
+              href="ajuda.php"
               data-bs-toggle="popover"
               data-bs-trigger="hover focus"
               data-bs-content="Ajuda"
@@ -147,49 +144,49 @@ $usuario = $_SESSION['usuario'];
                   <li>
                     <a
                       class="dropdown-item dropdown-item-mobile"
-                      href="home.html"
+                      href="home.php"
                       >Home</a
                     >
                   </li>
                   <li>
                     <a
                       class="dropdown-item dropdown-item-mobile"
-                      href="orçamentos.html"
+                      href="orcamentos.php"
                       >Orçamentos</a
                     >
                   </li>
                   <li>
                     <a
                       class="dropdown-item dropdown-item-mobile"
-                      href="despesas.html"
+                      href="despesas.php"
                       >Despesas</a
                     >
                   </li>
                   <li>
                     <a
                       class="dropdown-item dropdown-item-mobile"
-                      href="receitas.html"
+                      href="receitas.php"
                       >Receitas</a
                     >
                   </li>
                   <li>
                     <a
                       class="dropdown-item dropdown-item-mobile"
-                      href="relatorios.html"
+                      href="relatorios.php"
                       >Relatórios</a
                     >
                   </li>
                   <li>
                     <a
                       class="dropdown-item dropdown-item-mobile"
-                      href="configuracoes.html"
+                      href="configuracoes.php"
                       >Configurações</a
                     >
                   </li>
                   <li>
                     <a
                       class="dropdown-item dropdown-item-mobile"
-                      href="ajuda.html"
+                      href="ajuda.php"
                       >Ajuda</a
                     >
                   </li>
@@ -295,7 +292,7 @@ $usuario = $_SESSION['usuario'];
           </div>
         </div>
 
-        <div class="container p-5 bg-despesas-receitas">
+        <div class="container p-5">
           <!-- ------------------- Despesas e Receitas ------------------- -->
           <h2>Despesas</h2>
           <div class="row">
@@ -405,17 +402,48 @@ $usuario = $_SESSION['usuario'];
         </div>
       </div>
     </div>
-    <!-- ------------------- Popover ------------------- -->
+
+    
     <script src="../js/popup_notificacoes.js"></script>
-    <!-- ------------------- Popover fim ------------------- -->
-
-    <!-- ------------------- script do gráfico de linha ------------------- -->
-    <div></div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      
+    const ctx = document.getElementById("bar_chart");
 
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: [
+            "Jan",
+            "Fev",
+            "Mar",
+            "Abr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Set",
+            "Out",
+            "Nov",
+            "Dez",
+          ],
+          datasets: [
+            {
+              label: "Evolução do patrimônio",
+              data: [200, 400, 500, 1000, 800, 900, 1100, 1220, 1225, 500, 2000, 2500],
+              backgroundColor: "rgb(253, 136, 59)",
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    </script>
     <script src="../js/home.js"></script>
-
-    <!-- ------------------- script do gráfico em linha ------------------- -->
   </body>
 </html>
