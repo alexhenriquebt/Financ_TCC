@@ -1,4 +1,19 @@
 <?php 
+require_once "../php/conexao.php";
+$conexao = novaConexao();
+
+    // Consulta SQL
+    $stmt = $conexao->prepare("SELECT * FROM tblReceita WHERE recIdUsuario = :idu");
+    $stmt-> bindValue(':idu', $_SESSION['idUsuario']);
+    $stmt->execute();
+    // Armazena os resultados em uma matriz
+    $resProduto = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (count($resProduto) > 0) {
+        $mensagem = 'true'; // Defina uma variável para a mensagem
+    } else {
+        $mensagem = 'false'; // Defina uma variável para a mensagem
+    }
 
 ?>
 
@@ -202,10 +217,13 @@
         </div>
         <!------------------------- BLOCO RECEITAS fim ------------------------->
 
-
-
+      <?php
+              if ($mensagem == 'true') {
+                //----- LISTA AS LINHAS(REGISTROS) EM UMA TABELA -----
+                for ($i = 0; $i < count($resProduto); $i++) {
+      ?>
         <!-- ------------------------- LAYOUT PARA PC ------------------------- -->
-        <div class="col-12 receita-pc mt-5">
+        <div class="col-12 receita-pc mt-3">
           <div class="card text-center">
             <a href="#">
               <div class="card-body">
@@ -214,20 +232,23 @@
                     <tr>
                       <th scope="col">Nome</th>
                       <th scope="col">Descrição</th>
+                      <th scope="col">Situação</th>
+                      <th scope="col">Data</th>
                       <th scope="col">Saldo</th>
                       <th scope="col">Categoria</th>
-                      <th scope="col">Data</th>
-                      <th scope="col">Situação</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Lorem</td>
-                      <td></td>
-                      <td>R$0.00</td>
-                      <td></td>
-                      <td>dd/mm/aaaa</td>
-                      <td></td>
+                      <?php
+                        foreach ($resProduto[$i] as $key => $value) {
+                          if ($key != 'idReceita' && $key != 'recIdUsuario' && $key != 'recIdCategoria') {
+                            echo '<td>' . $value . '</td>';
+                          } else if ($key == 'recIdCategoria') {
+                            echo '<td>' . 'aaaaaaaaaaaa' . '</td>';
+                        }
+                        }
+                          ?>
                       <td>
                         <a href="#"><i class="bi bi-pencil-square m-3"></i></a>
                       </td>
@@ -256,9 +277,13 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Trabalho</td>
-                  <td>empresa</td>
-                  <td>1.700,89</td>
+                <?php
+                  foreach ($resProduto[$i] as $key => $value) {
+                    if ($key != 'proNome' && $key != 'proIdCliente') {
+                    echo '<td>' . $value . '</td>';
+                  }
+                }
+                ?>
                 </tr>
               </tbody>
             </table>
@@ -277,14 +302,30 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Trabalho</td>
-                  <td>empresa</td>
+                <?php
+                  foreach ($resProduto[$i] as $key => $value) {
+                    if ($key != 'proNome' && $key != 'proIdCliente') {
+                      echo '<td>' . $value . '</td>';
+                    }
+                  }
+                ?>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
         <!-- ------------------------- LAYOUT PARA MOBILE fim ------------------------- -->
+         <?php
+            }
+              } else {
+                  ?>
+                  <div class="text-center mt-5 mb-5 tela-vazia">
+                    <img class="img-fluid w-50" src="../img/tela_vazia.png" alt="tela_vazia">
+                    <h3>Nenhuma receita até o momento</h3>
+                  </div>
+                  <?php
+              }
+        ?>
 
         <!-- TELA VAZIA -->
 <!--         
