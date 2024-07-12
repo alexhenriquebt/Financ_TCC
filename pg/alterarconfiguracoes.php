@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,26 +16,21 @@
 <body>
         
         <div class="container">      
-            <form method="post" action="" class="row g-3"> 
+            <form method="post" action="../php/alterar_info_user.php" class="row g-3"> 
               <h2>Informações pessoais</h2> 
               <div class="col-12 col-md-10"> 
                 <label>Nome</label>
-                <input class="form-control" type="text" placeholder="Nome completo"/>
+                <input class="form-control" type="text" name="nome" placeholder="Nome" required/>
               </div>
               
               <div class="col-12 col-md-6"> 
                 <label>Email</label>
-                <input class="form-control" type="email" placeholder="Email"/> 
+                <input class="form-control" type="email" name="email" placeholder="Email" required/> 
               </div>
               
               <div class="col-10 col-md-4"> 
                 <label>Telefone</label>
-                <input class="form-control" type="tel" placeholder="Ex.:(xx) xxxxx-xxxx"/> 
-              </div>
-              
-              <div class="col-12 col-md-6"> 
-                <label>Senha</label>
-                <input class="form-control" type="password" placeholder="Senha"/>
+                <input class="form-control" type="tel" name="telefone" id="telefone" placeholder="Ex.:(xx) xxxxx-xxxx" pattern=".{15,}" title="15 caracteres no mínimo" required/> 
               </div>
               
               <div class="mt-3 w-100 text-center"> 
@@ -47,12 +42,10 @@
             </a>
         </div>
 
-      
-      <!-- ------------------------- Popover ------------------------- -->
+    <script src="../js/mascara_telefone.js"></script>
     <script>
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     </script>
-    <!-- ------------------------- Popover fim ------------------------- -->
 </body>
 </html>

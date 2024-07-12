@@ -10,7 +10,6 @@ $cmdCat->bindValue(':c', $_POST['categoria']);
 $cmdCat->execute();
 $resultado = $cmdCat->fetch();
 $idCategoria = $resultado[0];
-$_SESSION['catNome'] = $resultado[1];
 
 //iNSERE NA TBLRECEITA
 $sql = "INSERT INTO tblReceita(recNome, recDescricao, recSituacao, recData, recValor, recIdUsuario, recIdCategoria) VALUES (:nom, :de, :sit, :dat, :val, :idu, :idc)";

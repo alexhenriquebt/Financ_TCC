@@ -1,5 +1,14 @@
 <?php
 session_start();
+
+if(isset($_GET['email']) && ($_GET['email'] == 'erro')) 
+{
+?>
+
+<script>window.alert('Email já está em uso!')</script>
+
+<?php
+}
 ?>
 
 <!DOCTYPE html>
@@ -126,7 +135,21 @@ session_start();
                                         <p class="input-group-text w-100">Email: <?php echo $_SESSION['email'] ?></p>
                                     </div>
                                     <div class="input-group mb-3">
-                                        <p class="input-group-text w-100">Telefone: <?php echo $_SESSION['telefone'] ?></p>
+                                        <p class="input-group-text w-100">
+                                            Telefone: 
+                                            <?php 
+                                                if ($_SESSION['telefone'] == null) 
+                                                {
+                                             ?>
+                                                    <button class="m-2" onclick="modalAdicionar()">Adicionar</button>
+                                                    <?php
+                                                } 
+                                                else 
+                                                {
+                                                    echo $_SESSION['telefone'];
+                                                }
+                                            ?>
+                                        </p>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-6">
@@ -134,7 +157,7 @@ session_start();
                                                 <button type="button" class="btn btn-warning">Alterar informações</button>
                                             </a>
                                         </div>
-                                        <form action="../php/deletar_conta.php" class="col-12 col-md-6">
+                                        <form action="../php/deletar_conta.php" method="post" class="col-12 col-md-6">
                                             <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Você realmente quer excluir sua conta?')">Deletar conta</button>
                                         </form>
                                     </div>
@@ -146,12 +169,28 @@ session_start();
             </main>
         </div>
     </div>
-    <!-- ------------------------- Popover ------------------------- -->
+
+    <!--modal de add do telefone -->
+    <dialog id="modalAdicionar">
+        <div class="container">
+            <form action="../php/add_telefone.php" method="post" class="row g-5">
+                <h3 class="col-12">Adicionar telefone</h3>
+                <div class="col-12">
+                    <label for="">Celular:</label>
+                    <input type="tel" name="telefone" id="telefone" placeholder="Ex.:(xx) xxxxx-xxxx" class="form-control w-75" pattern=".{15,}" title="15 caracteres no mínimo" required>
+                    <button type="submit" class="btn btn-warning w-50 mt-3">Adicionar</button>
+                </div>
+            </form>
+        </div>
+        <button class="btn btn-outline-danger mt-5" onclick="modalAdicionarFechar()">Fechar</button>
+    </dialog>
+
+    <script src="../js/mascara_telefone.js"></script>
     <script>
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     </script>
-    <!-- ------------------------- Popover fim ------------------------- -->
+     <script src="../js/modals.js"></script>
 </body>
 
 </html>

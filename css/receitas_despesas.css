@@ -102,31 +102,20 @@ a,
     font-size: xx-large;
 }
 
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .card:hover {
     animation: ampliar 0ms linear forwards;
 }
 
-.add-icon-orcamento {
-    text-decoration: none;
-    font-size: xx-large;
-}
-
-table .bi {
-    margin: -50px;
-    font-size: x-large;
-}
-
-.despesa-pc, .despesa-mobile, .despesa-little-mobile, .receita-pc, .receita-mobile, .receita-little-mobile{
-    padding: 50px;
-    border-radius: 30px;
-}
-
-.receita-little-mobile, .despesa-little-mobile{
-    display: none;
-}
-/* tabela mobile */
-.receita-mobile, .despesa-mobile{
-    display: none;
+.icon-card {
+    display: flex;
+    justify-self: flex-end;
+    align-self: flex-end;
 }
 
 /* DIALOG */
@@ -144,31 +133,8 @@ dialog {
     width: 50%;
 }
 
-
-/* TODOS DEVEM TER** EXCETO A INDEX */
-@media screen and (max-width: 488px) {
-    div .receita-mobile, div .despesa-mobile{
-        display: none;
-    }
-    
-    .receita-little-mobile, .despesa-little-mobile{
-        display: block;
-    }
-}
-
-@media screen and (max-width: 1012px) {
-    .receita-pc, .despesa-pc{
-        display: none;
-    }
-
-    .receita-mobile, .despesa-mobile {
-        display: block;
-    }
-}
-
 /* modificações para telas menores que 768px */
 @media screen and ( max-width: 768px) {
-
     .navbar-lateral,
     .navbar-lateral-fantasma {
         display: none;
@@ -180,19 +146,6 @@ dialog {
 
     /* itens do dropdown */
     .dropdown-item-mobile {
-        display: block;
-    }
-
-    /* ajuste de telas da tabela */
-    tr td a {
-        display: none;
-    }
-
-    .receita-pc, .despesa-pc {
-        display: none;
-    }
-
-    .receita-mobile, .despesa-mobile {
         display: block;
     }
 

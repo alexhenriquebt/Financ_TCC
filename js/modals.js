@@ -1,10 +1,20 @@
-const modalPrincipal = document.querySelector("#modalAdicionar")
+const modalPrincipal = document.querySelector("#modalAdicionar");
+const modalAlterar = document.getElementById("modalAlterar");
 
 //abrir modal de add
-function modalAdicionar() {
-        modalPrincipal.showModal()
-    }
-    
-function modalAdicionarFechar() {
-        modalPrincipal.close()
-    } 
+function abrirModalAdicionar() {
+  modalPrincipal.showModal();
+}
+
+function fecharModalAdicionar() {
+  modalPrincipal.close();
+}
+
+//abrir modal de alterar
+function abrirModalAlterar() {
+  modalAlterar.showModal();
+}
+
+function fecharModalAlterar() {
+  modalAlterar.close();
+}

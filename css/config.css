@@ -125,6 +125,13 @@ main {
     font-size: xx-large;
 }
 
+dialog {
+    padding: 30px;
+    border: none;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding: 50px;
+}
+
 @media screen and (max-width: 768px) {
     .navbar-lateral, .navbar-lateral-fantasma {
         display: none;
