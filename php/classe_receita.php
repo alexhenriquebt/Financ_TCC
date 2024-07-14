@@ -1,5 +1,5 @@
 <?php
-Class Receita
+class Receita
 {
     private $pdo;
 
@@ -27,7 +27,7 @@ Class Receita
     public function buscarReceitasUpdate($idReceita)
     {
         $res = [];
-        $cmd = $this->pdo->prepare("SELECT * FROM tblReceita WHERE idReceita = :idr");
+        $cmd = $this->pdo->prepare("SELECT * FROM tblReceita r JOIN tblCategoria c ON r.recIdCategoria = c.idCategoria WHERE r.idReceita = :idr");
         $cmd->bindValue(':idr', $idReceita);
         $cmd->execute();
         $res = $cmd->fetch(PDO::FETCH_ASSOC);
@@ -48,13 +48,18 @@ Class Receita
         return $res;
     }
 
-    public function buscarCategorias($idCategoria)
+    public function adicionarReceita($nome, $descricao, $situacao, $data, $valor, $idUsuario, $idCategoria)
     {
-        $cmd = $this->pdo->prepare("SELECT * FROM tblCategoria WHERE idCategoria = :c");
-        $cmd->bindValue(':c', $idCategoria);
+        $sql = "INSERT INTO tblReceita(recNome, recDescricao, recSituacao, recData, recValor, recIdUsuario, recIdCategoria) VALUES (:nom, :de, :sit, :dat, :val, :idu, :idc)";
+        $cmd = $this->pdo->prepare($sql);
+        $cmd->bindValue(':nom', $nome);
+        $cmd->bindValue(':de', $descricao);
+        $cmd->bindValue(':sit', $situacao);
+        $cmd->bindValue(':dat', $data);
+        $cmd->bindValue(':val', $valor);
+        $cmd->bindValue(':idu', $idUsuario);
+        $cmd->bindValue(':idc', $idCategoria);
         $cmd->execute();
-        $res = $cmd->fetch(PDO::FETCH_ASSOC);
-        return $res;
     }
 
     public function excluirReceita($idReceita)

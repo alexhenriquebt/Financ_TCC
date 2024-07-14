@@ -3,7 +3,9 @@ require_once "../php/conexao.php";
 $conexao = novaConexao();
 
 require_once "../php/classe_receita.php";
+require_once "../php/classe_categoria.php";
 $receita = new Receita();
+$categoria = new Categoria();
 $dadosReceitas = $receita->buscarReceitas();
 
 $nomeCategoria = [];
@@ -11,7 +13,7 @@ for ($position = 0; $position < count($dadosReceitas); $position++) {
   foreach ($dadosReceitas[$position] as $chave => $idCategoria) {
     if ($chave == 'recIdCategoria') {
       // PEGA NOME DA CATEGORIA
-      $idCategoria = $receita->buscarCategorias($idCategoria);
+      $idCategoria = $categoria->buscarCategorias($idCategoria);
       $nomeCategoria[$position] = $idCategoria;
     }
   }
@@ -175,7 +177,9 @@ if (count($dadosReceitas) > 0) {
                       <h5 class="card-title"><?php echo $receita['recNome']; ?></h5>
                       <p class="card-text"><?php echo $receita['recDescricao']; ?></p>
                       <p class="card-text">Saldo: <?php echo $receita['recValor']; ?></p>
-                      <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada'; ?></p>
+                      <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada'; 
+                      $catNome = $nomeCategoria[$index]['catNome'];
+                      ?></p>
                       <p class="card-text">Data: <?php echo $receita['recData']; ?></p>
                     </div>
                     <div class="icon-card">
@@ -264,7 +268,7 @@ if (count($dadosReceitas) > 0) {
   <!-- dialog alterar -->
   <dialog id="modalAlterar">
     <div class="container">
-      <form class="row g-3" action="../php/alterar_receitas.php?id_update=<?php $resReceitaUpdate['idReceita']?>" method="post">
+      <form class="row g-3" action="../php/alterar_receitas.php?id_update=<?php echo $resReceitaUpdate['idReceita']; ?>" method="post">
 
         <h4>Alterar receita</h4>
         <req class="col-12 col-md-8">
@@ -291,9 +295,10 @@ if (count($dadosReceitas) > 0) {
     <div class="col-8 col-md-6">
       <label>Categoria</label>
       <select name="categoria" id="categoria" class="form-control" required>
-        <option value="">Selecione</option>
-        <option value=""><?php if (isset($resReceitaUpdate)) {
+        <option value="<?php if (isset($resReceitaUpdate)) {
                                                                                                       echo $resReceitaUpdate['recIdCategoria'];
+                                                                                                    } ?>"><?php if (isset($resReceitaUpdate)) {
+                                                                                                      echo $resReceitaUpdate['catNome'];
                                                                                                     } ?></option>
         <?php
         // Obtém todas as categorias
@@ -301,7 +306,7 @@ if (count($dadosReceitas) > 0) {
         $categoriasStmt->execute();
         $categorias = $categoriasStmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($categorias as $categoria) {
-          echo '<option value="' . $categoria['catNome'] . '">' . $categoria['catNome'] . '</option>';
+          echo '<option value="' . $categoria['idCategoria'] . '">' . $categoria['catNome'] . '</option>';
         }
         ?>
       </select>
@@ -314,7 +319,7 @@ if (count($dadosReceitas) > 0) {
                                                                                                     } ?>" required>
     </div>
 
-    <div class="col-12 col-md-12 text-center">
+    <div class="col-12 col-md-12 mt-3 text-center">
       <button type="submit" class="btn btn-outline-success">Alterar</button>
     </div>
 
