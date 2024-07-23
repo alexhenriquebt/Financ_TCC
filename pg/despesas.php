@@ -1,3 +1,32 @@
+<?php
+require_once "../php/conexao.php";
+$conexao = novaConexao();
+
+require_once "../php/classe_despesas.php";
+require_once "../php/classe_categoria.php";
+$despesa = new Despesa();
+$categoria = new Categoria();
+$dadosDespesas = $despesa->buscarDespesas();
+
+$nomeCategoria = [];
+for ($position = 0; $position < count($dadosDespesas); $position++) {
+  foreach ($dadosDespesas[$position] as $chave => $idCategoria) {
+    if ($chave == 'desIdCategoria') {
+      $idCategoria = $categoria->buscarCategorias($idCategoria);
+      $nomeCategoria[$position] = $idCategoria;
+    }
+  }
+}
+
+if (count($dadosDespesas) > 0) {
+  $mensagem = 'true';
+} else {
+  $mensagem = 'false';
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -123,86 +152,193 @@
       </header>
       <!------------------------- CABEÇALHO fim ------------------------->
 
-      <!------------------------- BLOCO RECEITAS ------------------------->
-      <div class="container">
+            <div class="container">
         <div class="row g-5 mt-5">
           <div class="col-4 col-md-2">
-            <h3>Adicionar despesa</h3>
+            <h3>Adicionar Despesa</h3>
           </div>
           <div class="col-8 col-md-4">
-              <i class="bi bi-plus-circle-fill add-icon" onclick="modalAdicionar()"></i>
-                <!-- Modal de adicionar -->
-                 <dialog id="modalAdicionar">
-                   <div class="container">
-                     <form class="row g-3" action="" method="post">
-
-                      <h4>Adicionar despesa</h4>
-                      <div class="col-12 col-md-6">
-                       <label>Nome</label>
-                       <input type="text" placeholder="Nome da despesa" class="form-control" required>
-                      </div>
-
-                      <div class="col-12 col-md-12">
-                       <label>Descrição</label>
-                       <textarea name="" id="" placeholder="Descrição" class="form-control"></textarea>
-                      </div>
-
-                      <div class="col-6 col-md-4">
-                       <label>Saldo</label>
-                       <input type="number" placeholder="Saldo" class="form-control" required>                       
-                      </div>
-
-                      <div class="col-8 col-md-4">
-                       <label>Categoria</label>
-                       <select name="" id="" class="form-control" required>
-                         <option value="">Moradia</option>
-                         <option value="">Alimentação</option>
-                         <option value="">Transporte</option>
-                         <option value="">Estudos</option>
-                         <option value="">Animais</option>
-                         <option value="">Viagem</option>
-                         <option value="">Outros</option>
-                       </select>
-                      </div>
-
-                      <div class="col-10 col-md-4">
-                       <label>Data</label>
-                       <input type="date" class="form-control" required>
-                      </div>
-
-                      <div class="col-6 col-md-4">
-                       <label>Situação</label>
-                       <select name="" id="" class="form-control" required>
-                         <option value="">Pago</option>
-                         <option value="">Não pago</option>
-                       </select>
-                      </div>
-
-                      <div class="text-center">
-                        <button class="btn btn-outline-success" type="submit">Adicionar</button>
-                      </div>
-                     </form>
-                   </div>
-
-                   <button class="btn btn-outline-danger" onclick="modalAdicionarFechar()">Fechar</button>
-                 </dialog>
-              <!-- Modal de adicionar -->
-          </div>
-
-          <div class="col-12 col-md-6">
-            <form class="d-flex" role="search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-              <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search" />
-              <button class="btn btn-danger" type="submit">Pesquisar</button>
-            </form>
+            <i class="bi bi-plus-circle-fill add-icon" onclick="abrirModalAdicionar()"></i>
           </div>
         </div>
-        <!------------------------- BLOCO RECEITAS fim ------------------------->
 
+        <?php
+        if (isset($_GET['id_des']) && !empty($_GET['id_des'])) {
+          $id_despesa = addslashes($_GET['id_des']);
+          $resDespesaUpdate = $despesa->buscarDespesasUpdate($id_despesa);
+          $dialog = true;
+        }
+        ?>
 
+        <div class="row g-3 mt-3 mb-3">
+          <?php
+          if ($mensagem == 'true') {
+            foreach ($dadosDespesas as $index => $despesa) {
+          ?>
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <div class="content">
+                      <h5 class="card-title"><?php echo $despesa['desNome']; ?></h5>
+                      <p class="card-text"><?php echo $despesa['desDescricao']; ?></p>
+                      <p class="card-text">Valor: <?php echo $despesa['desValorTotal']; ?></p>
+                      <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada'; 
+                      $catNome = $nomeCategoria[$index]['catNome'];
+                      ?></p>
+                      <p class="card-text">Data: <?php echo $despesa['desData']; ?></p>
+                    </div>
+                    <div class="icon-card">
+                      <a href="despesas.php?id_des=<?php echo $dadosDespesas[$index]['idDespesa']; ?>">
+                        <i class="bi bi-pencil-square m-3"></i>
+                      </a>
+                      <a href="../php/deletar_despesas.php?idDespesa=<?php echo $dadosDespesas[$index]['idDespesa']; ?>" onclick="return confirm('Você realmente quer excluir essa despesa?')">
+                        <i class="bi bi-trash3 mx-3"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <?php
+            }
+          } else {
+            ?>
+            <!-- MENSAGEM QUANDO NÃO TEM ORÇAMENTOS -->
+            <div class="text-center mt-5 mb-5 tela-vazia">
+              <img class="img-fluid w-50" src="../img/tela_vazia.png" alt="tela_vazia">
+              <h3>Nenhuma despesa até o momento</h3>
+            </div>
+
+          <?php
+          }
+          ?>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIALOGS AQUI -->
+  <!-- dialog adicionar -->
+  <dialog id="modalAdicionar">
+    <div class="container">
+      <form class="row g-3" action="../php/add_despesas.php" method="post">
+
+        <h4>Adicionar despesa</h4>
+        <div class="col-12 col-md-6">
+          <label>Nome</label>
+          <input type="text" name="nome" placeholder="Nome da despesa" class="form-control" required>
+        </div>
+
+        <div class="col-12 col-md-12">
+          <label>Descrição</label>
+          <textarea name="descricao" id="" placeholder="Descrição" class="form-control"></textarea>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <label>Valor</label>
+          <input type="number" name="valor" placeholder="Valor" class="form-control" required>
+        </div>
+
+        <div class="col-8 col-md-4">
+          <label>Categoria</label>
+          <select name="categoria" id="categoria" class="form-control" required>
+            <option value="">Selecione</option>
+            <?php
+            // Obtém todas as categorias
+            $categoriasStmt = $conexao->prepare("SELECT * FROM tblCategoria");
+            $categoriasStmt->execute();
+            $categorias = $categoriasStmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($categorias as $categoria) {
+              echo '<option value="' . $categoria['catNome'] . '">' . $categoria['catNome'] . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+
+        <div class="col-8 col-md-4">
+          <label>Data</label>
+          <input type="date" name="data" class="form-control" required>
+        </div>
+
+        <div class="col-12 col-md-12 text-center">
+          <button type="submit" class="btn btn-outline-success">Adicionar</button>
+        </div>
+
+      </form>
+    </div>
+    <button class="btn btn-outline-danger mt-3" onclick="fecharModalAdicionar()">Fechar</button>
+  </dialog>
+
+  <!-- dialog alterar -->
+  <dialog id="modalAlterar">
+    <div class="container">
+      <form class="row g-3" action="../php/alterar_despesas.php?id_update=<?php echo $resDespesaUpdate['idDespesa']; ?>" method="post">
+
+        <h4>Alterar receita</h4>
+        <req class="col-12 col-md-8">
+          <label>Nome</label>
+          <input type="text" name="nome" placeholder="Nome da despesa" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
+                                                                                                      echo $resDespesaUpdate['desNome'];
+                                                                                                    } ?>" required>
+    </div>
+
+    <div class="col-12 col-md-12">
+      <label>Descrição</label>
+      <textarea name="descricao" placeholder="Descrição" class="form-control"><?php if (isset($resDespesaUpdate)) {
+                                                                                                      echo $resDespesaUpdate['desDescricao'];
+                                                                                                    } ?></textarea>
+    </div>
+
+    <div class="col-6 col-md-4">
+      <label>Valor</label>
+      <input type="number" name="valor" placeholder="Valor" class="form-control"value="<?php if (isset($resDespesaUpdate)) {
+                                                                                                      echo $resDespesaUpdate['desValorTotal'];
+                                                                                                    } ?>" required>
+    </div>
+
+    <div class="col-8 col-md-6">
+      <label>Categoria</label>
+      <select name="categoria" id="categoria" class="form-control" required>
+        <option value="<?php if (isset($resDespesaUpdate)) {
+                                                                                                      echo $resDespesaUpdate['desIdCategoria'];
+                                                                                                    } ?>"><?php if (isset($resDespesaUpdate)) {
+                                                                                                      echo $resDespesaUpdate['catNome'];
+                                                                                                    } ?></option>
+        <?php
+        // Obtém todas as categorias
+        $categoriasStmt = $conexao->prepare("SELECT * FROM tblCategoria");
+        $categoriasStmt->execute();
+        $categorias = $categoriasStmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($categorias as $categoria) {
+          echo '<option value="' . $categoria['idCategoria'] . '">' . $categoria['catNome'] . '</option>';
+        }
+        ?>
+      </select>
+    </div>
+
+    <div class="col-8 col-md-6">
+      <label>Data</label>
+      <input type="date" name="data" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
+                                                                                                      echo $resDespesaUpdate['desData'];
+                                                                                                    } ?>" required>
+    </div>
+
+    <div class="col-12 col-md-12 mt-3 text-center">
+      <button type="submit" class="btn btn-outline-success">Alterar</button>
+    </div>
+
+    </form>
+    </div>
+    <button class="btn btn-outline-danger mt-3" onclick="fecharModalAlterar()">Fechar</button>
+  </dialog>
+
+  <script src="../js/limita_caractere.js"></script>
+  <script src="../js/modals.js"></script>
+  <script src="../js/popup_notificacoes.js"></script>
 
         <!-- ------------------------- LAYOUT PARA PC ------------------------- -->
-        <div class="col-12 despesa-pc mt-5">
+       <!-- <div class="col-12 despesa-pc mt-5">
           <div class="card text-center">
             <a href="#">
               <div class="card-body">
@@ -238,9 +374,9 @@
             </a>
           </div>
         </div>
-        <!-- ------------------------- LAYOUT PARA PC fim ------------------------- -->
+         ------------------------- LAYOUT PARA PC fim -------------------------
 
-        <!-- ------------------------- LAYOUT PARA MOBILE ------------------------- -->
+         ------------------------- LAYOUT PARA MOBILE -------------------------
         <div class="col-12 mt-5 despesa-mobile">
           <div class="card">
             <table class="table">
@@ -262,7 +398,7 @@
           </div>
         </div>
         
-        <!-- LAYOUT PARA MOBILE MENOR -->
+         LAYOUT PARA MOBILE MENOR 
         <div class="col-12 mt-5 despesa-little-mobile">
           <div class="card">
             <table class="table">
@@ -280,17 +416,16 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </div> -->
+
         <!-- ------------------------- LAYOUT PARA MOBILE MENOR fim ------------------------- -->
 
-        <!-- TELA VAZIA -->
-<!--         
+        <!--
+        
         <div class="text-center mt-5 mb-5 tela-vazia">
           <img class="img-fluid w-50" src="../img/tela_vazia.png" alt="tela_vazia">
           <h3>Nenhuma despesa até o momento</h3>
-        </div>
- -->
-        <!-- TELA VAZIA -->
+        </div> -->
 
       </div>
     </div>
@@ -302,5 +437,13 @@
   <script src="../js/popup_notificacoes.js"></script>
   <!-- ------------------------- Popover fim ------------------------- -->
 </body>
-
 </html>
+
+<?php
+if (isset($dialog) && $dialog == true) {
+?>
+  <script>
+    abrirModalAlterar()
+  </script>
+<?php
+}

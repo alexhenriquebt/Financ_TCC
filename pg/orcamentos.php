@@ -1,3 +1,33 @@
+<?php
+require_once "../php/conexao.php";
+$conexao = novaConexao();
+
+require_once "../php/classe_orcamento.php";
+require_once "../php/classe_categoria.php";
+$orcamento = new Orcamento();
+$categoria = new Categoria();
+$dadosOrcamentos = $orcamento->buscarOrcamentos();
+
+$nomeCategoria = [];
+for ($position = 0; $position < count($dadosOrcamentos); $position++) {
+  foreach ($dadosOrcamentos[$position] as $chave => $idCategoria) {
+    if ($chave == 'orcIdCategoria') {
+      // PEGA NOME DA CATEGORIA
+      $idCategoria = $categoria->buscarCategorias($idCategoria);
+      $nomeCategoria[$position] = $idCategoria;
+    }
+  }
+}
+
+if (count($dadosOrcamentos) > 0) {
+  $mensagem = 'true'; // Defina uma variável para a mensagem
+} else {
+  $mensagem = 'false'; // Defina uma variável para a mensagem
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -125,179 +155,198 @@
             <!-- ------------------------- User icon, notificações e logout fim ------------------------- -->
 
             <div class="container">
-                <div class="row g-5 mt-5">
-                    <div class="col-4 col-md-2">
-                        <h3>Adicionar orçamento</h3>
+        <div class="row g-5 mt-5">
+          <div class="col-4 col-md-2">
+            <h3>Adicionar Orçamento</h3>
+          </div>
+          <div class="col-8 col-md-4">
+            <i class="bi bi-plus-circle-fill add-icon" onclick="abrirModalAdicionar()"></i>
+          </div>
+        </div>
+
+        <?php
+        if (isset($_GET['id_orc']) && !empty($_GET['id_orc'])) {
+          $id_orcamento = addslashes($_GET['id_orc']);
+          $resOrcamentoUpdate = $orcamento->buscarOrcamentosUpdate($id_orcamento);
+          $dialog = true;
+        }
+        ?>
+
+        <div class="row g-3 mt-3 mb-3">
+          <?php
+          if ($mensagem == 'true') {
+            foreach ($dadosOrcamentos as $index => $orcamento) {
+          ?>
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <div class="content">
+                      <h5 class="card-title"><?php echo $orcamento['orcNome']; ?></h5>
+                      <p class="card-text"><?php echo $orcamento['orcDescricao']; ?></p>
+                      <p class="card-text">Saldo: <?php echo $orcamento['orcSaldo']; ?></p>
+                      <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada'; 
+                      $catNome = $nomeCategoria[$index]['catNome'];
+                      ?></p>
+                      <p class="card-text">Data: <?php echo $orcamento['orcData']; ?></p>
                     </div>
-                    <div class="col-8 col-md-4">
-                        <i class="bi bi-plus-circle-fill add-icon" onclick="modalAdicionar()"></i>
-                            <!-- Modal de adicionar -->
-                        <dialog id="modalAdicionar">
-                            <div class="container">
-                                <form class="row g-3" action="" method="post">
-
-                                <h4>Adicionar orçamento</h4>
-                                <div class="col-12 col-md-6">
-                                <label>Nome</label>
-                                <input type="text" placeholder="Nome do orçamento" class="form-control">
-                                </div>
-
-                                <div class="col-12 col-md-12">
-                                <label>Descrição</label>
-                                <textarea name="" id="" placeholder="Descrição" class="form-control"></textarea>
-                                </div>
-
-                                <div class="col-6 col-md-4">
-                                <label>Saldo</label>
-                                <input type="number" placeholder="Saldo" class="form-control">                       
-                                </div>
-
-                                <div class="col-8 col-md-4">
-                                <label>Categoria</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">Salário</option>
-                                    <option value="">Horas extras</option>
-                                    <option value="">Bônus e comissões</option>
-                                    <option value="">Lucro de negócio próprio</option>
-                                    <option value="">Aposentadoria</option>
-                                    <option value="">Outros</option>
-                                </select>
-                                </div>
-
-                                <div class="col-10 col-md-4">
-                                <label>Data</label>
-                                <input type="date" class="form-control">
-                                </div>
-
-                                <div class="col-6 col-md-4">
-                                    <div class="row">
-                                        <label>Adicionar despesas</label>
-                                        <button class="btn btn-danger w-75" id="orcButtonOpenAddDespesa">Adicionar despesa</button>
-
-                                        <div class="mt-3">
-                                            <p class="text-secondary">Nenhuma despesa adicionada...</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="text-center">
-                                    <button class="btn btn-outline-success" type="submit">Adicionar</button>
-                                </div>
-                                </form>
-                            </div>
-
-                            <button class="btn btn-outline-danger" onclick="modalAdicionarFechar()">Fechar</button>
-                        </dialog>
-                        <!-- Modal de adicionar -->
+                    <div class="icon-card">
+                      <a href="orcamentos.php?id_orc=<?php echo $dadosOrcamentos[$index]['idOrcamento']; ?>">
+                        <i class="bi bi-pencil-square m-3"></i>
+                      </a>
+                      <a href="../php/deletar_orcamento.php?idOrcamento=<?php echo $dadosOrcamentos[$index]['idOrcamento']; ?>" onclick="return confirm('Você realmente quer excluir esse orçamento?')">
+                        <i class="bi bi-trash3 mx-3"></i>
+                      </a>
                     </div>
-
-                    <div class="col-12 col-md-6">
-                        <form class="d-flex" role="search">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search">
-                            <button class="btn btn-danger" type="submit">Pesquisar</button>
-                        </form>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- TELA VAZIA -->
-
-<!--             <div class="text-center tela-vazia mt-5 mb-5">
-                <img class="img-fluid w-50" src="../img/tela_vazia.png" alt="tela_vazia">
-                <h3>Sem orçamentos por aqui</h3>
-            </div> -->
-
-            <!-- TELA VAZIA -->
-
-            <div class="col-12 mt-5 orcamento-pc">
-                <div class="card text-center">
-                    <a href="#">
-                    <div class="card-body">
-                        <table class="table table-borderless">
-                            <thead>
-                              <tr>
-                                  <th scope="col">Nome</th>
-                                  <th scope="col">Descrição</th>
-                                  <th scope="col">Saldo</th>
-                                <th scope="col">Gastos</th>
-                                <th scope="col">Categoria</th>
-                                <th scope="col">Data</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Lorem</td>
-                                <td>Lorem ipsum...</td>
-                                <td>R$0.00</td>
-                                <td>R$0.00</td>
-                                <td>Construção</td>
-                                <td>dd/mm/yyyy</td>
-                                <td><a href="#"><i class="bi bi-pencil-square"></i></a></td>
-                                <td><a href="#"><i class="bi bi-trash3 mx-3"></i></a></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                    </div>
-                    </a>
                   </div>
+                </div>
+              </div>
+
+            <?php
+            }
+          } else {
+            ?>
+            <!-- MENSAGEM QUANDO NÃO TEM ORÇAMENTOS -->
+            <div class="text-center mt-5 mb-5 tela-vazia">
+              <img class="img-fluid w-50" src="../img/tela_vazia.png" alt="tela_vazia">
+              <h3>Nenhum orçamento até o momento</h3>
             </div>
 
-            
-        <!-- ------------------------- LAYOUT PARA MOBILE ------------------------- -->
-        <div class="col-12 mt-5 orcamento-mobile">
-            <div class="card">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Categoria</th>
-                    <th>Saldo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Trabalho</td>
-                    <td>empresa</td>
-                    <td>1.700,89</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          
-          <!-- LAYOUT PARA MOBILE MENOR -->
-          <div class="col-12 mt-5 orcamento-little-mobile">
-            <div class="card">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Categoria</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Trabalho</td>
-                    <td>empresa</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <!-- ------------------------- LAYOUT PARA MOBILE fim ------------------------- -->
+          <?php
+          }
+          ?>
 
         </div>
+      </div>
     </div>
+  </div>
+
+  <!-- DIALOGS AQUI -->
+  <!-- dialog adicionar -->
+  <dialog id="modalAdicionar">
+    <div class="container">
+      <form class="row g-3" action="../php/add_orcamentos.php" method="post">
+
+        <h4>Adicionar orçamento</h4>
+        <div class="col-12 col-md-6">
+          <label>Nome</label>
+          <input type="text" name="nome" placeholder="Nome do orçamento" class="form-control" required>
+        </div>
+
+        <div class="col-12 col-md-12">
+          <label>Descrição</label>
+          <textarea name="descricao" id="" placeholder="Descrição" class="form-control"></textarea>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <label>Saldo</label>
+          <input type="number" name="saldo" placeholder="Saldo" class="form-control" required>
+        </div>
+
+        <div class="col-8 col-md-4">
+          <label>Categoria</label>
+          <select name="categoria" id="categoria" class="form-control" required>
+            <option value="">Selecione</option>
+            <?php
+            // Obtém todas as categorias
+            $categoriasStmt = $conexao->prepare("SELECT * FROM tblCategoria");
+            $categoriasStmt->execute();
+            $categorias = $categoriasStmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($categorias as $categoria) {
+              echo '<option value="' . $categoria['catNome'] . '">' . $categoria['catNome'] . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+
+        <div class="col-8 col-md-4">
+          <label>Data</label>
+          <input type="date" name="data" class="form-control" required>
+        </div>
+
+        <div class="col-12 col-md-12 text-center">
+          <button type="submit" class="btn btn-outline-success">Adicionar</button>
+        </div>
+
+      </form>
     </div>
+    <button class="btn btn-outline-danger mt-3" onclick="fecharModalAdicionar()">Fechar</button>
+  </dialog>
+
+  <!-- dialog alterar -->
+  <dialog id="modalAlterar">
+    <div class="container">
+      <form class="row g-3" action="../php/alterar_orcamentos.php?id_update=<?php echo $resOrcamentoUpdate['idOrcamento']; ?>" method="post">
+
+        <h4>Alterar receita</h4>
+        <req class="col-12 col-md-8">
+          <label>Nome</label>
+          <input type="text" name="nome" placeholder="Nome do orçamento" class="form-control" value="<?php if (isset($resOrcamentoUpdate)) {
+                                                                                                      echo $resOrcamentoUpdate['orcNome'];
+                                                                                                    } ?>" required>
     </div>
 
-     <script src="../js/modals.js"></script>
-    <!-- ------------------------- Popover ------------------------- -->
-    <script src="../js/popup_notificacoes.js"></script>
-    <!-- ------------------------- Popover fim ------------------------- -->
+    <div class="col-12 col-md-12">
+      <label>Descrição</label>
+      <textarea name="descricao" placeholder="Descrição" class="form-control"><?php if (isset($resOrcamentoUpdate)) {
+                                                                                                      echo $resOrcamentoUpdate['orcDescricao'];
+                                                                                                    } ?></textarea>
+    </div>
+
+    <div class="col-6 col-md-4">
+      <label>Saldo</label>
+      <input type="number" name="saldo" placeholder="Saldo" class="form-control"value="<?php if (isset($resOrcamentoUpdate)) {
+                                                                                                      echo $resOrcamentoUpdate['orcSaldo'];
+                                                                                                    } ?>" required>
+    </div>
+
+    <div class="col-8 col-md-6">
+      <label>Categoria</label>
+      <select name="categoria" id="categoria" class="form-control" required>
+        <option value="<?php if (isset($resOrcamentoUpdate)) {
+                                                                                                      echo $resOrcamentoUpdate['orcIdCategoria'];
+                                                                                                    } ?>"><?php if (isset($resOrcamentoUpdate)) {
+                                                                                                      echo $resOrcamentoUpdate['catNome'];
+                                                                                                    } ?></option>
+        <?php
+        // Obtém todas as categorias
+        $categoriasStmt = $conexao->prepare("SELECT * FROM tblCategoria");
+        $categoriasStmt->execute();
+        $categorias = $categoriasStmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($categorias as $categoria) {
+          echo '<option value="' . $categoria['idCategoria'] . '">' . $categoria['catNome'] . '</option>';
+        }
+        ?>
+      </select>
+    </div>
+
+    <div class="col-8 col-md-6">
+      <label>Data</label>
+      <input type="date" name="data" class="form-control" value="<?php if (isset($resOrcamentoUpdate)) {
+                                                                                                      echo $resOrcamentoUpdate['orcData'];
+                                                                                                    } ?>" required>
+    </div>
+
+    <div class="col-12 col-md-12 mt-3 text-center">
+      <button type="submit" class="btn btn-outline-success">Alterar</button>
+    </div>
+
+    </form>
+    </div>
+    <button class="btn btn-outline-danger mt-3" onclick="fecharModalAlterar()">Fechar</button>
+  </dialog>
+
+  <script src="../js/limita_caractere.js"></script>
+  <script src="../js/modals.js"></script>
+  <script src="../js/popup_notificacoes.js"></script>
+    
 </body>
 
 </html>
+<?php
+if (isset($dialog) && $dialog == true) {
+?>
+  <script>
+    abrirModalAlterar()
+  </script>
+<?php
+}
