@@ -1,3 +1,25 @@
+<?php
+require_once '../php/classe_despesa.php';
+require_once '../php/classe_receita.php';
+$despesa = new Despesa();
+$receita = new Receita();
+$princDespesas = $despesa->principaisDespesas();
+$princReceitas = $receita->principaisReceitas();
+
+if (count($princDespesas) > 0) {
+  $mensagemDespesa = 'true';
+} else {
+  $mensagemDespesa = 'false';
+}
+
+if (count($princReceitas) > 0) {
+  $mensagemReceita = 'true';
+} else {
+  $mensagemReceita = 'false';
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -133,38 +155,30 @@
             <h2>Principais despesas</h2>
             <div class="container h-100">
               <div class="row h-100">
-                <div class="col-12 col-md-6 col-lg-4">
-                  <a href="#">
-                    <div class="card text-center card-despesa">
-                      <div class="card-body">
-                        <h5 class="card-title">Nome</h5>
-                        <p class="card-text">R$0,00</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
+              <?php if($mensagemDespesa == 'true') {
+                        foreach ($princDespesas as $index => $resultado) {
+                ?>
 
-                <div class="col-12 col-md-6 col-lg-4">
-                  <a href="#">
-                    <div class="card text-center card-despesa">
-                      <div class="card-body">
-                        <h5 class="card-title">Nome</h5>
-                        <p class="card-text">R$0,00</p>
+                  <div class="col-12 col-md-6 col-lg-4">
+                    <a href="">
+                      <div class="card text-center card-despesa">
+                        <div class="card-body">
+                          <h5 class="card-title"><?php echo $resultado['desNome'] ?></h5>
+                          <p class="card-text"><?php echo $resultado['desValor'] ?></p>
+                        </div>
                       </div>
-                    </div>
-                  </a>
-                </div>
+                    </a>
+                  </div>
 
-                <div class="col-12 col-md-6 col-lg-4">
-                  <a href="#">
-                    <div class="card text-center card-despesa">
-                      <div class="card-body">
-                        <h5 class="card-title">Nome</h5>
-                        <p class="card-text">R$0,00</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
+                <?php
+                        } //terrmina o foreach
+                  } //termina o if($mensagem)
+                  else {
+                ?>
+              <div><h5 class="text-secondary mt-3">Nenhuma despesa adicionada</h5></div>
+              <?php
+                }
+              ?>
               </div>
             </div>
           </div>
@@ -193,38 +207,30 @@
             <h2>Principais receitas</h2>
             <div class="container h-100">
               <div class="row h-100">
-                <div class="col-12 col-md-6 col-lg-4">
-                  <a href="#">
-                    <div class="card text-center card-receita">
-                      <div class="card-body">
-                        <h5 class="card-title">Nome</h5>
-                        <p class="card-text">R$0,00</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
+              <?php if($mensagemReceita == 'true') {
+                        foreach ($princReceitas as $index => $resultado) {
+                ?>
 
-                <div class="col-12 col-md-6 col-lg-4">
-                  <a href="#">
-                    <div class="card text-center card-receita">
-                      <div class="card-body">
-                        <h5 class="card-title">Nome</h5>
-                        <p class="card-text">R$0,00</p>
+                  <div class="col-12 col-md-6 col-lg-4">
+                    <a href="">
+                      <div class="card text-center card-receita">
+                        <div class="card-body">
+                          <h5 class="card-title"><?php echo $resultado['recNome'] ?></h5>
+                          <p class="card-text"><?php echo $resultado['recValor'] ?></p>
+                        </div>
                       </div>
-                    </div>
-                  </a>
-                </div>
+                    </a>
+                  </div>
 
-                <div class="col-12 col-md-6 col-lg-4">
-                  <a href="#">
-                    <div class="card text-center card-receita">
-                      <div class="card-body">
-                        <h5 class="card-title">Nome</h5>
-                        <p class="card-text">R$0,00</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
+                <?php
+                        } //terrmina o foreach
+                  } //termina o if($mensagem)
+                  else {
+                ?>
+              <div><h5 class="text-secondary mt-3">Nenhuma receita adicionada</h5></div>
+              <?php
+                }
+              ?>
               </div>
             </div>
           </div>

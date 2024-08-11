@@ -36,7 +36,7 @@ class Despesa
 
     public function editarDespesas($idDespesa, $idCategoria, $valor, $data, $descricao, $nome)
     {
-        $cmd = $this->pdo->prepare("UPDATE tblDespesa SET desNome = :nom, desDescricao = :de, desData = :dat, desValorTotal = :val, desIdCategoria = :idc WHERE idDespesa = :idr");
+        $cmd = $this->pdo->prepare("UPDATE tblDespesa SET desNome = :nom, desDescricao = :de, desData = :dat, desValor = :val, desIdCategoria = :idc WHERE idDespesa = :idr");
         $cmd->bindValue(':nom', $nome);
         $cmd->bindValue(':de', $descricao);
         $cmd->bindValue(':dat', $data);
@@ -50,7 +50,7 @@ class Despesa
 
     public function adicionarDespesa($nome, $descricao, $data, $valor, $idUsuario, $idCategoria)
     {
-        $sql = "INSERT INTO tblDespesa(desNome, desDescricao, desData, desValorTotal, desIdUsuario, desIdCategoria) VALUES (:nom, :de, :dat, :val, :idu, :idc)";
+        $sql = "INSERT INTO tblDespesa(desNome, desDescricao, desData, desValor, desIdUsuario, desIdCategoria) VALUES (:nom, :de, :dat, :val, :idu, :idc)";
         $cmd = $this->pdo->prepare($sql);
         $cmd->bindValue(':nom', $nome);
         $cmd->bindValue(':de', $descricao);
@@ -70,4 +70,14 @@ class Despesa
         $cmd->execute();
         header("Location: ../pg/despesas.php");
     }
+     public function principaisDespesas()
+     {
+        $sql = "SELECT * FROM tblDespesa WHERE desIdUsuario = :idu ORDER BY desValor DESC LIMIT 3";
+        $cmd = $this->pdo->prepare($sql);
+        $cmd->bindValue(':idu', $_SESSION['idUsuario']);
+        $cmd->execute();
+        $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
+        return $res;
+        
+     }
 }

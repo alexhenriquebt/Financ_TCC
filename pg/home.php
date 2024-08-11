@@ -1,8 +1,31 @@
 <?php
+require_once '../php/classe_despesa.php';
+require_once '../php/classe_receita.php';
+$despesa = new Despesa();
+$receita = new Receita();
+$princDespesas = $despesa->principaisDespesas();
+
+if (count($princDespesas) > 0) {
+  $mensagem = 'true';
+} else {
+  $mensagem = 'false';
+}
+
 // valida o acesso do usuário!
-require_once "../php/validador_acesso.php";
+require_once '../php/validador_acesso.php';
 //pega o nome do usuário
 $usuario = $_SESSION['usuario'];
+
+// Calcula o total das despesas
+$totalDespesas = array_sum(array_column($despesa->buscarDespesas(), 'desValor'));
+
+// Calcula o total das receitas
+$totalReceitas = array_sum(array_column($receita->buscarReceitas(), 'recValor'));
+
+$historicoPatrimonio = [];
+$patrimonio = $totalReceitas - $totalDespesas;
+$historicoPatrimonio[] = $patrimonio;
+
 ?>
 
 <!DOCTYPE html>
@@ -244,50 +267,42 @@ $usuario = $_SESSION['usuario'];
                 <canvas id="bar_chart"></canvas>
               </div>
               <!-- gráfico de linha fim -->
-              <!-- tela mobile -->
+              <!-- tela MOBILE -->
               <div class="dados-pratimonio">
-                <h5>Patrimônio atual: R$2.000.000.000,00</h5>
+                <h5><?php echo 'Patrimônio atual: R$' . number_format($patrimonio,2,",","."); ?></h5>
               </div>
-              <!-- tela mobile -->
+              <!-- tela MOBILE -->
             </div>
+
             <div class="col-12 col-md-6">
               <h2>Principais Despesas</h2>
               <div class="container h-100">
                 <div class="row h-100">
+
+                <?php if($mensagem == 'true') {
+                        foreach ($princDespesas as $index => $resultado) {
+                ?>
+
                   <div class="col-12 col-md-6 col-lg-4">
-                    <a href="#">
+                    <a href="">
                       <div class="card text-center card-despesa">
                         <div class="card-body">
-                          <h5 class="card-title">Nome</h5>
-                          <p class="card-text">R$0,00</p>
+                          <h5 class="card-title"><?php echo $resultado['desNome'] ?></h5>
+                          <p class="card-text"><?php echo $resultado['desValor'] ?></p>
                         </div>
                       </div>
                     </a>
                   </div>
 
-                  <div class="col-12 col-md-6 col-lg-4">
-                    <a href="#">
-                      <div class="card text-center card-despesa">
-                        <div class="card-body">
-                          <h5 class="card-title">Nome</h5>
-                          <p class="card-text">R$0,00</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div class="col-12 col-md-6 col-lg-4">
-                    <a href="#">
-                      <div class="card text-center card-despesa">
-                        <div class="card-body">
-                          <h5 class="card-title">Nome</h5>
-                          <p class="card-text">R$0,00</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
+                <?php
+                        } //terrmina o foreach
+                  } //termina o if($mensagem)
+                  else {
+                ?>
+              <div><h5 class="text-secondary mt-3">Nenhuma despesa adicionada</h5></div>
+              <?php
+                }
+              ?>
             </div>
           </div>
         </div>
@@ -297,16 +312,16 @@ $usuario = $_SESSION['usuario'];
           <h2>Despesas</h2>
           <div class="row">
             <div class="col-6">
-              <a href="#" style="text-decoration: none">
+              <a href="despesas.php" style="text-decoration: none">
                 <div class="card text-center">
                   <div class="card-body card-totais">
                     <!-- Telas maiores -->
                     <i class="bi bi-graph-down-arrow bi-card"></i>
-                    <h5 class="card-title card-pc">Total: R$ 2.000.000,00</h5>
+                    <h5 class="card-title card-pc"><?php echo 'R$' . number_format($totalDespesas,2,",","."); ?></h5>
                     <!-- Telas maiores -->
                     <!-- Telas menores -->
                     <h5 class="card-title card-mobile">Total</h5>
-                    <p class="card-text card-mobile">R$0,00</p>
+                    <p class="card-text card-mobile"><?php echo 'R$' . number_format($totalDespesas,2,",","."); ?></p>
                     <!-- Telas menores -->
                   </div>
                 </div>
@@ -333,10 +348,10 @@ $usuario = $_SESSION['usuario'];
                   <div class="card-body card-totais">
                     <!-- Telas maiores -->
                     <i class="bi bi-graph-up-arrow bi-card"></i>
-                    <h5 class="card-title card-pc">Total: R$ 2.000.000,00</h5>
+                    <h5 class="card-title card-pc"><?php echo 'R$' . number_format($totalReceitas,2,",","."); ?></h5>
                     <!-- Telas maiores -->
                     <h5 class="card-title card-mobile">Total</h5>
-                    <p class="card-text card-mobile">R$0,00</p>
+                    <p class="card-text card-mobile"><?php echo 'R$' . number_format($totalReceitas,2,",","."); ?></p>
                   </div>
                 </div>
               </a>
@@ -402,48 +417,50 @@ $usuario = $_SESSION['usuario'];
         </div>
       </div>
     </div>
+    </div>
+    </div>
 
     
     <script src="../js/popup_notificacoes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const patrimonioData = <?php echo json_encode($historicoPatrimonio); ?>
       
-    const ctx = document.getElementById("bar_chart");
+        const ctx = document.getElementById("bar_chart");
 
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: [
-            "Jan",
-            "Fev",
-            "Mar",
-            "Abr",
-            "Mai",
-            "Jun",
-            "Jul",
-            "Ago",
-            "Set",
-            "Out",
-            "Nov",
-            "Dez",
-          ],
-          datasets: [
-            {
-              label: "Evolução do patrimônio",
-              data: [200, 400, 500, 1000, 800, 900, 1100, 1220, 1225, 500, 2000, 2500],
-              backgroundColor: "rgb(253, 136, 59)",
+          new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: [
+                "Jan",
+                "Fev",
+                "Mar",
+                "Abr",
+                "Mai",
+                "Jun",
+                "Jul",
+                "Ago",
+                "Set",
+                "Out",
+                "Nov",
+                "Dez",
+              ],
+              datasets: [
+                {
+                  label: "Evolução do patrimônio",
+                  data: patrimonioData,
+                  backgroundColor: "rgb(253, 136, 59)",
+                },
+              ],
             },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
             },
-          },
-        },
-      });
+          });
     </script>
-    <script src="../js/home.js"></script>
   </body>
 </html>

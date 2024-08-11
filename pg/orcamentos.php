@@ -224,7 +224,7 @@ if (count($dadosOrcamentos) > 0) {
   <!-- dialog adicionar -->
   <dialog id="modalAdicionar">
     <div class="container">
-      <form class="row g-3" action="../php/add_orcamentos.php" method="post">
+      <form class="row g-3" action="../php/add_orcamentos.php?add_despesa=false" method="post">
 
         <h4>Adicionar orçamento</h4>
         <div class="col-12 col-md-6">
@@ -236,6 +236,7 @@ if (count($dadosOrcamentos) > 0) {
           <label>Descrição</label>
           <textarea name="descricao" id="" placeholder="Descrição" class="form-control"></textarea>
         </div>
+
 
         <div class="col-6 col-md-4">
           <label>Saldo</label>
@@ -263,10 +264,10 @@ if (count($dadosOrcamentos) > 0) {
           <input type="date" name="data" class="form-control" required>
         </div>
 
-        <div class="col-12 col-md-12 text-center">
-          <button type="submit" class="btn btn-outline-success">Adicionar</button>
+        <div class="row col-12 col-md-12 mt-3">
+          <label>Adicionar despesa</label>
+          <button class="btn btn-danger w-25 mt-3">Add despesa</button>
         </div>
-
       </form>
     </div>
     <button class="btn btn-outline-danger mt-3" onclick="fecharModalAdicionar()">Fechar</button>

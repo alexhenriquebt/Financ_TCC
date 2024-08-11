@@ -2,7 +2,7 @@
 
 require_once "conexao.php";
 require_once "classe_categoria.php";
-require_once "classe_despesas.php";
+require_once "classe_despesa.php";
 $categoria = new Categoria();
 $despesa = new Despesa();
 $catNome = addslashes($_POST['categoria']);

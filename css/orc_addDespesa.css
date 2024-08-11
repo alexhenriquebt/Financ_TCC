@@ -1,0 +1,68 @@
+/* Keyframes - animações */
+@keyframes ampliar {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.01);
+    }
+}
+
+/* estilo geral */
+* {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(253, 136, 59);
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+        height: 50px;
+    }
+}
+
+/* Modal */
+dialog {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border: none;
+}
+
+
+.card {
+    cursor: pointer;
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+}
+
+.card:hover {
+    animation: ampliar 0ms linear forwards;
+}

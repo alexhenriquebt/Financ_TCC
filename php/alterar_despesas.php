@@ -1,5 +1,5 @@
 <?php
-require_once 'classe_despesas.php';
+require_once 'classe_despesa.php';
 $despesa = new Despesa();
 $id_despesa = addslashes($_GET['id_update']);
 $id_categoria = addslashes($_POST['categoria']);

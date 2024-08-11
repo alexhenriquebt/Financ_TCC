@@ -12,7 +12,14 @@ $data = addslashes($_POST['data']);
 $saldo = addslashes($_POST['saldo']);
 $idUsuario = addslashes($_SESSION['idUsuario']);
 
+
+if($_GET['add_despesa'] == 'true') {
 $idCategoria = $categoria->buscarCategoriasAlterar($catNome);
 $orcamento->adicionarOrcamento($nome, $descricao, $data, $saldo, $idUsuario, $idCategoria);
 
 header("Location: ../pg/orcamentos.php");
+}
+else {
+header("Location: ../pg/orc_add_despesa.php");
+
+}

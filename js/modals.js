@@ -1,5 +1,6 @@
 const modalPrincipal = document.querySelector("#modalAdicionar");
 const modalAlterar = document.getElementById("modalAlterar");
+const modalOrcAddDes = document.getElementById("despesasExistentes");
 
 //abrir modal de add
 function abrirModalAdicionar() {
@@ -17,4 +18,12 @@ function abrirModalAlterar() {
 
 function fecharModalAlterar() {
   modalAlterar.close();
+}
+
+function abrirModalOrcAddDes() {
+  modalOrcAddDes.showModal();
+}
+
+function fecharModalOrcAddDes() {
+  modalOrcAddDes.close();
 }

@@ -124,45 +124,22 @@ table .bi {
     font-size: x-large;
 }
 
-.orcamento-pc, .orcamento-mobile, .orcamento-little-mobile {
-    padding: 50px;
-    border-radius: 30px;
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.orcamento-little-mobile {
-    display: none;
-}
-/* tabela mobile */
-.orcamento-mobile {
-    display: none;
+.icon-card {
+    display: flex;
+    justify-self: flex-end;
+    align-self: flex-end;
 }
 
 /* Modal */
 dialog {
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     border: none;
-}
-
-/* modificações para telas menores que 1012px */
-
-@media screen and (max-width: 488px) {
-    div .orcamento-mobile {
-        display: none;
-    }
-    
-    .orcamento-little-mobile {
-        display: block;
-    }
-}
-
-@media screen and (max-width: 1012px) {
-    .orcamento-pc {
-        display: none;
-    }
-
-    .orcamento-mobile  {
-        display: block;
-    }
 }
 
 /* modificações para telas menores que 768px */
@@ -184,23 +161,6 @@ dialog {
     /* itens do dropdown */
     .dropdown-item-mobile {
         display: block;
-    }
-
-    /* ajuste de telas da tabela*/
-    tr td a {
-        display: none;
-    }
-
-    .orcamento-pc {
-        display: none;
-    }
-
-    .orcamento-mobile {
-        display: block;
-    }
-
-    .titulo-bloco {
-        justify-content: flex-start;
     }
 
 }

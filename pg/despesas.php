@@ -2,7 +2,7 @@
 require_once "../php/conexao.php";
 $conexao = novaConexao();
 
-require_once "../php/classe_despesas.php";
+require_once "../php/classe_despesa.php";
 require_once "../php/classe_categoria.php";
 $despesa = new Despesa();
 $categoria = new Categoria();
@@ -181,7 +181,7 @@ if (count($dadosDespesas) > 0) {
                     <div class="content">
                       <h5 class="card-title"><?php echo $despesa['desNome']; ?></h5>
                       <p class="card-text"><?php echo $despesa['desDescricao']; ?></p>
-                      <p class="card-text">Valor: <?php echo $despesa['desValorTotal']; ?></p>
+                      <p class="card-text">Valor: <?php echo $despesa['desValor']; ?></p>
                       <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada'; 
                       $catNome = $nomeCategoria[$index]['catNome'];
                       ?></p>
@@ -293,7 +293,7 @@ if (count($dadosDespesas) > 0) {
     <div class="col-6 col-md-4">
       <label>Valor</label>
       <input type="number" name="valor" placeholder="Valor" class="form-control"value="<?php if (isset($resDespesaUpdate)) {
-                                                                                                      echo $resDespesaUpdate['desValorTotal'];
+                                                                                                      echo $resDespesaUpdate['desValor'];
                                                                                                     } ?>" required>
     </div>
 
@@ -336,106 +336,6 @@ if (count($dadosDespesas) > 0) {
   <script src="../js/limita_caractere.js"></script>
   <script src="../js/modals.js"></script>
   <script src="../js/popup_notificacoes.js"></script>
-
-        <!-- ------------------------- LAYOUT PARA PC ------------------------- -->
-       <!-- <div class="col-12 despesa-pc mt-5">
-          <div class="card text-center">
-            <a href="#">
-              <div class="card-body">
-                <table class="table table-borderless">
-                  <thead>
-                    <tr>
-                      <th scope="col">Nome</th>
-                      <th scope="col">Descrição</th>
-                      <th scope="col">Saldo</th>
-                      <th scope="col">Categoria</th>
-                      <th scope="col">Data</th>
-                      <th scope="col">Situação</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Lorem</td>
-                      <td></td>
-                      <td>R$0.00</td>
-                      <td></td>
-                      <td>dd/mm/aaaa</td>
-                      <td></td>
-                      <td>
-                        <a href="#"><i class="bi bi-pencil-square m-3"></i></a>
-                      </td>
-                      <td>
-                        <a href="#"><i class="bi bi-trash3 mx-3"></i></a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </a>
-          </div>
-        </div>
-         ------------------------- LAYOUT PARA PC fim -------------------------
-
-         ------------------------- LAYOUT PARA MOBILE -------------------------
-        <div class="col-12 mt-5 despesa-mobile">
-          <div class="card">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Categoria</th>
-                  <th>Saldo</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Trabalho</td>
-                  <td>empresa</td>
-                  <td>1.700,89</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        
-         LAYOUT PARA MOBILE MENOR 
-        <div class="col-12 mt-5 despesa-little-mobile">
-          <div class="card">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Categoria</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Trabalho</td>
-                  <td>empresa</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div> -->
-
-        <!-- ------------------------- LAYOUT PARA MOBILE MENOR fim ------------------------- -->
-
-        <!--
-        
-        <div class="text-center mt-5 mb-5 tela-vazia">
-          <img class="img-fluid w-50" src="../img/tela_vazia.png" alt="tela_vazia">
-          <h3>Nenhuma despesa até o momento</h3>
-        </div> -->
-
-      </div>
-    </div>
-  </div>
-
-
-  <script src="../js/modals.js"></script>
-  <!-- ------------------------- Popover ------------------------- -->
-  <script src="../js/popup_notificacoes.js"></script>
-  <!-- ------------------------- Popover fim ------------------------- -->
 </body>
 </html>
 

@@ -71,4 +71,15 @@ class Receita
         $cmd->execute();
         header("Location: ../pg/receitas.php");
     }
+
+    public function principaisReceitas()
+    {
+       $sql = "SELECT * FROM tblReceita WHERE recIdUsuario = :idu ORDER BY recValor DESC LIMIT 3";
+       $cmd = $this->pdo->prepare($sql);
+       $cmd->bindValue(':idu', $_SESSION['idUsuario']);
+       $cmd->execute();
+       $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
+       return $res;
+       
+    }
 }
