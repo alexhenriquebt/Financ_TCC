@@ -51,6 +51,11 @@ dialog {
     border: none;
 }
 
+main {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 30px 0px, rgba(39, 49, 56, 0.15) 0px 1px 3px 1px;
+    padding: 50px;
+    height: 60%;
+}
 
 .card {
     cursor: pointer;
