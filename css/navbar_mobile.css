@@ -1,0 +1,46 @@
+/* btn dropdown user mobile*/
+.item-mobile {
+    display: none;
+}
+
+/* btn dropdown user */
+.user-config {
+    height: 70px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.btn-group {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    width: 100%;
+}
+
+.btn-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    width: 100px;
+}
+
+.btn-group .bi-bell-fill {
+    font-size: x-large;
+}
+
+.btn-dropdown .bi {
+    font-size: xx-large;
+}
+
+@media screen and (max-width: 768px) {
+
+    /* itens do dropdown */
+    .item-mobile {
+        display: block;
+    }
+
+}

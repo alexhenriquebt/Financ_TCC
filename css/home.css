@@ -25,65 +25,6 @@ a, .bi {
     color: rgb(218, 100, 22);
 }
 
-/* Estilo da navbar lateral*/
-/* barra de navegação fantasma */
-.navbar-lateral-fantasma {
-    width: clamp(5rem, 9vw, 12rem);
-}
-/* barra de navegação lateral */
-.navbar-lateral {
-    position: fixed;
-    padding: 20px;
-    height: 100%;
-    width: clamp(5rem, 8vw, 12rem);
-    border-right: 1px solid rgb(180, 180, 180);
-    background-color: white;
-
-}
-
-.navbar-lateral img {
-    border-radius: 50px;
-}
-
-.navbar-lateral {
-    font-size: x-large;
-}
-
-
-/* btn dropdown user mobile*/
-.dropdown-item-mobile {
-    display: none;
-}
-/* btn dropdown user */
-.user-config {
-    height: 70px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.btn-group {
-    display: flex;
-    align-items: center;
-    flex-direction: row-reverse;
-    width: 100%;
-}
-.btn-dropdown {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    background-color: white;
-    border-radius: 10px;
-    border: none;
-    width: 100px;
-}
-
-.btn-group .bi-bell-fill {
-    font-size: x-large;
-}
-.btn-dropdown .bi {
-    font-size: xx-large;
-}
 
 /* Bloco 1 - saudacoes */
 .bloco-saudacoes {
@@ -100,12 +41,13 @@ a, .bi {
 
 /* Gráfico e principais despesas */
 .card-despesa {
-    background-color: rgb(255, 157, 157);
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 /* Gráfico e principais despesas */
 .card-despesa:hover {
-    background-color: rgb(245, 149, 149);
+    animation: ampliar 0s linear forwards;
 }
+
 /* Dados do patrimônio */
 .dados-pratimonio {
     margin-bottom: 40px;
@@ -133,6 +75,8 @@ a, .bi {
     justify-content: flex-start;
     flex-wrap: wrap;
     padding-left: 2px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: 10px;
 }
 
 .card-totais h5 {
@@ -169,22 +113,27 @@ table .bi {
     display: none;
 }
 
+.orcCard {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: 10px;
+    padding: 10px;
+}
+.orcCard:hover {
+    animation: ampliar 0ms linear forwards;
+}
 
 /* modificações para telas menores que 768px */
 @media screen and (max-width: 768px) {
-    .navbar-lateral, .navbar-lateral-fantasma, .col-2 {
+    .tela-vazia {
+        display: none;
+    }
+    .col-2 {
         display: none;
     }
 
     .col-10 {
         width: 100%;
     }
-
-    /* itens do dropdown */
-    .dropdown-item-mobile {
-        display: block;
-    }
-
     /* tira os icones editar e excluir do bloco 4 - orçamentos */
     tr td a {
         display: none;

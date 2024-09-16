@@ -13,9 +13,9 @@ if ($cmd->rowCount() == 1) {
     $_SESSION['telefone'] = $dadosUser[4];
     $_SESSION['usuario'] = $usuarioInfo;
     $_SESSION['logado'] = 'sim';
-    header('Location: ../pg/home.php');
+    header('Location: ../views/home.php');
 } else {
     $_SESSION['logado'] = 'nao';
 
-    header('Location: ../pg/entrar.php?login=erro');
+    header('Location: ../views/entrar.php?login=erro');
 }

@@ -1,6 +1,6 @@
 <?php
 //conecta com o banco de dados
-require_once "conexao.php";
+require_once "../config/conexao.php";
 $conexao = novaConexao();
 
 $consulta = "SELECT * FROM tblUsuario WHERE usuEmail = :e ";
@@ -11,7 +11,7 @@ $cmd->execute();
 
 //verifica se email ja existe na tblUsuario
 if ($cmd->rowCount() == 1) {
-    header('Location: ../pg/cadastrar.php?cadastro=erro');
+    header('Location: ../views/cadastrar.php?cadastro=erro');
     
 } else {
     //registra usuário no banco de dados
@@ -37,5 +37,5 @@ if ($cmd->rowCount() == 1) {
     $_SESSION['telefone'] = $dados[4];
     $_SESSION['usuario'] = $usuario;
     $_SESSION['logado'] = 'sim';
-    header('Location: ../pg/home.php');
+    header('Location: ../views/home.php');
 }

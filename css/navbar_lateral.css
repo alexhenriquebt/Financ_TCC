@@ -1,0 +1,44 @@
+/* Estilo da navbar lateral*/
+/* barra de navegação fantasma */
+.navbar-lateral-fantasma {
+    width: clamp(5rem, 9vw, 12rem);
+}
+/* barra de navegação lateral */
+.navbar-lateral {
+    position: fixed;
+    padding: 10px;
+    height: 100%;
+    width: clamp(6rem, 8vw, 12rem);
+    border-right: 1px solid rgb(180, 180, 180);
+    background-color: white;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.navbar-lateral img {
+    border-radius: 50px;
+}
+
+.navbar-lateral p {
+    font-size: clamp(0.8rem, 1vw, 3rem);
+}
+
+.navbar-lateral .bi {
+    font-size: clamp(0.8rem, 1.5vw, 3rem);
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgb(253, 136, 59);
+}
+
+@media screen and (max-width: 768px) {
+    .tela-vazia {
+        display: none;
+    }
+    .navbar-lateral, .navbar-lateral-fantasma, .col-2 {
+        display: none;
+    }
+}

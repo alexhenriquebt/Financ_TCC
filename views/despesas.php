@@ -1,18 +1,18 @@
 <?php
-require_once "../php/conexao.php";
+require_once "../config/conexao.php";
 $conexao = novaConexao();
 
-require_once "../php/classe_despesa.php";
-require_once "../php/classe_categoria.php";
-$despesa = new Despesa();
-$categoria = new Categoria();
-$dadosDespesas = $despesa->buscarDespesas();
+require_once "../model/classe_despesa.php";
+require_once "../model/classe_categoria.php";
+$classeDespesa = new Despesa();
+$classeCategoria = new Categoria();
+$dadosDespesas = $classeDespesa->buscarDespesas();
 
 $nomeCategoria = [];
 for ($position = 0; $position < count($dadosDespesas); $position++) {
   foreach ($dadosDespesas[$position] as $chave => $idCategoria) {
     if ($chave == 'desIdCategoria') {
-      $idCategoria = $categoria->buscarCategorias($idCategoria);
+      $idCategoria = $classeCategoria->buscarCategorias($idCategoria);
       $nomeCategoria[$position] = $idCategoria;
     }
   }
@@ -40,125 +40,27 @@ if (count($dadosDespesas) > 0) {
   <link rel="shortcut icon" href="../img/icon_title.png" />
   <title>Suas despesas</title>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-  crossorigin="anonymous"></script>
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
   <div class="row g-3 m-0">
-    <!-- ------------------------- volume para dar espaçamento ------------------------- -->
-    <div class="col-2 navbar-lateral-fantasma">
-      <!-- sem conteúdo -->
-    </div>
-    <!-- ------------------------- volume para dar espaçamento fim ------------------------- -->
-
-    <!-- ------------------------- navbar-lateral fixada ------------------------- -->
-    <div class="navbar-lateral text-center m-0">
-      <div class="row g-5">
-        <div class="col-12">
-          <a href="home.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Home">
-            <img src="../img/icon_title.png" alt="" class="img-fluid" />
-          </a>
-        </div>
-        <div class="col-12">
-          <a href="orcamentos.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Orçamentos">
-            <i class="bi bi-cash-coin"></i>
-          </a>
-        </div>
-        <div class="col-12">
-          <a href="despesas.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Despesas">
-            <i class="bi bi-graph-down-arrow"></i>
-          </a>
-        </div>
-        <div class="col-12">
-          <a href="receitas.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Receitas">
-            <i class="bi bi-graph-up-arrow"></i>
-          </a>
-        </div>
-        <div class="col-12">
-          <a href="relatorios.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Relatórios">
-            <i class="bi bi-graph-up"></i>
-          </a>
-        </div>
-        <div class="col-12">
-          <a href="configuracoes.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Configurações">
-            <i class="bi bi-gear"></i>
-          </a>
-        </div>
-        <div class="col-12">
-          <a href="ajuda.php" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Ajuda">
-            <i class="bi bi-info-circle"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <!-- ------------------------- navbar-lateral fixada fim ------------------------- -->
-
-    <!------------------------- CABEÇALHO ------------------------->
-    <!-- User icon, notificações e logout -->
+    <!-- navbar lateral -->
+    <?php require_once '../utils/navbar_lateral.php' ?>
 
     <div class="col-10">
-      <header>
-        <div class="container">
-          <div class="row">
-            <div class="col-6">
-              <div class="titulo-bloco">
-                <h2 class="mt-3">Suas despesas</h2>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="user-config">
-                <div class="btn-group">
-                  <button type="button" class="btn-dropdown dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="bi bi-person-circle"></i>
-                  </button>
-                  <button style="border: none; background-color: white" data-bs-toggle="popover"
-                    data-bs-title="Notificações" data-bs-content="Sem notificações" data-bs-placement="bottom">
-                    <i class="bi bi-bell-fill"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="home.php">Home</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="orcamentos.php">Orçamentos</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="despesas.php">Despesas</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="receitas.php">Receitas</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="relatorios.php">Relatórios</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="configuracoes.php">Configurações</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item dropdown-item-mobile" href="ajuda.php">Ajuda</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="../php/logoff.php">Sair</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-      <!------------------------- CABEÇALHO fim ------------------------->
+      <!-- user icon, navbar mobile e as notificações -->
+      <?php require_once '../utils/navbar_mobile.php' ?>
 
-            <div class="container">
+      <div class="container">
         <div class="row g-5 mt-5">
           <div class="col-4 col-md-2">
-            <h3>Adicionar Despesa</h3>
+            <h3>Adicionar despesa</h3>
           </div>
           <div class="col-8 col-md-4">
-            <i class="bi bi-plus-circle-fill add-icon" onclick="abrirModalAdicionar()"></i>
+            <i class="bi bi-plus-circle-fill add-icon w-25" onclick="abrirModalAdicionar()"></i>
           </div>
         </div>
 
@@ -182,9 +84,9 @@ if (count($dadosDespesas) > 0) {
                       <h5 class="card-title"><?php echo $despesa['desNome']; ?></h5>
                       <p class="card-text"><?php echo $despesa['desDescricao']; ?></p>
                       <p class="card-text">Valor: <?php echo $despesa['desValor']; ?></p>
-                      <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada'; 
-                      $catNome = $nomeCategoria[$index]['catNome'];
-                      ?></p>
+                      <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada';
+                                                      $catNome = $nomeCategoria[$index]['catNome'];
+                                                      ?></p>
                       <p class="card-text">Data: <?php echo $despesa['desData']; ?></p>
                     </div>
                     <div class="icon-card">
@@ -286,25 +188,25 @@ if (count($dadosDespesas) > 0) {
     <div class="col-12 col-md-12">
       <label>Descrição</label>
       <textarea name="descricao" placeholder="Descrição" class="form-control"><?php if (isset($resDespesaUpdate)) {
-                                                                                                      echo $resDespesaUpdate['desDescricao'];
-                                                                                                    } ?></textarea>
+                                                                                echo $resDespesaUpdate['desDescricao'];
+                                                                              } ?></textarea>
     </div>
 
     <div class="col-6 col-md-4">
       <label>Valor</label>
-      <input type="number" name="valor" placeholder="Valor" class="form-control"value="<?php if (isset($resDespesaUpdate)) {
-                                                                                                      echo $resDespesaUpdate['desValor'];
-                                                                                                    } ?>" required>
+      <input type="number" name="valor" placeholder="Valor" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
+                                                                                          echo $resDespesaUpdate['desValor'];
+                                                                                        } ?>" required>
     </div>
 
     <div class="col-8 col-md-6">
       <label>Categoria</label>
       <select name="categoria" id="categoria" class="form-control" required>
         <option value="<?php if (isset($resDespesaUpdate)) {
-                                                                                                      echo $resDespesaUpdate['desIdCategoria'];
-                                                                                                    } ?>"><?php if (isset($resDespesaUpdate)) {
-                                                                                                      echo $resDespesaUpdate['catNome'];
-                                                                                                    } ?></option>
+                          echo $resDespesaUpdate['desIdCategoria'];
+                        } ?>"><?php if (isset($resDespesaUpdate)) {
+                                                                                                            echo $resDespesaUpdate['catNome'];
+                                                                                                          } ?></option>
         <?php
         // Obtém todas as categorias
         $categoriasStmt = $conexao->prepare("SELECT * FROM tblCategoria");
@@ -320,8 +222,8 @@ if (count($dadosDespesas) > 0) {
     <div class="col-8 col-md-6">
       <label>Data</label>
       <input type="date" name="data" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
-                                                                                                      echo $resDespesaUpdate['desData'];
-                                                                                                    } ?>" required>
+                                                                    echo $resDespesaUpdate['desData'];
+                                                                  } ?>" required>
     </div>
 
     <div class="col-12 col-md-12 mt-3 text-center">
@@ -337,6 +239,7 @@ if (count($dadosDespesas) > 0) {
   <script src="../js/modals.js"></script>
   <script src="../js/popup_notificacoes.js"></script>
 </body>
+
 </html>
 
 <?php

@@ -29,12 +29,9 @@ body {
     height: 100vh;
 }
 
-p, footer a {
-    color: rgb(109, 0, 0);
-
+p {
+    color: black;
 }
-
-
 
 /* Navbar e seção 1 */
 header {
@@ -113,7 +110,7 @@ header {
 .secao2 {
     /* background-color: #fcdeb3; */
     padding: 50px;
-    font-size: clamp(1rem, 1.5vw, 3rem);
+    font-size: clamp(1rem, 1vw, 3rem);
     
 }
 
@@ -148,10 +145,10 @@ header {
 
 
 .box-secao3 p{
-    font-size: clamp(1rem, 1.5vw, 3rem);
+    font-size: clamp(1rem, 1vw, 3rem);
 }
 .box-icon .bi {
-    font-size: clamp(1rem, 1.5vw, 3rem);
+    font-size: clamp(1rem, 1vw, 3rem);
 }
 
 /* Seção 4 */
@@ -164,17 +161,17 @@ header {
     padding: 50px;
 }
 
-.box-dev {
-    padding: 30px;
-    margin-bottom: 50px;
-}
+
 
 .text-secao3 {
-    font-size: clamp(1rem, 1.5vw, 3rem);
+    font-size: clamp(1rem, 1vw, 3rem);
 }
 
-.box-dev img {
-    border-radius: 50%;
+.imagem{
+    border-radius: 50px;
+    width: 60%;
+    
+    
 }
 
 /* Footer */

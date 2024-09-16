@@ -14,12 +14,13 @@ if (!empty($_SESSION['usuario'])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../css/entrar_cadastrar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 	<link rel="shortcut icon" href="../img/icon_title.png">
 	<title>Cadastrar</title>
 	</head>
 
 <body>
-	<div class="">
+	<div class="mt-5">
 		<div class="fundo m-5">
 			<div class="row">
 				<!-- ------------------------- Imagem da REGISTRAR ------------------------- -->
@@ -36,7 +37,7 @@ if (!empty($_SESSION['usuario'])) {
 				<div class="col-12 col-md-6 bloco-entrar">
 					<div class="card_entrar">
 						<h2 class="text-center">Cadastrar</h2>
-						<form action="../php/registra_usuario.php" class="form" method="post">
+						<form action="../model/registra_usuario.php" class="form" method="post">
 							<div class="text-center p-2 ">
 								<input type="text" class="box w-100" name="nome" placeholder="Seu nome" required>
 							</div>
@@ -71,6 +72,10 @@ if (!empty($_SESSION['usuario'])) {
 				<!-- ------------------------- form DE REGISTRAR fim ------------------------- -->
 
 			</div>
+		</div>
+
+		<div class="btn-voltar">
+			<a href="../index.html"><i class="bi bi-arrow-left"></i></a>
 		</div>
 	</div>
 

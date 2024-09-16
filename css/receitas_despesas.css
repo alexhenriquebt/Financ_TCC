@@ -29,70 +29,6 @@ a,
     color: rgb(218, 100, 22);
 }
 
-/* NAVBAR */
-/* Estilo da navbar lateral*/
-/* barra de navegação fantasma */
-.navbar-lateral-fantasma {
-    width: clamp(5rem, 9vw, 12rem);
-}
-
-/* barra de navegação lateral */
-.navbar-lateral {
-    position: fixed;
-    padding: 20px;
-    height: 100%;
-    width: clamp(5rem, 8vw, 12rem);
-    border-right: 1px solid rgb(180, 180, 180);
-    background-color: white;
-
-}
-
-.navbar-lateral img {
-    border-radius: 50px;
-}
-
-.navbar-lateral {
-    font-size: x-large;
-}
-
-/* btn dropdown user mobile*/
-.dropdown-item-mobile {
-    display: none;
-}
-
-/* btn dropdown user */
-.user-config {
-    height: 70px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.btn-group {
-    display: flex;
-    align-items: center;
-    flex-direction: row-reverse;
-    width: 100%;
-}
-
-.btn-dropdown {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    background-color: white;
-    border-radius: 10px;
-    border: none;
-    width: 100px;
-}
-
-.btn-group .bi-bell-fill {
-    font-size: x-large;
-}
-
-.btn-dropdown .bi {
-    font-size: xx-large;
-}
-
 /* BLOCO RECEITAS */
 .add-icon {
     display: flex;
@@ -124,39 +60,10 @@ dialog {
     border: none;
 }
 
-/* CABEÇALHO */
-/* Título da página */
-.titulo-bloco {
-    position: absolute;
-    display: flex;
-    justify-content: flex-end;
-    width: 50%;
-}
-
 /* modificações para telas menores que 768px */
 @media screen and ( max-width: 768px) {
-    .navbar-lateral,
-    .navbar-lateral-fantasma {
-        display: none;
-    }
-
     .col-10 {
         width: 100%;
     }
 
-    /* itens do dropdown */
-    .dropdown-item-mobile {
-        display: block;
-    }
-
-    .titulo-bloco {
-        justify-content: flex-start;
-    }
-}
-
-/* Telas grandes */
-@media screen and (min-width: 1440px) {
-    .titulo-bloco {
-        justify-content: flex-start;
-    }
 }

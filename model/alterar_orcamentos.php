@@ -9,4 +9,4 @@ $descricao = addslashes($_POST['descricao']);
 $nome = addslashes($_POST['nome']);
 
 $orcamento->editarOrcamentos($id_orcamento, $id_categoria, $saldo, $data, $descricao, $nome);
-header('Location: ../pg/orcamentos.php');
+header('Location: ../views/orcamentos.php');

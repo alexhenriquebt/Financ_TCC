@@ -9,4 +9,4 @@ $descricao = addslashes($_POST['descricao']);
 $nome = addslashes($_POST['nome']);
 
 $receita->editarReceitas($id_receita, $id_categoria, $valor, $data, $descricao, $nome);
-header('Location: ../pg/receitas.php');
+header('Location: ../views/receitas.php');

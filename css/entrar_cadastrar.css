@@ -100,6 +100,23 @@ img {
 	margin-bottom: 40px;
 }
 
+.btn-voltar {
+	border-radius: 50px;
+	width: 70px;
+	height: 70px;
+	box-shadow: 20px 20px 30px rgb(160, 159, 159);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 30px;
+	margin-bottom: 50px;
+	background-image: linear-gradient(to left, rgb(253, 136, 59), rgb(255, 161, 98), #ffd18b);
+}
+.btn-voltar a i {
+	font-size: x-large;
+	color: black;
+}
+
 /* modificações para telas menores que 765px */
 @media screen and (max-width: 765px) {
 	.card_entrar {

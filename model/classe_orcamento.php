@@ -6,7 +6,7 @@ class Orcamento
     public function __construct()
     {
         try {
-            require_once "conexao.php";
+            require_once "../config/conexao.php";
             $this->pdo = novaConexao();
         } catch (Exception $e) {
             echo 'Erro ao genérico: ' . $e->getMessage();

@@ -1,19 +1,18 @@
 <?php
 
-require_once "conexao.php";
+require_once "../config/conexao.php";
 require_once "classe_categoria.php";
-require_once "classe_receita.php";
+require_once "classe_despesa.php";
 $categoria = new Categoria();
-$receita = new Receita();
+$despesa = new Despesa();
 $catNome = addslashes($_POST['categoria']);
 $nome = addslashes($_POST['nome']);
 $descricao = addslashes($_POST['descricao']);
-$situacao = addslashes($_POST['situacao']);
 $data = addslashes($_POST['data']);
-$saldo = addslashes($_POST['saldo']);
+$valor = addslashes($_POST['valor']);
 $idUsuario = addslashes($_SESSION['idUsuario']);
 
 $idCategoria = $categoria->buscarCategoriasAlterar($catNome);
-$receita->adicionarReceita($nome, $descricao, $situacao, $data, $valor, $idUsuario, $idCategoria);
+$despesa->adicionarDespesa($nome, $descricao, $data, $valor, $idUsuario, $idCategoria);
 
-header("Location: ../pg/receitas.php");
+header("Location: ../views/despesas.php");
