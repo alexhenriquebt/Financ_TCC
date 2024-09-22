@@ -16,7 +16,7 @@ class Categoria
 
     public function buscarCategorias($idCategoria)
     {
-        $cmd = $this->pdo->prepare("SELECT * FROM tblCategoria WHERE idCategoria = :c");
+        $cmd = $this->pdo->prepare("SELECT * FROM tblCategoria WHERE catId = :c");
         $cmd->bindValue(':c', $idCategoria);
         $cmd->execute();
         $res = $cmd->fetch(PDO::FETCH_ASSOC);

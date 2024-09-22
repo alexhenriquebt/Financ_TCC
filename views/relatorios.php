@@ -1,10 +1,8 @@
 <?php
 require_once '../model/classe_despesa.php';
 require_once '../model/classe_receita.php';
-require_once '../model/classe_orcamento.php';
 $despesa = new Despesa();
 $receita = new Receita();
-$orcamento = new Orcamento();
 $princDespesas = $despesa->principaisDespesas();
 $princReceitas = $receita->principaisReceitas();
 
@@ -27,6 +25,7 @@ $desValor = array_column($despesa->buscarDespesas(), 'desValor');
 $recNome = array_column($receita->buscarReceitas(), 'recNome');
 $recValor = array_column($receita->buscarReceitas(), 'recValor');
 
+require_once '../model/validador_acesso.php';
 ?>
 
 <!DOCTYPE html>
@@ -100,13 +99,16 @@ $recValor = array_column($receita->buscarReceitas(), 'recValor');
               </div>
             </div>
           </div>
+          <div class="col-12 mt-5">
+            <h3>Por categoria:</h3>
+          </div>
         </div>
       </div>
 
       <!-- ver mais despesas -->
-      <div class="text-center">
+      <div class="text-center fs-3 mb-5">
         <a href="orcamentos.php">
-          <h2>Ver minhas despesas</h2>
+          Ver minhas despesas
         </a>
       </div>
       <!-- ------------------------- PARTE DAS DESPESAS fim ------------------------- -->
@@ -155,72 +157,20 @@ $recValor = array_column($receita->buscarReceitas(), 'recValor');
               </div>
             </div>
           </div>
+          
+          <div class="col-12 mt-5">
+            <h3>Por categoria:</h3>
+          </div>
         </div>
       </div>
 
+
       <!-- ver mais receitas -->
-      <div class="text-center">
-        <a href="receitas.php">
-          <h2>Ver minhas receitas</h2>
+      <div class="text-center fs-3 mb-5">
+        <a href="receitas.php" class="">Ver minhas receitas
         </a>
       </div>
       <!-- ------------------------- PARTE DAS RECEITAS fim ------------------------- -->
-
-      <!-- ------------------------ PARTE ORÇAMENTOS ----------------------------------- -->
-      <div class="container p-5">
-        <h2>Orçamentos</h2>
-        <div class="orcContainer text-center">
-          <div class="card-body">
-            <table class="table table-borderless">
-              <thead>
-                <tr>
-                  <th scope="col">Nome</th>
-                  <th scope="col">Saldo</th>
-                  <th scope="col">Gastos</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Lorem</td>
-                  <td>R$0.00</td>
-                  <td>R$0.00</td>
-                  <td>
-                    <button type="button" id="abrir1">abrir</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <!-- conteúdo oculto -->
-        <dialog>
-          <div class="container p-3">
-            <div class="row g-3">
-              <div class="col-12 col-md-6 mb-5">
-                <!-- gráfico de linha início-->
-                <canvas id="orcamento_chart"></canvas>
-                <!-- gráfico de linha fim -->
-              </div>
-              <div class="col-12 col-md-6">
-                <h2>Saldo</h2>
-                <p>R$200.534,57</p>
-                <h2>Despesas</h2>
-                <p>Despesa 1</p>
-                <p>Despesa 2</p>
-                <p>Despesa 3</p>
-              </div>
-            </div>
-          </div>
-          <button>Fechar</button>
-        </dialog>
-      </div>
-      <!-- ver mais receitas -->
-      <div class="text-center">
-        <a href="orcamentos.php">
-          <h2>Ver meus orçamentos</h2>
-        </a>
-      </div>
-      <!-- ------------------------ PARTE ORÇAMENTOS fim ----------------------------------- -->
 
       <div class="text-center tela-final">
         <img src="../img/homem_segurando_grafico.png" class="img-fluid w-25" alt="">
@@ -242,7 +192,6 @@ $recValor = array_column($receita->buscarReceitas(), 'recValor');
 <script>
   const ctxPrincDesp = document.getElementById("princDespesa_chart").getContext('2d');
   const ctxPrincRec = document.getElementById("princReceita_chart").getContext('2d');
-  const ctxOrcamento = document.getElementById("orcamento_chart").getContext('2d');
 
   // Dados para gráficos
   const desNomeData = <?php echo json_encode($desNome); ?>;
@@ -275,17 +224,6 @@ $recValor = array_column($receita->buscarReceitas(), 'recValor');
     },
   });
 
-  /* Gráfico de Orçamento */
-  new Chart(ctxOrcamento, {
-    type: "doughnut",
-    data: {
-      labels: ["Receita 1", "Receita 2", "Receita 3"], // Ajustar conforme necessário
-      datasets: [{
-        label: "Valor",
-        data: [12, 10, 40], // Ajustar conforme necessário
-      }],
-    },
-  });
 </script>
 <!-- ------------------------- script do gráfico fim ------------------------- -->
 

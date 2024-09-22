@@ -1,37 +1,17 @@
 <?php
 require_once '../model/classe_despesa.php';
 require_once '../model/classe_receita.php';
-require_once '../model/classe_orcamento.php';
 require_once '../model/classe_categoria.php';
 $classeDespesa = new Despesa();
 $classeReceita = new Receita();
-$classeOrcamento = new Orcamento();
 $classeCategoria = new Categoria();
 $princDespesas = $classeDespesa->principaisDespesas();
-$dadosOrcamentos = $classeOrcamento->buscarOrcamentos();
 
 //Se existe despesa
 if (count($princDespesas) > 0) {
   $mensagemDespesa = 'true';
 } else {
   $mensagemDespesa = 'false';
-}
-
-//Se existe orçamento
-if (count($dadosOrcamentos) > 0) {
-  $mensagemOrcamento = 'true';
-} else {
-  $mensagemOrcamento = 'false';
-}
-
-$nomeCategoria = [];
-for ($position = 0; $position < count($dadosOrcamentos); $position++) {
-  foreach ($dadosOrcamentos[$position] as $chave => $idCategoria) {
-    if ($chave == 'orcIdCategoria') {
-      $idCategoria = $classeCategoria->buscarCategorias($idCategoria);
-      $nomeCategoria[$position] = $idCategoria;
-    }
-  }
 }
 
 // valida o acesso do usuário!
@@ -227,74 +207,6 @@ $historicoPatrimonio[] = $patrimonio;
             </div>
             <!-- ------------------- Despesas e Receitas fim ------------------- -->
 
-            <!-- ------------------- Orçamentos ------------------- -->
-
-
-            <h2 class="mt-5">Orçamentos</h2>
-            <div class="row g-5">
-
-              <?php
-              if ($mensagemOrcamento == 'true') {
-                foreach ($dadosOrcamentos as $index => $orcamentos) {
-              ?>
-                  <div class="col-12">
-                    <div class="orcCard text-center">
-                      <a href="#">
-                        <div class="card-body">
-                          <table class="table table-borderless">
-                            <thead>
-                              <tr>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Categoria</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td><?php echo $orcamentos['orcNome'] ?></td>
-                                <td><?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada';
-                                    $catNome = $nomeCategoria[$index]['catNome']; ?></td>
-                                <td>
-                                  <a href="#"><i class="bi bi-pencil-square"></i></a>
-                                </td>
-                                <td>
-                                  <a href="#"><i class="bi bi-trash3"></i></a>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                <?php
-                }
-              } else {
-                ?>
-
-                <!-- MENSAGEM QUANDO NÃO TEM ORÇAMENTOS -->
-                <div class="text-center mt-5 mb-5 tela-vazia">
-                  <img class="img-fluid w-25" src="../img/tela_vazia.png" alt="tela_vazia">
-                  <h3>Nenhum orçamento até o momento</h3>
-                </div>
-
-              <?php
-              }
-              ?>
-
-              <div class="text-center">
-                <a
-                  href="#"
-                  data-bs-toggle="popover"
-                  data-bs-trigger="hover focus"
-                  data-bs-content="Criar um novo orçamento">
-                  <i class="bi bi-plus-circle-fill add-icon-orcamento"></i>
-                </a>
-              </div>
-            </div>
-            <!-- ------------------- Orçamentos fim ------------------- -->
           </div>
         </div>
       </div>

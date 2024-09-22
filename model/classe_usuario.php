@@ -46,24 +46,24 @@ class Usuario
         $resConsultaEmail = $consultaEmail->fetch();
 
         if ($consultaEmail->rowCount() == 1 && $resConsultaEmail[2] != $_SESSION['email']) {
-            header('Location: ../pg/configuracoes.php?email=erro');
+            header('Location: ../views/configuracoes.php?email=erro');
         } else {
-            $cmdNome = $this->pdo->prepare("UPDATE tblUsuario SET usuNome = :nom WHERE idUsuario = :idu");
+            $cmdNome = $this->pdo->prepare("UPDATE tblUsuario SET usuNome = :nom WHERE usuId = :idu");
             $cmdNome->bindValue(':nom', $_POST['nome']);
             $cmdNome->bindValue(':idu', $_SESSION['idUsuario']);
             $cmdNome->execute();
 
-            $cmdEmail = $this->pdo->prepare("UPDATE tblUsuario SET usuEmail = :eme WHERE idUsuario = :idu");
+            $cmdEmail = $this->pdo->prepare("UPDATE tblUsuario SET usuEmail = :eme WHERE usuId = :idu");
             $cmdEmail->bindValue(':eme', $_POST['email']);
             $cmdEmail->bindValue(':idu', $_SESSION['idUsuario']);
             $cmdEmail->execute();
 
-            $cmdTel = $this->pdo->prepare("UPDATE tblUsuario SET usuTelefone = :cel WHERE idUsuario = :idu");
+            $cmdTel = $this->pdo->prepare("UPDATE tblUsuario SET usuTelefone = :cel WHERE usuId = :idu");
             $cmdTel->bindValue(':cel', $_POST['telefone']);
             $cmdTel->bindValue(':idu', $_SESSION['idUsuario']);
             $cmdTel->execute();
 
-            $consulta = $this->pdo->prepare("SELECT * FROM tblUsuario WHERE idUsuario = :idu");
+            $consulta = $this->pdo->prepare("SELECT * FROM tblUsuario WHERE usuId = :idu");
             $consulta->bindValue(':idu', $_SESSION['idUsuario']);
             $consulta->execute();
             $res = $consulta->fetch();
@@ -71,13 +71,13 @@ class Usuario
             $_SESSION['usuario'] = $res[1];
             $_SESSION['email'] = $res[2];
             $_SESSION['telefone'] = $res[4];
-            header("Location: ../pg/configuracoes.php");
+            header("Location: ../views/configuracoes.php");
         }
     }
 
     public function excluirConta()
     {
-        $sql = "DELETE FROM tblUsuario WHERE idUsuario = :i";
+        $sql = "DELETE FROM tblUsuario WHERE usuId = :i";
         $cmd = $this->pdo->prepare($sql);
         $cmd->bindValue(':i', $_SESSION['idUsuario']);
         $cmd->execute();
@@ -87,17 +87,17 @@ class Usuario
 
     public function adicionarTelefone()
     {
-        $cmd = $this->pdo->prepare("UPDATE tblUsuario SET usuTelefone = :cel WHERE idUsuario = :idu");
+        $cmd = $this->pdo->prepare("UPDATE tblUsuario SET usuTelefone = :cel WHERE usuId = :idu");
         $cmd->bindValue(':cel', $_POST['telefone']);
         $cmd->bindValue(':idu', $_SESSION['idUsuario']);
         $cmd->execute();
 
-        $consulta = $this->pdo->prepare("SELECT * FROM tblUsuario WHERE idUsuario = :idu");
+        $consulta = $this->pdo->prepare("SELECT * FROM tblUsuario WHERE usuId = :idu");
         $consulta->bindValue(':idu', $_SESSION['idUsuario']);
         $consulta->execute();
         $resultado = $consulta->fetch();
 
         $_SESSION['telefone'] = $resultado[4];
-        header("Location: ../pg/configuracoes.php");
+        header("Location: ../views/configuracoes.php");
     }
 }

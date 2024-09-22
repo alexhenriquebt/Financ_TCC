@@ -11,7 +11,7 @@ $dadosDespesas = $classeDespesa->buscarDespesas();
 $nomeCategoria = [];
 for ($position = 0; $position < count($dadosDespesas); $position++) {
   foreach ($dadosDespesas[$position] as $chave => $idCategoria) {
-    if ($chave == 'desIdCategoria') {
+    if ($chave == 'catId') {
       $idCategoria = $classeCategoria->buscarCategorias($idCategoria);
       $nomeCategoria[$position] = $idCategoria;
     }
@@ -23,6 +23,8 @@ if (count($dadosDespesas) > 0) {
 } else {
   $mensagem = 'false';
 }
+
+require_once '../model/validador_acesso.php';
 ?>
 
 
@@ -67,7 +69,7 @@ if (count($dadosDespesas) > 0) {
         <?php
         if (isset($_GET['id_des']) && !empty($_GET['id_des'])) {
           $id_despesa = addslashes($_GET['id_des']);
-          $resDespesaUpdate = $despesa->buscarDespesasUpdate($id_despesa);
+          $resDespesaUpdate = $classeDespesa->buscarDespesasUpdate($id_despesa);
           $dialog = true;
         }
         ?>
@@ -83,6 +85,7 @@ if (count($dadosDespesas) > 0) {
                     <div class="content">
                       <h5 class="card-title"><?php echo $despesa['desNome']; ?></h5>
                       <p class="card-text"><?php echo $despesa['desDescricao']; ?></p>
+                      <p class="card-text">Situação: <?php echo $despesa['desSituacao']; ?></p>
                       <p class="card-text">Valor: <?php echo $despesa['desValor']; ?></p>
                       <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada';
                                                       $catNome = $nomeCategoria[$index]['catNome'];
@@ -90,10 +93,10 @@ if (count($dadosDespesas) > 0) {
                       <p class="card-text">Data: <?php echo $despesa['desData']; ?></p>
                     </div>
                     <div class="icon-card">
-                      <a href="despesas.php?id_des=<?php echo $dadosDespesas[$index]['idDespesa']; ?>">
+                      <a href="despesas.php?id_des=<?php echo $dadosDespesas[$index]['desId']; ?>">
                         <i class="bi bi-pencil-square m-3"></i>
                       </a>
-                      <a href="../php/deletar_despesas.php?idDespesa=<?php echo $dadosDespesas[$index]['idDespesa']; ?>" onclick="return confirm('Você realmente quer excluir essa despesa?')">
+                      <a href="../model/deletar_despesas.php?idDespesa=<?php echo $dadosDespesas[$index]['desId']; ?>" onclick="return confirm('Você realmente quer excluir essa despesa?')">
                         <i class="bi bi-trash3 mx-3"></i>
                       </a>
                     </div>
@@ -124,7 +127,7 @@ if (count($dadosDespesas) > 0) {
   <!-- dialog adicionar -->
   <dialog id="modalAdicionar">
     <div class="container">
-      <form class="row g-3" action="../php/add_despesas.php" method="post">
+      <form class="row g-3" action="../model/add_despesas.php" method="post">
 
         <h4>Adicionar despesa</h4>
         <div class="col-12 col-md-6">
@@ -135,6 +138,15 @@ if (count($dadosDespesas) > 0) {
         <div class="col-12 col-md-12">
           <label>Descrição</label>
           <textarea name="descricao" id="" placeholder="Descrição" class="form-control"></textarea>
+        </div>
+
+        <div class="col-12 col-md-2">
+          <label>Situação</label>
+          <select name="situacao" id="situacao" class="form-control" required>
+            <option value="">Selecione</option>
+            <option value="Pago">Pago</option>
+            <option value="Pendente">Pendente</option>
+          </select>
         </div>
 
         <div class="col-6 col-md-4">
@@ -175,9 +187,9 @@ if (count($dadosDespesas) > 0) {
   <!-- dialog alterar -->
   <dialog id="modalAlterar">
     <div class="container">
-      <form class="row g-3" action="../php/alterar_despesas.php?id_update=<?php echo $resDespesaUpdate['idDespesa']; ?>" method="post">
+      <form class="row g-3" action="../model/alterar_despesas.php?id_update=<?php echo $resDespesaUpdate['desId']; ?>" method="post">
 
-        <h4>Alterar receita</h4>
+        <h4>Alterar despesa</h4>
         <req class="col-12 col-md-8">
           <label>Nome</label>
           <input type="text" name="nome" placeholder="Nome da despesa" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
@@ -192,6 +204,21 @@ if (count($dadosDespesas) > 0) {
                                                                               } ?></textarea>
     </div>
 
+            <div class="col-12 col-md-4">
+          <label>Situação</label>
+          <select name="situacao" id="situacao" class="form-control" required>
+            <option value="<?php if (isset($resDespesaUpdate)) {
+                                                                                          echo $resDespesaUpdate['desSituacao'];
+                                                                                        } ?>">
+                                                                                        <?php if (isset($resDespesaUpdate)) {
+                                                                                          echo $resDespesaUpdate['desSituacao'];
+                                                                                        } ?>
+                                                                                        </option>
+            <option value="Pago">Pago</option>
+            <option value="Pendente">Pendente</option>
+          </select>
+        </div>
+
     <div class="col-6 col-md-4">
       <label>Valor</label>
       <input type="number" name="valor" placeholder="Valor" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
@@ -203,7 +230,7 @@ if (count($dadosDespesas) > 0) {
       <label>Categoria</label>
       <select name="categoria" id="categoria" class="form-control" required>
         <option value="<?php if (isset($resDespesaUpdate)) {
-                          echo $resDespesaUpdate['desIdCategoria'];
+                          echo $resDespesaUpdate['catId'];
                         } ?>"><?php if (isset($resDespesaUpdate)) {
                                                                                                             echo $resDespesaUpdate['catNome'];
                                                                                                           } ?></option>
@@ -213,7 +240,7 @@ if (count($dadosDespesas) > 0) {
         $categoriasStmt->execute();
         $categorias = $categoriasStmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($categorias as $categoria) {
-          echo '<option value="' . $categoria['idCategoria'] . '">' . $categoria['catNome'] . '</option>';
+          echo '<option value="' . $categoria['catId'] . '">' . $categoria['catNome'] . '</option>';
         }
         ?>
       </select>

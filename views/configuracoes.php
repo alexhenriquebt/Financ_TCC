@@ -1,15 +1,18 @@
 <?php
+
 session_start();
 
 if (isset($_GET['email']) && ($_GET['email'] == 'erro')) {
-?>
+    ?>
 
-    <script>
-        window.alert('Email já está em uso!')
+<script>
+    window.alert('Email já está em uso!')
     </script>
 
 <?php
 }
+
+require_once '../model/validador_acesso.php';
 ?>
 
 <!DOCTYPE html>
@@ -69,11 +72,11 @@ if (isset($_GET['email']) && ($_GET['email'] == 'erro')) {
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-                                            <a href="../pg/alterarconfiguracoes.php">
+                                            <a href="../views/alterarconfiguracoes.php">
                                                 <button type="button" class="btn btn-warning">Alterar informações</button>
                                             </a>
                                         </div>
-                                        <form action="../php/deletar_conta.php" method="post" class="col-12 col-md-6">
+                                        <form action="../model/deletar_conta.php" method="post" class="col-12 col-md-6">
                                             <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Você realmente quer excluir sua conta?')">Deletar conta</button>
                                         </form>
                                     </div>
@@ -89,7 +92,7 @@ if (isset($_GET['email']) && ($_GET['email'] == 'erro')) {
     <!--modal de add do telefone -->
     <dialog id="modalAdicionar">
         <div class="container">
-            <form action="../php/add_telefone.php" method="post" class="row g-5">
+            <form action="../model/add_telefone.php" method="post" class="row g-5">
                 <h3 class="col-12">Adicionar telefone</h3>
                 <div class="col-12">
                     <label for="">Celular:</label>

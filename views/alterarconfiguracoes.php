@@ -16,7 +16,7 @@
 <body>
         
         <div class="container">      
-            <form method="post" action="../php/alterar_info_user.php" class="row g-3"> 
+            <form method="post" action="../model/alterar_info_user.php" class="row g-3"> 
               <h2>Informações pessoais</h2> 
               <div class="col-12 col-md-10"> 
                 <label>Nome</label>

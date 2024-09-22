@@ -10,7 +10,7 @@ $nome = addslashes($_POST['nome']);
 $descricao = addslashes($_POST['descricao']);
 $situacao = addslashes($_POST['situacao']);
 $data = addslashes($_POST['data']);
-$saldo = addslashes($_POST['saldo']);
+$valor = addslashes($_POST['valor']);
 $idUsuario = addslashes($_SESSION['idUsuario']);
 
 $idCategoria = $categoria->buscarCategoriasAlterar($catNome);

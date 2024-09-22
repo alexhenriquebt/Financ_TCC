@@ -57,6 +57,16 @@ $base_url = rtrim($base_url, '/view');
     </div>
     <div class="col-12">
       <a
+        href="<?php echo $base_url; ?>/objetivos.php"
+        data-bs-toggle="popover"
+        data-bs-trigger="hover focus"
+        data-bs-content="Defina objetivos para alcançar">
+        <i class="bi bi-bullseye"></i>
+        <p>Objetivos</p>
+      </a>
+    </div>
+    <div class="col-12">
+      <a
         href="<?php echo $base_url; ?>/relatorios.php"
         data-bs-toggle="popover"
         data-bs-trigger="hover focus"

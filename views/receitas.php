@@ -11,7 +11,7 @@ $dadosReceitas = $receita->buscarReceitas();
 $nomeCategoria = [];
 for ($position = 0; $position < count($dadosReceitas); $position++) {
   foreach ($dadosReceitas[$position] as $chave => $idCategoria) {
-    if ($chave == 'recIdCategoria') {
+    if ($chave == 'catId') {
       // PEGA NOME DA CATEGORIA
       $idCategoria = $categoria->buscarCategorias($idCategoria);
       $nomeCategoria[$position] = $idCategoria;
@@ -24,6 +24,8 @@ if (count($dadosReceitas) > 0) {
 } else {
   $mensagem = 'false'; // Defina uma variável para a mensagem
 }
+
+require_once '../model/validador_acesso.php';
 ?>
 
 <!DOCTYPE html>
@@ -80,17 +82,18 @@ if (count($dadosReceitas) > 0) {
                     <div class="content">
                       <h5 class="card-title"><?php echo $receita['recNome']; ?></h5>
                       <p class="card-text"><?php echo $receita['recDescricao']; ?></p>
-                      <p class="card-text">Saldo: <?php echo $receita['recValor']; ?></p>
+                      <p class="card-text">Situação: <?php echo $receita['recSituacao']; ?></p>
+                      <p class="card-text">Valor: <?php echo $receita['recValor']; ?></p>
                       <p class="card-text">Categoria: <?php echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada';
                                                       $catNome = $nomeCategoria[$index]['catNome'];
                                                       ?></p>
                       <p class="card-text">Data: <?php echo $receita['recData']; ?></p>
                     </div>
                     <div class="icon-card">
-                      <a href="receitas.php?id_rec=<?php echo $dadosReceitas[$index]['idReceita']; ?>">
+                      <a href="receitas.php?id_rec=<?php echo $dadosReceitas[$index]['recId']; ?>">
                         <i class="bi bi-pencil-square m-3"></i>
                       </a>
-                      <a href="../php/deletar_receita.php?idReceita=<?php echo $dadosReceitas[$index]['idReceita']; ?>" onclick="return confirm('Você realmente quer excluir essa receita?')">
+                      <a href="../model/deletar_receita.php?idReceita=<?php echo $dadosReceitas[$index]['recId']; ?>" onclick="return confirm('Você realmente quer excluir essa receita?')">
                         <i class="bi bi-trash3 mx-3"></i>
                       </a>
                     </div>
@@ -121,7 +124,7 @@ if (count($dadosReceitas) > 0) {
   <!-- dialog adicionar -->
   <dialog id="modalAdicionar">
     <div class="container">
-      <form class="row g-3" action="../php/add_receitas.php" method="post">
+      <form class="row g-3" action="../model/add_receitas.php" method="post">
 
         <h4>Adicionar receita</h4>
         <div class="col-12 col-md-6">
@@ -134,9 +137,19 @@ if (count($dadosReceitas) > 0) {
           <textarea name="descricao" id="" placeholder="Descrição" class="form-control"></textarea>
         </div>
 
+        
+        <div class="col-12 col-md-2">
+          <label>Situação</label>
+          <select name="situacao" id="situacao" class="form-control" required>
+            <option value="">Selecione</option>
+            <option value="Recebido">Recebido</option>
+            <option value="Pendente">Pendente</option>
+          </select>
+        </div>
+
         <div class="col-6 col-md-4">
-          <label>Saldo</label>
-          <input type="number" name="saldo" placeholder="Saldo" class="form-control" required>
+          <label>Valor</label>
+          <input type="number" name="valor" placeholder="Valor" class="form-control" required>
         </div>
 
         <div class="col-8 col-md-4">
@@ -172,7 +185,7 @@ if (count($dadosReceitas) > 0) {
   <!-- dialog alterar -->
   <dialog id="modalAlterar">
     <div class="container">
-      <form class="row g-3" action="../php/alterar_receitas.php?id_update=<?php echo $resReceitaUpdate['idReceita']; ?>" method="post">
+      <form class="row g-3" action="../model/alterar_receitas.php?id_update=<?php echo $resReceitaUpdate['recId']; ?>" method="post">
 
         <h4>Alterar receita</h4>
         <req class="col-12 col-md-8">
@@ -189,9 +202,24 @@ if (count($dadosReceitas) > 0) {
                                                                               } ?></textarea>
     </div>
 
+    <div class="col-12 col-md-4">
+          <label>Situação</label>
+          <select name="situacao" id="situacao" class="form-control" required>
+            <option value="<?php if (isset($resReceitaUpdate)) {
+                                                                                          echo $resReceitaUpdate['recSituacao'];
+                                                                                        } ?>">
+                                                                                        <?php if (isset($resReceitaUpdate)) {
+                                                                                          echo $resReceitaUpdate['recSituacao'];
+                                                                                        } ?>
+                                                                                        </option>
+            <option value="Recebido">Recebido</option>
+            <option value="Pendente">Pendente</option>
+          </select>
+        </div>
+
     <div class="col-6 col-md-4">
-      <label>Saldo</label>
-      <input type="number" name="saldo" placeholder="Saldo" class="form-control" value="<?php if (isset($resReceitaUpdate)) {
+      <label>Valor</label>
+      <input type="number" name="valor" placeholder="Valor" class="form-control" value="<?php if (isset($resReceitaUpdate)) {
                                                                                           echo $resReceitaUpdate['recValor'];
                                                                                         } ?>" required>
     </div>
@@ -200,7 +228,7 @@ if (count($dadosReceitas) > 0) {
       <label>Categoria</label>
       <select name="categoria" id="categoria" class="form-control" required>
         <option value="<?php if (isset($resReceitaUpdate)) {
-                          echo $resReceitaUpdate['recIdCategoria'];
+                          echo $resReceitaUpdate['catId'];
                         } ?>"><?php if (isset($resReceitaUpdate)) {
                                                                                                             echo $resReceitaUpdate['catNome'];
                                                                                                           } ?></option>
@@ -210,7 +238,7 @@ if (count($dadosReceitas) > 0) {
         $categoriasStmt->execute();
         $categorias = $categoriasStmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($categorias as $categoria) {
-          echo '<option value="' . $categoria['idCategoria'] . '">' . $categoria['catNome'] . '</option>';
+          echo '<option value="' . $categoria['catId'] . '">' . $categoria['catNome'] . '</option>';
         }
         ?>
       </select>
