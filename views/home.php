@@ -1,11 +1,9 @@
 <?php
-require_once '../model/classe_despesa.php';
-require_once '../model/classe_receita.php';
-require_once '../model/classe_categoria.php';
-$classeDespesa = new Despesa();
-$classeReceita = new Receita();
+require_once '../model/classeCentroCusto.php';
+require_once '../model/classeCategoria.php';
+$classeCentroCusto = new CentroCusto();
 $classeCategoria = new Categoria();
-$princDespesas = $classeDespesa->principaisDespesas();
+$princDespesas = $classeCentroCusto->principaisDespesas();
 
 //Se existe despesa
 if (count($princDespesas) > 0) {
@@ -20,10 +18,10 @@ require_once '../model/validador_acesso.php';
 $usuario = $_SESSION['usuario'];
 
 // Calcula o total das despesas
-$totalDespesas = array_sum(array_column($classeDespesa->buscarDespesas(), 'desValor'));
+$totalDespesas = array_sum(array_column($classeCentroCusto->buscarDespesas(), 'desValor'));
 
 // Calcula o total das receitas
-$totalReceitas = array_sum(array_column($classeReceita->buscarReceitas(), 'recValor'));
+$totalReceitas = array_sum(array_column($classeCentroCusto->buscarReceitas(), 'recValor'));
 
 $historicoPatrimonio = [];
 $patrimonio = $totalReceitas - $totalDespesas;
@@ -57,11 +55,11 @@ $historicoPatrimonio[] = $patrimonio;
 <body>
   <div class="row g-3 m-0">
     <!-- navbar lateral -->
-    <?php require_once '../utils/navbar_lateral.php' ?>
+    <?php require_once '../utils/navbarLateral.php' ?>
 
     <div class="col-10">
       <!-- user icon, navbar mobile e as notificações -->
-      <?php require_once '../utils/navbar_mobile.php' ?>
+      <?php require_once '../utils/header.php' ?>
 
       <div class="container mt-3 mb-5">
         <form class="d-flex" role="search">
@@ -79,7 +77,7 @@ $historicoPatrimonio[] = $patrimonio;
           </div>
           <div class="col-6">
             <img
-              src="../img/pessoa_acenando_sem_fundo.png"
+              src="../assets/images/pessoa_acenando_sem_fundo.png"
               alt="pessoa acenando"
               class="img-fluid" />
           </div>

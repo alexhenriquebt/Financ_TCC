@@ -9,7 +9,7 @@
   }
 /* estilo geral */
 * {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -33,41 +33,9 @@ a, .bi {
     margin-bottom: 30px;
 }
 
-.card-despesa:hover {
-    animation: ampliar 0s linear forwards;
-}
-
-.card-receita:hover {
-    animation: ampliar 0s linear forwards;
-    
-}
-
-.card-despesa {
+.container-estilizado {
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-}
-
-.card-receita {
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    
-}
-
-.orcContainer {
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    border-radius: 10px;
-    padding: 10px;
-}
-
-.orcContainer:hover {
-    cursor: pointer;
-    animation: ampliar 0s linear forwards;
-
-}
-
-/* Dialog - conteúdo oculto */
-dialog {
-    border: 1px solid gray;
-    margin-top: 10px;
-    width: 70vw;
+    padding: 20px;
 }
 
 /* modificações para telas menores que 768px */
@@ -77,11 +45,6 @@ dialog {
     }
 
     .tela-final {
-        display: none;
-    }
-
-    /* tira os icones editar e excluir do bloco 4 - orçamentos */
-    tr td a {
         display: none;
     }
 

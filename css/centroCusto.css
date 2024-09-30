@@ -11,7 +11,7 @@
 
 /* estilo geral */
 * {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -29,15 +29,6 @@ a,
     color: rgb(218, 100, 22);
 }
 
-/* BLOCO RECEITAS */
-.add-icon {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    text-decoration: none;
-    font-size: xx-large;
-}
-
 .card-body {
     display: flex;
     flex-direction: column;
@@ -48,10 +39,13 @@ a,
     animation: ampliar 0ms linear forwards;
 }
 
-.icon-card {
-    display: flex;
-    justify-self: flex-end;
-    align-self: flex-end;
+.card-direita {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    margin: 30px;
+}
+
+.container-estilizado {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 /* DIALOG */

@@ -5,7 +5,7 @@ $base_url = dirname($_SERVER["PHP_SELF"]);
 $base_url = rtrim($base_url, '/view');
 ?>
 
-<link rel="stylesheet" href="../css/navbar_lateral.css">
+<link rel="stylesheet" href="../css/navbarLateral.css">
 
 <!-- volume para dar espaçamento -->
 <div class="col-2 navbar-lateral-fantasma">
@@ -27,42 +27,22 @@ $base_url = rtrim($base_url, '/view');
     </div>
     <div class="col-12">
       <a
-        href="<?php echo $base_url; ?>/orcamentos.php"
+        href="<?php echo $base_url; ?>/centroCusto.php"
         data-bs-toggle="popover"
         data-bs-trigger="hover focus"
-        data-bs-content="Visualize e gerencie seus orçamentos">
-        <i class="bi bi-cash-coin"></i>
-        <p>Orçamentos</p>
-      </a>
-    </div>
-    <div class="col-12">
-      <a
-        href="<?php echo $base_url; ?>/despesas.php"
-        data-bs-toggle="popover"
-        data-bs-trigger="hover focus"
-        data-bs-content="Visualize e gerencie suas despesas">
+        data-bs-content="Visualize e gerencie suas contas">
         <i class="bi bi-graph-down-arrow"></i>
-        <p>Despesas</p>
+        <p>Centro de custo</p>
       </a>
     </div>
     <div class="col-12">
       <a
-        href="<?php echo $base_url; ?>/receitas.php"
+        href="<?php echo $base_url; ?>/metas.php"
         data-bs-toggle="popover"
         data-bs-trigger="hover focus"
-        data-bs-content="Visualize e gerencie suas receitas">
-        <i class="bi bi-graph-up-arrow"></i>
-        <p>Receitas</p>
-      </a>
-    </div>
-    <div class="col-12">
-      <a
-        href="<?php echo $base_url; ?>/objetivos.php"
-        data-bs-toggle="popover"
-        data-bs-trigger="hover focus"
-        data-bs-content="Defina objetivos para alcançar">
+        data-bs-content="Defina metas">
         <i class="bi bi-bullseye"></i>
-        <p>Objetivos</p>
+        <p>Metas</p>
       </a>
     </div>
     <div class="col-12">
