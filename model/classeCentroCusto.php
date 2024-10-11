@@ -1,5 +1,5 @@
 <?php
-class Receita
+class CentroCusto
 {
     private $pdo;
 
@@ -14,73 +14,201 @@ class Receita
         }
     }
 
-    public function buscarReceitas()
+    public function buscarCentroCusto($cenTipo)
     {
-        $res = [];
-        $cmd = $this->pdo->prepare("SELECT * FROM tblReceita WHERE usuId = :idu");
-        $cmd->bindValue(':idu', $_SESSION['idUsuario']);
+        $cmd = $this->pdo->prepare("SELECT * FROM tblCentroCusto cen JOIN tblDetCentroCusto det WHERE cen.cenTipo = :cenTipo AND det.usuId = :usuId AND cen.cenId = det.cenId");
+        $cmd->bindValue(':idu', $_SESSION['usuId']);
+        $cmd->bindValue('tipo', $cenTipo);
         $cmd->execute();
         $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
         return $res;
     }
 
-    public function buscarReceitasUpdate($idReceita)
+    public function exibirCategoria($cenId)
     {
         $res = [];
-        $cmd = $this->pdo->prepare("SELECT * FROM tblReceita r JOIN tblCategoria c ON r.catId = c.catId WHERE r.recId = :idr");
-        $cmd->bindValue(':idr', $idReceita);
+        $cmd = $this->pdo->prepare("SELECT * FROM tblCentroCusto cen JOIN tblCategoria cat WHERE cen.catId = cat.catId AND cen.cenId = :cenId");
+        $cmd->bindValue(':cenId', $cenId);
         $cmd->execute();
         $res = $cmd->fetch(PDO::FETCH_ASSOC);
         return $res;
     }
 
-    public function editarReceitas($idReceita, $idCategoria, $valor, $data, $descricao, $situacao, $nome)
+    public function editarCentroCusto($cenId, $catId, $cenValor, $vencimento, $cenDescricao, $cenTipo, $cenNome, $situacao)
     {
-        $cmd = $this->pdo->prepare("UPDATE tblReceita SET recNome = :nom, recDescricao = :de, recSituacao = :ress, recData = :dat, recValor = :val, catId = :idc WHERE recId = :idr");
-        $cmd->bindValue(':nom', $nome);
-        $cmd->bindValue(':de', $descricao);
-        $cmd->bindValue(':ress', $situacao);
-        $cmd->bindValue(':dat', $data);
-        $cmd->bindValue(':val', $valor);
-        $cmd->bindValue(':idc', $idCategoria);
-        $cmd->bindValue(':idr', $idReceita);
-        $cmd->execute();
-        $res = $cmd->fetch(PDO::FETCH_ASSOC);
-        return $res;
+        // Iniciar transação para garantir que todas as atualizações sejam feitas de forma atômica
+        $this->pdo->beginTransaction();
+    
+        try {
+            // Atualizar a tabela tblCentroCusto
+            $cmd = $this->pdo->prepare("
+                UPDATE tblCentroCusto 
+                SET cenNome = :nom, cenDescricao = :de, cenTipo = :tip, cenValor = :val, catId = :idc 
+                WHERE cenId = :idr
+            ");
+            $cmd->bindValue(':nom', $cenNome);
+            $cmd->bindValue(':de', $cenDescricao);
+            $cmd->bindValue(':tip', $cenTipo);
+            $cmd->bindValue(':val', $cenValor);
+            $cmd->bindValue(':idc', $catId);
+            $cmd->bindValue(':idr', $cenId);
+            $cmd->execute();
+    
+            // Buscar o decId relacionado ao cenId na tabela tblDetCentroCusto
+            $cmdDet = $this->pdo->prepare("SELECT decId FROM tblDetCentroCusto WHERE cenId = :cenId");
+            $cmdDet->bindValue(':cenId', $cenId);
+            $cmdDet->execute();
+            $detCentroCusto = $cmdDet->fetch(PDO::FETCH_ASSOC);
+    
+            if (!$detCentroCusto) {
+                throw new Exception("Nenhum Detalhe encontrado para este Centro de Custo.");
+            }
+    
+            $decId = $detCentroCusto['decId'];
+    
+            // Buscar o lanId relacionado ao decId na tabela tblLancamento
+            $cmdLancamento = $this->pdo->prepare("SELECT lanId FROM tblLancamento WHERE decId = :decId");
+            $cmdLancamento->bindValue(':decId', $decId);
+            $cmdLancamento->execute();
+            $lancamento = $cmdLancamento->fetch(PDO::FETCH_ASSOC);
+    
+            if (!$lancamento) {
+                throw new Exception("Nenhum Lançamento encontrado para este Detalhe de Centro de Custo.");
+            }
+    
+            $lanId = $lancamento['lanId'];
+    
+            // Atualizar a tabela tblLancamento
+            $cmdAtualizaLancamento = $this->pdo->prepare("
+                UPDATE tblLancamento 
+                SET lanVencimento = :vencimento, lanSituacao = :situacao 
+                WHERE lanId = :lanId
+            ");
+            $cmdAtualizaLancamento->bindValue(':vencimento', $vencimento);
+            $cmdAtualizaLancamento->bindValue(':situacao', $situacao);
+            $cmdAtualizaLancamento->bindValue(':lanId', $lanId);
+            $cmdAtualizaLancamento->execute();
+    
+            // Buscar o hceId relacionado ao lanId na tabela tblHisCentroCusto
+            $cmdHisCentroCusto = $this->pdo->prepare("SELECT hceId FROM tblHisCentroCusto WHERE lanId = :lanId");
+            $cmdHisCentroCusto->bindValue(':lanId', $lanId);
+            $cmdHisCentroCusto->execute();
+            $hisCentroCusto = $cmdHisCentroCusto->fetch(PDO::FETCH_ASSOC);
+    
+            if (!$hisCentroCusto) {
+                throw new Exception("Nenhum Histórico de Centro de Custo encontrado para este Lançamento.");
+            }
+    
+            $hceId = $hisCentroCusto['hceId'];
+    
+            // Atualizar o campo hceUltimoRegistro na tabela tblHisCentroCusto com a data/hora atual
+            $cmdAtualizaHisCentroCusto = $this->pdo->prepare("
+                UPDATE tblHisCentroCusto 
+                SET hceUltimoRegistro = NOW() 
+                WHERE hceId = :hceId
+            ");
+            $cmdAtualizaHisCentroCusto->bindValue(':hceId', $hceId);
+            $cmdAtualizaHisCentroCusto->execute();
+    
+            // Se tudo correr bem, commit na transação
+            $this->pdo->commit();
+        } catch (Exception $e) {
+            // Em caso de erro, rollback para desfazer as alterações
+            $this->pdo->rollBack();
+            throw new Exception("Erro ao atualizar o Centro de Custo: " . $e->getMessage());
+        }
+        return true;
+    }
+    
+    
+
+    public function adicionarCentroCusto($nome, $descricao, $tipo, $valor, $idCategoria, $vencimento, $situacao, $forma)
+    {
+        try {
+            // Inicia a transação
+            $this->pdo->beginTransaction();
+
+            // Insere na tabela tblCentroCusto
+            $stmt1 = $this->pdo->prepare("INSERT INTO tblCentroCusto (cenNome, cenDescricao, cenTipo, cenValor, catId) 
+                                          VALUES (:cenNome, :cenDescricao, :cenTipo, :cenValor, :catId)");
+            $stmt1->execute([
+                ':cenNome' => $nome,
+                ':cenDescricao' => $descricao,
+                ':cenTipo' => $tipo,
+                ':cenValor' => $valor,
+                ':catId' => $idCategoria
+            ]);
+            // Captura o ID gerado na tblCentroCusto
+            $cenId = $this->pdo->lastInsertId();
+
+            // Insere na tabela tblDetCentroCusto
+            $stmt2 = $this->pdo->prepare("INSERT INTO tblDetCentroCusto (cenId, usuId) 
+                                          VALUES (:cenId, :usuId)");
+            $stmt2->execute([
+                ':cenId' => $cenId,
+                ':usuId' => $_SESSION['usuId']
+            ]);
+            // Captura o ID gerado na tblDetCentroCusto
+            $decId = $this->pdo->lastInsertId();
+
+            // Insere na tabela tblLancamento
+            $stmt3 = $this->pdo->prepare("INSERT INTO tblLancamento (lanVencimento, lanSituacao, lanForma, decId) 
+                                          VALUES (:lanVencimento, :lanSituacao, :lanForma, :decId)");
+            $stmt3->execute([
+                ':lanVencimento' => $vencimento,
+                ':lanSituacao' => $situacao,
+                ':lanForma' => $forma,
+                ':decId' => $decId
+            ]);
+            // Captura o ID gerado na tblLancamento
+            $lanId = $this->pdo->lastInsertId();
+
+            // Insere na tabela tblHisCentroCusto
+            $stmt4 = $this->pdo->prepare("INSERT INTO tblHisCentroCusto (hceUltimoRegistro, lanId) 
+                                          VALUES (NOW(), :lanId)");
+            $stmt4->execute([
+                ':lanId' => $lanId
+            ]);
+
+            // Finaliza a transação
+            $this->pdo->commit();
+
+            echo "Dados inseridos com sucesso!";
+        } catch (Exception $e) {
+            // Em caso de erro, desfaz todas as inserções
+            $this->pdo->rollBack();
+            echo "Erro ao inserir os dados: " . $e->getMessage();
+        }
     }
 
-    public function adicionarReceita($nome, $descricao, $situacao, $data, $valor, $idUsuario, $idCategoria)
+    public function excluirCentroCusto($cenId)
     {
-        $sql = "INSERT INTO tblReceita(recNome, recDescricao, recSituacao, recData, recValor, usuId, catId) VALUES (:nom, :de, :sit, :dat, :val, :idu, :idc)";
-        $cmd = $this->pdo->prepare($sql);
-        $cmd->bindValue(':nom', $nome);
-        $cmd->bindValue(':de', $descricao);
-        $cmd->bindValue(':sit', $situacao);
-        $cmd->bindValue(':dat', $data);
-        $cmd->bindValue(':val', $valor);
-        $cmd->bindValue(':idu', $idUsuario);
-        $cmd->bindValue(':idc', $idCategoria);
+        $cmd = $this->pdo->prepare("DELETE FROM tblCentroCusto WHERE cenId = :cenId");
+        $cmd->bindValue('cenId', $cenId);
         $cmd->execute();
     }
 
-    public function excluirReceita($idReceita)
+    
+    public function filtrarCentroCusto($cenTipo, $lanVencimento)
     {
-        $sql = "DELETE FROM tblReceita WHERE usuId = :idu and recId = :idr";
-        $cmd = $this->pdo->prepare($sql);
-        $cmd->bindValue(':idu', $_SESSION['idUsuario']);
-        $cmd->bindValue(':idr', $idReceita);
-        $cmd->execute();
-        header("Location: ../views/receitas.php");
-    }
-
-    public function principaisReceitas()
-    {
-       $sql = "SELECT * FROM tblReceita WHERE usuId = :idu ORDER BY recValor DESC LIMIT 3";
-       $cmd = $this->pdo->prepare($sql);
-       $cmd->bindValue(':idu', $_SESSION['idUsuario']);
-       $cmd->execute();
-       $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
-       return $res;
-       
+        $cmd = $this->pdo->prepare("
+        SELECT * FROM tblCentroCusto cen 
+        JOIN tblDetCentroCusto dece
+        JOIN tblHisCentroCusto hce 
+        JOIN tblLancamento lan 
+        WHERE cen.cenTipo = :cenTipo
+        AND dece.usuId = :usuId
+        AND lan.lanVencimento = :lanVencimento
+        AND cen.cenId = dece.cenId 
+        AND hce.lanId = lan.lanId
+        AND lan.decId = dece.decId;
+    ");
+    $cmd->bindValue(':cenTipo', $cenTipo);
+    $cmd->bindValue(':usuId', $_SESSION['usuId']);
+    $cmd->bindValue(':lanVencimento', $lanVencimento);
+    $cmd->execute();
+    $resultados = $cmd->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $resultados; 
     }
 }

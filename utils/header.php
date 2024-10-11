@@ -3,7 +3,7 @@ $base_url = rtrim(dirname($_SERVER["PHP_SELF"]), '/view');
 $page_name = basename($_SERVER["PHP_SELF"], ".php");
 
 $titulos_paginas = [
-    "contas" => "Contas",
+    "centroCusto" => "Centro custo",
     "relatorios" => "Relatórios",
     "configuracoes" => "Configurações",
     "ajuda" => "Ajuda"
@@ -12,7 +12,7 @@ $titulos_paginas = [
 $titulo = $titulos_paginas[$page_name] ?? ucfirst($page_name);
 
 ?>
-<link rel="stylesheet" href="../css/navbar_mobile.css">
+<link rel="stylesheet" href="../css/header.css">
 <header>
     <div class="container">
         <div class="row">
@@ -32,7 +32,7 @@ $titulo = $titulos_paginas[$page_name] ?? ucfirst($page_name);
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/home.php">Home</a></li>
-                            <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/contas.php">Contas</a></li>
+                            <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/centroCusto.php">Centro custo</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/relatorios.php">Relatórios</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/configuracoes.php">Configurações</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/ajuda.php">Ajuda</a></li>

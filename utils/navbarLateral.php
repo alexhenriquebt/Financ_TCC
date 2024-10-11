@@ -21,7 +21,7 @@ $base_url = rtrim($base_url, '/view');
         data-bs-toggle="popover"
         data-bs-trigger="hover focus"
         data-bs-content="Voltar para a tela inicial">
-        <img src="../img/icon_title.png" alt="" class="img-fluid" />
+        <img src="../assets/images/iconTituloPg.png" alt="" class="img-fluid" />
         <p>Home</p>
       </a>
     </div>

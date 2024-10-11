@@ -1,13 +1,39 @@
 <?php
-require_once 'classe_despesa.php';
-$despesa = new Despesa();
-$id_despesa = addslashes($_GET['id_update']);
-$id_categoria = addslashes($_POST['categoria']);
-$valor = addslashes($_POST['valor']);
-$data = addslashes($_POST['data']);
-$descricao = addslashes($_POST['descricao']);
-$situacao = addslashes($_POST['situacao']);
-$nome = addslashes($_POST['nome']);
+require_once 'classeCentroCusto.php';
 
-$despesa->editarDespesas($id_despesa, $id_categoria, $valor, $data, $descricao, $situacao, $nome);
-header('Location: ../views/despesas.php');
+$centroCusto = new CentroCusto();
+
+// Usar filter_input para evitar vulnerabilidades de segurança
+$cenId = filter_input(INPUT_GET, 'id_update', FILTER_SANITIZE_NUMBER_INT);
+$catId = filter_input(INPUT_POST, 'categoria', FILTER_SANITIZE_NUMBER_INT);
+$cenValor = filter_input(INPUT_POST, 'valor', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+$vencimento = filter_input(INPUT_POST, 'vencimento', FILTER_SANITIZE_STRING);
+$cenDescricao = filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$situacao = filter_input(INPUT_POST, 'situacao', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$cenNome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+// Valida se os campos obrigatórios foram preenchidos
+if (!$cenId || !$catId || !$cenValor || !$vencimento || !$cenNome || !$situacao) {
+    // Redireciona com erro ou exibe mensagem de erro
+    die('Por favor, preencha todos os campos obrigatórios.');
+}
+
+// Chamar o método para editar o centro de custo
+$result = $centroCusto->editarCentroCusto(
+    $cenId,
+    $catId,
+    $cenValor,
+    $vencimento,
+    $cenDescricao,
+    $cenTipo,
+    $cenNome,
+    $situacao
+);
+
+// Verificar se a edição foi bem-sucedida e redirecionar ou exibir mensagem de erro
+if ($result) {
+    header('Location: ../views/centroCusto.php');
+    exit(); // Certificar-se de que o script para aqui
+} else {
+    die('Erro ao atualizar o centro de custo.');
+}

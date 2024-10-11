@@ -1,5 +1,4 @@
 <?php
-require_once "classe_usuario.php";
+require_once "classeUsuario.php";
 $usuario = new Usuario();
-
 $usuario->excluirConta();

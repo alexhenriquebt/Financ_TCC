@@ -14,23 +14,23 @@ class Categoria
         }
     }
 
-    public function buscarCategorias($idCategoria)
+    public function buscarCategorias($catId)
     {
-        $cmd = $this->pdo->prepare("SELECT * FROM tblCategoria WHERE catId = :c");
-        $cmd->bindValue(':c', $idCategoria);
+        $cmd = $this->pdo->prepare("SELECT * FROM tblCategoria WHERE catId = :catId");
+        $cmd->bindValue(':catId', $catId);
         $cmd->execute();
         $res = $cmd->fetch(PDO::FETCH_ASSOC);
         return $res;
     }
 
-    public function buscarCategoriasAlterar($categoria)
+    public function buscarCategoriasAlterar($catNome)
     {
-        $sqlCat = "SELECT * FROM tblCategoria WHERE catNome = :c ";
+        $sqlCat = "SELECT * FROM tblCategoria WHERE catNome = :catNome ";
         $cmdCat = $this->pdo->prepare($sqlCat);
-        $cmdCat->bindValue(':c', $categoria);
+        $cmdCat->bindValue(':catNome', $catNome);
         $cmdCat->execute();
         $resultado = $cmdCat->fetch();
-        $idCategoria = $resultado[0];
-        return $idCategoria;
+        $catId = $resultado[0];
+        return $catId;
     }
 }

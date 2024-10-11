@@ -45,8 +45,7 @@ require_once '../model/validador_acesso.php';
 
   <!-- ------------------------- Framework fim ------------------------- -->
 
-  <link rel="stylesheet" href="../css/orcamento.css">
-  <link rel="shortcut icon" href="../img/icon_title.png">
+  <link rel="shortcut icon" href="../assets/images/iconTituloPg.png">
   <title>Seus objetivos</title>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -57,11 +56,11 @@ require_once '../model/validador_acesso.php';
 <body>
   <div class="row g-3 m-0">
     <!-- navbar lateral -->
-    <?php require_once '../utils/navbar_lateral.php' ?>
+    <?php require_once '../utils/navbarLateral.php' ?>
 
     <div class="col-10">
       <!-- user icon, navbar mobile e as notificações -->
-      <?php require_once '../utils/navbar_mobile.php' ?>
+      <?php require_once '../utils/header.php' ?>
 
       <div class="container">
         <div class="row g-5 mt-5">

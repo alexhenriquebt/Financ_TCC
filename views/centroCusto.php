@@ -1,32 +1,3 @@
-<?php
-/* require_once "../config/conexao.php";
-$conexao = novaConexao();
-
-require_once "../model/classe_despesa.php";
-require_once "../model/classe_categoria.php";
-$classeCategoria = new Categoria();
-$dadosDespesas = $classeDespesa->buscarDespesas();
-
-$nomeCategoria = [];
-for ($position = 0; $position < count($dadosDespesas); $position++) {
-  foreach ($dadosDespesas[$position] as $chave => $idCategoria) {
-    if ($chave == 'catId') {
-      $idCategoria = $classeCategoria->buscarCategorias($idCategoria);
-      $nomeCategoria[$position] = $idCategoria;
-    }
-  }
-}
-
-if (count($dadosDespesas) > 0) {
-  $mensagem = 'true';
-} else {
-  $mensagem = 'false';
-}
-
-require_once '../model/validador_acesso.php'; */
-?>
-
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -39,7 +10,7 @@ require_once '../model/validador_acesso.php'; */
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <link rel="stylesheet" href="../css/centroCusto.css" />
   <link rel="shortcut icon" href="../assets/images/iconTituloPg.png" />
-  <title>Gerencie suas contas</title>
+  <title>Gerencie suas despesas e receitas</title>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
@@ -98,15 +69,7 @@ require_once '../model/validador_acesso.php'; */
               <label>Categoria</label>
               <select name="categoria" id="categoria" class="form-control" required>
                 <option value="">Selecione</option>
-                <?php
-                // Obtém todas as categorias
-                $categoriasStmt = $conexao->prepare("SELECT * FROM tblCategoria");
-                $categoriasStmt->execute();
-                $categorias = $categoriasStmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($categorias as $categoria) {
-                  echo '<option value="' . $categoria['catNome'] . '">' . $categoria['catNome'] . '</option>';
-                }
-                ?>
+
               </select>
             </div>
     
@@ -122,14 +85,14 @@ require_once '../model/validador_acesso.php'; */
           </form>
           
           <?php
-          if (isset($_GET['id_des']) && !empty($_GET['id_des'])) {
-            $id_despesa = addslashes($_GET['id_des']);
-          $resDespesaUpdate = $classeDespesa->buscarDespesasUpdate($id_despesa);
+           if (isset($_GET['id_cen']) && !empty($_GET['id_cen'])) {
+            $id_ = addslashes($_GET['id_cen']);
+          $resCentroUpdate = $classeDespesa->buscarDespesasUpdate($id_despesa);
           $dialog = true;
         }
         ?>
 
-        <div class="">
+        <div class="mt-5">
           <?php
            require_once "../utils/filtro.php";
           ?>
@@ -249,31 +212,31 @@ require_once '../model/validador_acesso.php'; */
   <!-- dialog alterar -->
   <dialog id="modalAlterar">
     <div class="container">
-      <form class="row g-3" action="../model/alterar_despesas.php?id_update=<?php echo $resDespesaUpdate['desId']; ?>" method="post">
+      <form class="row g-3" action="../model/alterarCentroCusto.php?id_update=<?php echo $resDespesaUpdate['cenId']; ?>" method="post">
 
         <h4>Alterar despesa</h4>
         <req class="col-12 col-md-8">
           <label>Nome</label>
           <input type="text" name="nome" placeholder="Nome da despesa" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
-                                                                                                      echo $resDespesaUpdate['desNome'];
+                                                                                                      echo $resDespesaUpdate['cenNome'];
                                                                                                     } ?>" required>
     </div>
 
     <div class="col-12 col-md-12">
       <label>Descrição</label>
       <textarea name="descricao" placeholder="Descrição" class="form-control"><?php if (isset($resDespesaUpdate)) {
-                                                                                echo $resDespesaUpdate['desDescricao'];
+                                                                                echo $resDespesaUpdate['cenDescricao'];
                                                                               } ?></textarea>
     </div>
 
             <div class="col-12 col-md-4">
           <label>Situação</label>
           <select name="situacao" id="situacao" class="form-control" required>
-            <option value="<?php if (isset($resDespesaUpdate)) {
-                                                                                          echo $resDespesaUpdate['desSituacao'];
+            <option value="<?php if (isset($resCenreoUpdate)) {
+                                                                                          echo $resCentroUpdate['cenTipo'];
                                                                                         } ?>">
-                                                                                        <?php if (isset($resDespesaUpdate)) {
-                                                                                          echo $resDespesaUpdate['desSituacao'];
+                                                                                        <?php if (isset($resCentroUpdate)) {
+                                                                                          echo $resCentroUpdate['cenTipo'];
                                                                                         } ?>
                                                                                         </option>
             <option value="Pago">Pago</option>
@@ -283,18 +246,18 @@ require_once '../model/validador_acesso.php'; */
 
     <div class="col-6 col-md-4">
       <label>Valor</label>
-      <input type="number" name="valor" placeholder="Valor" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
-                                                                                          echo $resDespesaUpdate['desValor'];
+      <input type="number" name="valor" placeholder="Valor" class="form-control" value="<?php if (isset($resCentroUpdate)) {
+                                                                                          echo $resCentroUpdate['cenValor'];
                                                                                         } ?>" required>
     </div>
 
     <div class="col-8 col-md-6">
       <label>Categoria</label>
       <select name="categoria" id="categoria" class="form-control" required>
-        <option value="<?php if (isset($resDespesaUpdate)) {
-                          echo $resDespesaUpdate['catId'];
-                        } ?>"><?php if (isset($resDespesaUpdate)) {
-                                                                                                            echo $resDespesaUpdate['catNome'];
+        <option value="<?php if (isset($resCentroUpdate)) {
+                          echo $resCentroUpdate['catId'];
+                        } ?>"><?php if (isset($resCentroUpdate)) {
+                                                                                                            echo $resCentroUpdate['catNome'];
                                                                                                           } ?></option>
         <?php
         // Obtém todas as categorias
@@ -310,8 +273,8 @@ require_once '../model/validador_acesso.php'; */
 
     <div class="col-8 col-md-6">
       <label>Data</label>
-      <input type="date" name="data" class="form-control" value="<?php if (isset($resDespesaUpdate)) {
-                                                                    echo $resDespesaUpdate['desData'];
+      <input type="date" name="data" class="form-control" value="<?php if (isset($resCentroUpdate)) {
+                                                                    echo $resCentroUpdate['desData'];
                                                                   } ?>" required>
     </div>
 
@@ -324,9 +287,9 @@ require_once '../model/validador_acesso.php'; */
     <button class="btn btn-outline-danger mt-3" onclick="fecharModalAlterar()">Fechar</button>
   </dialog>
 
-  <script src="../js/limita_caractere.js"></script>
-  <script src="../js/modals.js"></script>
-  <script src="../js/popup_notificacoes.js"></script>
+  <script src="../js/limitaCaractere.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/popover.js"></script>
 </body>
 
 </html>

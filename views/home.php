@@ -3,10 +3,10 @@ require_once '../model/classeCentroCusto.php';
 require_once '../model/classeCategoria.php';
 $classeCentroCusto = new CentroCusto();
 $classeCategoria = new Categoria();
-$princDespesas = $classeCentroCusto->principaisDespesas();
+$princCentroCusto = $classeCentroCusto->principaisCentroCusto();
 
 //Se existe despesa
-if (count($princDespesas) > 0) {
+if (count($princCentroCusto) > 0) {
   $mensagemDespesa = 'true';
 } else {
   $mensagemDespesa = 'false';
@@ -18,10 +18,10 @@ require_once '../model/validador_acesso.php';
 $usuario = $_SESSION['usuario'];
 
 // Calcula o total das despesas
-$totalDespesas = array_sum(array_column($classeCentroCusto->buscarDespesas(), 'desValor'));
+$totalDespesas = array_sum(array_column($classeCentroCusto->buscarCentroCusto(), 'cenValor'));
 
 // Calcula o total das receitas
-$totalReceitas = array_sum(array_column($classeCentroCusto->buscarReceitas(), 'recValor'));
+$totalReceitas = array_sum(array_column($classeCentroCusto->buscarCentroCusto(), 'cenValor'));
 
 $historicoPatrimonio = [];
 $patrimonio = $totalReceitas - $totalDespesas;
@@ -43,7 +43,7 @@ $historicoPatrimonio[] = $patrimonio;
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <link rel="stylesheet" href="../css/home.css" />
-  <link rel="shortcut icon" href="../img/icon_title.png" />
+  <link rel="shortcut icon" href="../assets/images/iconTituloPg.png" />
   <title>Home</title>
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -77,7 +77,7 @@ $historicoPatrimonio[] = $patrimonio;
           </div>
           <div class="col-6">
             <img
-              src="../assets/images/pessoa_acenando_sem_fundo.png"
+              src="../assets/images/pessoaAcenandoSemFundo.png"
               alt="pessoa acenando"
               class="img-fluid" />
           </div>

@@ -1,9 +1,21 @@
 <?php
 
-require_once "classe_receita.php";
-$receitas = new Receita();
+require_once "classeCentroCusto.php";
+$centroCusto = new CentroCusto();
 
-if (isset($_GET['idReceita'])) {
-    $idReceita = addslashes($_GET['idReceita']);
-    $receitas->excluirReceita($idReceita);
+if (!isset($_GET['cenId'])) {
+    die('Parâmetro ID não fornecido.');
+}
+
+// Sanitiza a entrada para garantir que é um número inteiro
+$cenId = filter_input(INPUT_GET, 'cenId', FILTER_SANITIZE_NUMBER_INT);
+
+if ($cenId === null || $cenId === false) {
+    die('ID inválido. Por favor, forneça um ID válido para exclusão.');
+}
+if ($centroCusto->excluirCentroCusto($cenId)) {
+    header('Location: ../views/centroCusto.php');
+    exit();
+} else {
+    die('Erro ao excluir o centro de custo. Por favor, tente novamente.');
 }

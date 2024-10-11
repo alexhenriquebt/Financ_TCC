@@ -15,7 +15,7 @@ if (!empty($_SESSION['usuario'])) {
 	<link rel="stylesheet" href="../css/entrar_cadastrar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-	<link rel="shortcut icon" href="../img/icon_title.png">
+	<link rel="shortcut icon" href="../assets/images/iconTituloPg.png">
 	<title>Cadastrar</title>
 	</head>
 
@@ -25,7 +25,7 @@ if (!empty($_SESSION['usuario'])) {
 			<div class="row">
 				<!-- ------------------------- Imagem da REGISTRAR ------------------------- -->
 				<div class="col-12 col-md-6 bloco-img-login">
-					<img class="img-fluid h-100" src="../img/img_login.png" alt="ícone com gráficos - remetendo a finanças">
+					<img class="img-fluid h-100" src="../assets/images/imgLogin.png" alt="ícone com gráficos - remetendo a finanças">
 					<div class="">
 						<a class="btn-wrap" href="entrar.php"><button class="btn btn-danger w-50">Tem uma conta? Clique aqui</button></a>
 					</div>
@@ -37,7 +37,7 @@ if (!empty($_SESSION['usuario'])) {
 				<div class="col-12 col-md-6 bloco-entrar">
 					<div class="card_entrar">
 						<h2 class="text-center">Cadastrar</h2>
-						<form action="../model/registra_usuario.php" class="form" method="post">
+						<form action="../model/registrarUsuario.php" class="form" method="post">
 							<div class="text-center p-2 ">
 								<input type="text" class="box w-100" name="nome" placeholder="Seu nome" required>
 							</div>
@@ -52,7 +52,7 @@ if (!empty($_SESSION['usuario'])) {
 							</div>
 							<?php
 							//Validação do email
-							if (isset($_GET['cadastro']) && ($_GET['cadastro'] == 'erro')) { 
+							if (isset($_GET['cadastro']) && ($_GET['cadastro'] == 'emailExistente')) { 
 								
 								?>
 								<!-- ------------------------- Mensagem de validação ------------------------- -->
@@ -63,6 +63,22 @@ if (!empty($_SESSION['usuario'])) {
 									alert('Este email já está cadastrado!')
 								</script>
 								<!-- ------------------------- Mensagem de validação fim ------------------------- -->
+							<?php
+							}
+							?>
+							<?php
+							//Validação do email
+							if (isset($_GET['cadastro']) && ($_GET['cadastro'] == 'dadosIncorretos')) { 
+								
+								?>
+								<!-- ------------------------- Mensagem de erro ------------------------- -->
+								<div class="text-center">
+									Dados incorretos!
+								</div>
+								<script>
+									alert('Dados incorretos!')
+								</script>
+								<!-- ------------------------- Mensagem de erro------------------------- -->
 							<?php
 							}
 							?>

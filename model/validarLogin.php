@@ -1,21 +1,42 @@
 <?php
-//conecta com o banco de dados
-require_once "classe_usuario.php";
+session_start();
+
+// Conecta com a classeUsuario.php
+require_once "classeUsuario.php";
 $usuario = new Usuario();
-$cmd = $usuario->loginConsulta();
-$dadosUser = $usuario->loginResultado();
 
-if ($cmd->rowCount() == 1) {
-    $usuarioInfo = $dadosUser[1];
-    $_SESSION['email'] = $dadosUser[2];
-    $_SESSION['senha'] = $dadosUser[3];
-    $_SESSION['idUsuario'] = $dadosUser[0];
-    $_SESSION['telefone'] = $dadosUser[4];
-    $_SESSION['usuario'] = $usuarioInfo;
-    $_SESSION['logado'] = 'sim';
-    header('Location: ../views/home.php');
-} else {
+// Sanitiza e valida os dados do formulário
+$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+$senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
+
+// Verifica se os campos de e-mail e senha foram preenchidos corretamente
+if ($email && $senha) 
+{
+    $dadosUser = $usuario->loginResultado($email, $senha);
+
+    if ($dadosUser) 
+    {
+        $_SESSION['email'] = $dadosUser['usuEmail'];
+        $_SESSION['idUsuario'] = $dadosUser['usuId'];
+        $_SESSION['telefone'] = $dadosUser['usuTelefone'];
+        $_SESSION['usuario'] = $dadosUser['usuNome'];
+        $_SESSION['logado'] = 'sim';
+        header('Location: ../views/home.php');
+        exit();
+    } 
+    else 
+    {
+        // Senha ou email incorretos
+        $_SESSION['logado'] = 'nao';
+        header('Location: ../views/entrar.php?login=erro');
+        exit();
+    }
+    
+} 
+else 
+{
+    // Campos não preenchidos corretamente
     $_SESSION['logado'] = 'nao';
-
     header('Location: ../views/entrar.php?login=erro');
+    exit();
 }
