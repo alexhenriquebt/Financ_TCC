@@ -31,6 +31,7 @@ body {
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
+	width: 100vw;
 	margin: 0px;
 }
 
@@ -56,7 +57,7 @@ body {
 
 .fundo {
 	border-radius: 20px;
-	box-shadow: 20px 20px 30px rgb(160, 159, 159);
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 	background-image: linear-gradient(to left, rgb(253, 136, 59), rgb(255, 161, 98), #ffd18b);
 	display: flex;
 	justify-content: center;
@@ -64,6 +65,10 @@ body {
 }
 
 .card_entrar {
+	padding: 15px;
+}
+
+.cardRecuperar {
 	padding: 15px;
 }
 
@@ -102,9 +107,9 @@ img {
 
 .btn-voltar {
 	border-radius: 50px;
-	width: 70px;
-	height: 70px;
-	box-shadow: 20px 20px 30px rgb(160, 159, 159);
+	width: 50px;
+	height: 50px;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -125,5 +130,12 @@ img {
 	.bloco-img-login {
 		display: none;
 	}
+}
 
+@media screen and (min-width: 765px) {
+	.cardRecuperar {
+		padding: 15px;
+		width: 400px;
+		height: 380px;
+	}
 }

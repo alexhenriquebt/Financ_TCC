@@ -22,15 +22,31 @@ class Usuario
         $cmd->bindValue(':email', $email);
         $cmd->execute();
         $usuario = $cmd->fetch(PDO::FETCH_ASSOC);
-    
+
         // Verificar a senha com o hash armazenado
         if ($usuario && password_verify($senha, $usuario['usuSenha'])) {
             return $usuario; // Login correto, retorna dados do usuário
         }
-    
+
         return false; // Login incorreto
     }
-    
+
+    public function consultaEmail($email)
+    {
+        // Consulta se o e-mail já está registrado no banco de dados
+        $consulta = "SELECT * FROM tblUsuario WHERE usuEmail = :e";
+        $cmd = $this->pdo->prepare($consulta);
+        $cmd->bindValue(':e', $email);
+        $cmd->execute();
+
+        // Verifica se o e-mail já existe na tblUsuario
+        if ($cmd->rowCount() > 0) {
+            $resultado = 'existe';
+        } else {
+            $resultado = '';
+        }
+        return $resultado;
+    }
 
     public function registrarUsuario($nome, $email, $senhaHash)
     {
@@ -39,7 +55,7 @@ class Usuario
         $cmd = $this->pdo->prepare($consulta);
         $cmd->bindValue(':e', $email);
         $cmd->execute();
-    
+
         // Verifica se o e-mail já existe na tblUsuario
         if ($cmd->rowCount() > 0) {
             // Redireciona para a página de cadastro com erro se o e-mail já estiver em uso
@@ -53,27 +69,27 @@ class Usuario
             $stmt->bindValue(':e', $email);
             $stmt->bindValue(':s', $senhaHash);
             $stmt->execute();
-    
+
             // Consulta o nome do usuário registrado
             $sqlConsulta = "SELECT * FROM tblUsuario WHERE usuEmail = :e";
             $consultaNome = $this->pdo->prepare($sqlConsulta);
             $consultaNome->bindValue(':e', $email);
             $consultaNome->execute();
             $dados = $consultaNome->fetch();
-    
+
             // Iniciar a sessão com as informações do usuário logado
             $_SESSION['usuId'] = $dados['usuId'];
             $_SESSION['email'] = $email;
             $_SESSION['usuario'] = $dados['usuNome'];
             $_SESSION['telefone'] = $dados['usuTelefone'];
             $_SESSION['logado'] = 'sim';
-    
+
             // Redireciona o usuário para a página home
             header('Location: ../views/home.php');
             exit();
         }
     }
-    
+
     public function alterarInformacoes($nome, $email, $telefone, $senhaHash)
     {
         // Verificar se o email já está em uso
