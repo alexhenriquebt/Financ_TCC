@@ -30,6 +30,9 @@ $titulo = $titulos_paginas[$page_name] ?? ucfirst($page_name);
                         <button style="border: none; background-color: white;" data-bs-toggle="popover" data-bs-title="Notificações" data-bs-content="Sem notificações" data-bs-placement="bottom">
                             <i class="bi bi-bell-fill"></i>
                         </button>
+                        <button type="button" class="btn-dropdown" data-bs-toggle="dropdown">
+                            <i class="bi bi-eye"></i>
+                        </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/home.php">Home</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/centroCusto.php">Centro custo</a></li>

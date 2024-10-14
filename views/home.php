@@ -1,32 +1,32 @@
-<?php
-require_once '../model/classeCentroCusto.php';
-require_once '../model/classeCategoria.php';
-$classeCentroCusto = new CentroCusto();
-$classeCategoria = new Categoria();
-$princCentroCusto = $classeCentroCusto->principaisCentroCusto();
+ <?php
+//require_once '../model/classeCentroCusto.php';
+//require_once '../model/classeCategoria.php';
+//$classeCentroCusto = new CentroCusto();
+//$classeCategoria = new Categoria();
+//$princCentroCusto = $classeCentroCusto->princCentroCusto();
 
 //Se existe despesa
-if (count($princCentroCusto) > 0) {
-  $mensagemDespesa = 'true';
-} else {
-  $mensagemDespesa = 'false';
-}
+//if (count($princCentroCusto) > 0) {
+//  $mensagemDespesa = 'true';
+//} else {
+//  $mensagemDespesa = 'false';
+//}
 
 // valida o acesso do usuário!
-require_once '../model/validador_acesso.php';
+//require_once '../model/validador_acesso.php';
 //pega o nome do usuário
-$usuario = $_SESSION['usuario'];
+//$usuario = $_SESSION['usuario'];
 
 // Calcula o total das despesas
-$totalDespesas = array_sum(array_column($classeCentroCusto->buscarCentroCusto(), 'cenValor'));
+//$totalDespesas = array_sum(array_column($classeCentroCusto->buscarDespesas(), 'cenValor'));
 
 // Calcula o total das receitas
-$totalReceitas = array_sum(array_column($classeCentroCusto->buscarCentroCusto(), 'cenValor'));
+//$totalReceitas = array_sum(array_column($classeCentroCusto->buscarReceitas(), 'cenValor'));
 
-$historicoPatrimonio = [];
-$patrimonio = $totalReceitas - $totalDespesas;
-$historicoPatrimonio[] = $patrimonio;
-?>
+//$historicoPatrimonio = [];
+//$patrimonio = $totalReceitas - $totalDespesas;
+//$historicoPatrimonio[] = $patrimonio;
+//?> 
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -72,7 +72,7 @@ $historicoPatrimonio[] = $patrimonio;
           <div class="col-6">
             <p>
               Oi,
-              <?php echo $usuario ?>
+              <!-- <?php echo $usuario ?> -->
             </p>
           </div>
           <div class="col-6">
@@ -87,9 +87,9 @@ $historicoPatrimonio[] = $patrimonio;
         <div class="bloco-saudacoes-mobile">
           <p class="display-6">
             Oi,
-            <?php
+            <!-- <?php
             echo $usuario
-            ?>
+            ?> -->
           </p>
         </div>
         <!-- -------- Bloco de saudações para mobile --------- -->
@@ -97,75 +97,72 @@ $historicoPatrimonio[] = $patrimonio;
 
       <div class="container p-5">
         <div class="row">
-          <div class="col-12 col-md-6">
-            <!-- gráfico de linha início-->
+          <!-- <div class="col-12 col-md-6">
+             gráfico de linha início
             <div class="grafico-barra">
               <canvas id="bar_chart"></canvas>
             </div>
-            <!-- gráfico de linha fim -->
-            <!-- tela MOBILE -->
+            gráfico de linha fim
+             tela MOBILE
             <div class="dados-pratimonio">
-              <h5><?php echo 'Patrimônio atual: R$' . number_format($patrimonio, 2, ",", "."); ?></h5>
+           <h5><?php echo 'Patrimônio atual: R$' . number_format($patrimonio, 2, ",", "."); ?></h5>
             </div>
-            <!-- tela MOBILE -->
-          </div>
+             tela MOBILE
+          </div> -->
 
           <div class="col-12 col-md-6">
-            <h2>Principais despesas</h2>
             <div class="container h-100">
               <div class="row h-100">
 
-                <?php if ($mensagemDespesa == 'true') {
+                <!-- <?php if ($mensagemDespesa == 'true') {
                   foreach ($princDespesas as $index => $resultado) {
-                ?>
+                ?> -->
 
                     <div class="col-12 col-md-6 col-lg-4">
                       <a href="">
                         <div class="card text-center card-despesa">
                           <div class="card-body">
-                            <h5 class="card-title"><?php echo $resultado['desNome'] ?></h5>
-                            <p class="card-text"><?php echo $resultado['desValor'] ?></p>
+                            <!-- <h5 class="card-title"><?php echo $resultado['desNome'] ?></h5> -->
+                            <!-- <p class="card-text"><?php echo $resultado['desValor'] ?></p> -->
                           </div>
                         </div>
                       </a>
                     </div>
 
-                  <?php
+                  <!-- <?php
                   } //terrmina o foreach
                 } //termina o if($mensagem)
                 else {
-                  ?>
-                  <div>
-                    <h5 class="text-secondary mt-3">Nenhuma despesa adicionada</h5>
-                  </div>
+                  ?> 
                 <?php
                 }
-                ?>
+                ?> -->
               </div>
             </div>
           </div>
 
-          <div class="container p-5">
+          <div class="container d-flex">
+          <div class="container p-5 row">
             <!-- ------------------- Despesas e Receitas ------------------- -->
-            <h2>Despesas</h2>
-            <div class="row">
+            <div class="row" style="margin-bottom: 100px">
               <div class="col-6">
                 <a href="despesas.php" style="text-decoration: none">
                   <div class="card text-center">
                     <div class="card-body card-totais">
+                      <h2 class="mt-5">Despesas do mês</h2>
                       <!-- Telas maiores -->
                       <i class="bi bi-graph-down-arrow bi-card"></i>
-                      <h5 class="card-title card-pc"><?php echo 'R$' . number_format($totalDespesas, 2, ",", "."); ?></h5>
+                      <!-- <h5 class="card-title card-pc"><?php echo 'R$' . number_format($totalDespesas, 2, ",", "."); ?></h5> -->
                       <!-- Telas maiores -->
                       <!-- Telas menores -->
                       <h5 class="card-title card-mobile">Total</h5>
-                      <p class="card-text card-mobile"><?php echo 'R$' . number_format($totalDespesas, 2, ",", "."); ?></p>
+                      <!-- <p class="card-text card-mobile"><?php echo 'R$' . number_format($totalDespesas, 2, ",", "."); ?></p> -->
                       <!-- Telas menores -->
                     </div>
                   </div>
                 </a>
               </div>
-              <div class="col-6" style="width: 60px">
+              <!-- <div class="col-6" style="width: 60px">
                 <a
                   href="#"
                   class="add-icon"
@@ -174,36 +171,57 @@ $historicoPatrimonio[] = $patrimonio;
                   data-bs-content="Adicionar despesa">
                   <i class="bi bi-plus-circle-fill add-icon"></i>
                 </a>
-              </div>
+              </div> -->
             </div>
 
-            <h2 class="mt-5">Receitas</h2>
-            <div class="row">
+            <div class="row" style="margin-bottom: 100px">
               <div class="col-6">
                 <a href="#">
                   <div class="card text-center">
                     <div class="card-body card-totais">
+                      <h2 class="mt-5">Receitas do mês</h2>
                       <!-- Telas maiores -->
                       <i class="bi bi-graph-up-arrow bi-card"></i>
-                      <h5 class="card-title card-pc"><?php echo 'R$' . number_format($totalReceitas, 2, ",", "."); ?></h5>
+                      <!-- <h5 class="card-title card-pc"><?php echo 'R$' . number_format($totalReceitas, 2, ",", "."); ?></h5> -->
                       <!-- Telas maiores -->
                       <h5 class="card-title card-mobile">Total</h5>
-                      <p class="card-text card-mobile"><?php echo 'R$' . number_format($totalReceitas, 2, ",", "."); ?></p>
+                      <!-- <p class="card-text card-mobile"><?php echo 'R$' . number_format($totalReceitas, 2, ",", "."); ?></p> -->
                     </div>
                   </div>
                 </a>
               </div>
-              <div class="col-6" style="width: 60px">
-                <a
-                  href="#"
-                  data-bs-toggle="popover"
-                  data-bs-trigger="hover focus"
-                  data-bs-content="Adicionar receita">
-                  <i class="bi bi-plus-circle-fill add-icon"></i>
-                </a>
-              </div>
             </div>
+
             <!-- ------------------- Despesas e Receitas fim ------------------- -->
+          </div>
+          <div class="container p-5 row" >
+                <!-- Card Suas metas -->
+                <div class="col-6 row">
+                  <a href="metas.php" style="text-decoration: none">
+                    <div class="card text-center">
+                      <div class="card-body card-totais">
+                        <h2 class="mt-5">Suas metas</h2>
+                        <!-- Telas maiores -->
+                        <i class="bi bi-star bi-card"></i>
+                        <!-- Telas menores -->
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- Card Adicionar despesas e receitas -->
+                <div class="col-6 row" style="margin-top: 100px; margin-right: 100px">
+                  <a href="#">
+                    <div class="card text-center">
+                      <div class="card-body card-totais">
+                        <h2 class="mt-5">Adicionar despesas e receitas</h2>
+                        <!-- Telas maiores -->
+                        <i class="bi bi-plus-circle bi-card"></i>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
 
           </div>
         </div>
@@ -215,7 +233,7 @@ $historicoPatrimonio[] = $patrimonio;
   <script src="../js/popup_notificacoes.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const patrimonioData = <?php echo json_encode($historicoPatrimonio); ?>
+    // const patrimonioData = <?php echo json_encode($historicoPatrimonio); ?>
 
     const ctx = document.getElementById("bar_chart");
 

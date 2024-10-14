@@ -12,12 +12,12 @@ if (!empty($_SESSION['usuario'])) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../css/entrarCadastrar.css">
+	<link rel="stylesheet" href="../../css/entrarCadastrar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-	<link rel="shortcut icon" href="../assets/images/iconTituloPg.png">
-	<title>Recuperar senha por telefone</title>
+	<link rel="shortcut icon" href="../../assets/images/iconTituloPg.png">
+	<title>Recuperar senha por email</title>
 </head>
 
 
@@ -28,14 +28,14 @@ if (!empty($_SESSION['usuario'])) {
 				<div class="col-12">
 					<div class="cardRecuperar">
 						<h3 class="text-center mt-3 mb-5">Recuperar senha</h3>
-						<form action="../model/recuperarSenha/gerarCodigo.php?formaRecuperacao=telefone" class="form" method="post">
+						<form action="../../model/recuperarSenha/solicitarCodigo.php?formaRecuperacao=email" class="form" method="post">
 							<div class="p-2">
-                                <label>Insira o seu telefone:</label>
-								<input type="tel" class="box w-100" name="telefone" placeholder="Telefone: (xx)xxxxx-xxxx" required>
+								<label>Insira o seu email:</label>
+								<input type="email" class="box w-100" name="email" placeholder="Email" required>
 							</div>
 							<div class="text-center p-2">
 								<div class="text-center">
-									<a href="recuperarSenhaEmail.html" class="text-dark">Usar email</a>
+									<a href="recuperarSenhaTelefone.php" class="text-dark">Usar número de telefone</a>
 								</div>
 							</div>
 							<div class="d-grid gap-2 col-6 mx-auto p-2">
@@ -46,7 +46,7 @@ if (!empty($_SESSION['usuario'])) {
 							//Validação de usuario
 							if (isset($_GET['login']) && ($_GET['login'] == 'emailInexistente')) { ?>
 							<div class="text-center">
-								telefone não cadastrado!
+								Email não cadastrado!
 							</div>
 							<?php
 							}
@@ -59,7 +59,7 @@ if (!empty($_SESSION['usuario'])) {
 		</div>
 
 		<div class="btn-voltar">
-			<a href="entrar.html"><i class="bi bi-arrow-left"></i></a>
+			<a href="../entrar.php"><i class="bi bi-arrow-left"></i></a>
 		</div>
 	</div>
 	<!-- ------------------------- form LOGIN fim ------------------------- -->

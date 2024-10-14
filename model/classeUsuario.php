@@ -43,7 +43,7 @@ class Usuario
         if ($cmd->rowCount() > 0) {
             $resultado = 'existe';
         } else {
-            $resultado = '';
+            $resultado = 'inexistente';
         }
         return $resultado;
     }

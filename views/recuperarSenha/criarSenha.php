@@ -12,11 +12,11 @@ if (!empty($_SESSION['usuario'])) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../css/entrarCadastrar.css">
+	<link rel="stylesheet" href="../../css/entrarCadastrar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-	<link rel="shortcut icon" href="../assets/images/iconTituloPg.png">
+	<link rel="shortcut icon" href="../../assets/images/iconTituloPg.png">
 	<title>Criar senha nova</title>
 </head>
 
@@ -28,7 +28,7 @@ if (!empty($_SESSION['usuario'])) {
 				<div class="col-12">
 					<div class="cardRecuperar">
 						<h3 class="text-center mt-3 mb-3">Criar senha</h3>
-						<form action="../model/recuperarSenha/gerarNovaSenha.php" class="form" method="post">
+						<form action="../../model/recuperarSenha/gerarNovaSenha.php" class="form" method="post">
 							<div class="p-1">
 								<label>Insira sua nova senha:</label>
 								<input type="password" class="box w-100" name="senha" placeholder="Senha" required>

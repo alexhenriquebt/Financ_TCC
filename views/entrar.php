@@ -36,7 +36,7 @@ if (!empty($_SESSION['usuario'])) {
 							<div class="text-center p-2">
 								<input type="password" name="senha" class="box w-100" placeholder="Senha" required>
 								<div class="text-center">
-									<a href="recuperarSenhaEmail.html" class="text-dark">Esqueci minha senha</a>
+									<a href="recuperarSenha/recuperarSenhaEmail.php" class="text-dark">Esqueci minha senha</a>
 								</div>
 							</div>
 							<div class="d-grid gap-2 col-6 mx-auto p-2">
