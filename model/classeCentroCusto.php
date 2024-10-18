@@ -14,11 +14,16 @@ class CentroCusto
         }
     }
 
-    public function buscarCentroCusto($cenTipo)
+    public function buscarCentroCusto(): array
     {
-        $cmd = $this->pdo->prepare("SELECT * FROM tblCentroCusto cen JOIN tblDetCentroCusto det WHERE cen.cenTipo = :cenTipo AND det.usuId = :usuId AND cen.cenId = det.cenId");
-        $cmd->bindValue(':idu', $_SESSION['usuId']);
-        $cmd->bindValue('tipo', $cenTipo);
+        $cmd = $this->pdo->prepare( "SELECT * 
+FROM tblCentroCusto cen 
+JOIN tblDetCentroCusto det ON cen.cenId = det.cenId
+JOIN tblLancamento lan ON lan.decId = det.decId
+JOIN tblHisCentroCusto his ON his.lanId = lan.lanId
+WHERE det.usuId = :usuId;
+");
+        $cmd->bindValue(':usuId', $_SESSION['usuId']);
         $cmd->execute();
         $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
         return $res;
@@ -186,10 +191,33 @@ class CentroCusto
         $cmd = $this->pdo->prepare("DELETE FROM tblCentroCusto WHERE cenId = :cenId");
         $cmd->bindValue('cenId', $cenId);
         $cmd->execute();
+
+        return true;
     }
 
     
-    public function filtrarCentroCusto($cenTipo, $lanVencimento)
+    public function somarCreditosDebitos($cenTipo)
+    {
+        $cmd = $this->pdo->prepare("
+SELECT SUM(cen.cenValor) AS totalValor
+FROM tblCentroCusto cen 
+JOIN tblDetCentroCusto dece ON cen.cenId = dece.cenId
+JOIN tblLancamento lan ON lan.decId = dece.decId
+JOIN tblHisCentroCusto hce ON hce.lanId = lan.lanId
+WHERE cen.cenTipo = :cenTipo
+AND dece.usuId = :usuId;
+
+    ");
+    $cmd->bindValue(':cenTipo', $cenTipo);
+    $cmd->bindValue(':usuId', $_SESSION['usuId']);
+    $cmd->execute();
+    $res = $cmd->fetch(PDO::FETCH_ASSOC);
+    $soma = $res['totalValor'];
+    
+    return $soma; 
+    }
+
+    public function filtrarCentroCustoTipo($cenTipo)
     {
         $cmd = $this->pdo->prepare("
         SELECT * FROM tblCentroCusto cen 
@@ -198,17 +226,15 @@ class CentroCusto
         JOIN tblLancamento lan 
         WHERE cen.cenTipo = :cenTipo
         AND dece.usuId = :usuId
-        AND lan.lanVencimento = :lanVencimento
         AND cen.cenId = dece.cenId 
         AND hce.lanId = lan.lanId
         AND lan.decId = dece.decId;
     ");
     $cmd->bindValue(':cenTipo', $cenTipo);
     $cmd->bindValue(':usuId', $_SESSION['usuId']);
-    $cmd->bindValue(':lanVencimento', $lanVencimento);
     $cmd->execute();
-    $resultados = $cmd->fetchAll(PDO::FETCH_ASSOC);
+    $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
     
-    return $resultados; 
+    return $res; 
     }
 }

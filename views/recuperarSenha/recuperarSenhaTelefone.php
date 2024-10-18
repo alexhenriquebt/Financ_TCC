@@ -28,7 +28,7 @@ if (!empty($_SESSION['usuario'])) {
 				<div class="col-12">
 					<div class="cardRecuperar">
 						<h3 class="text-center mt-3 mb-5">Recuperar senha</h3>
-						<form action="../../model/recuperarSenha/solicitarCodigo.php?formaRecuperacao=telefone" class="form" method="post">
+						<form action="../../model/solicitarCodigo.php?formaRecuperacao=telefone" class="form" method="post">
 							<div class="p-2">
                                 <label>Insira o seu telefone:</label>
 								<input type="tel" class="box w-100" name="telefone" placeholder="Telefone: (xx)xxxxx-xxxx" required>

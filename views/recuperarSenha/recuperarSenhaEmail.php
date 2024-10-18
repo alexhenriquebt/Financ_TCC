@@ -28,7 +28,7 @@ if (!empty($_SESSION['usuario'])) {
 				<div class="col-12">
 					<div class="cardRecuperar">
 						<h3 class="text-center mt-3 mb-5">Recuperar senha</h3>
-						<form action="../../model/recuperarSenha/solicitarCodigo.php?formaRecuperacao=email" class="form" method="post">
+						<form action="../../model/solicitarCodigo.php?formaRecuperacao=email" class="form" method="post">
 							<div class="p-2">
 								<label>Insira o seu email:</label>
 								<input type="email" class="box w-100" name="email" placeholder="Email" required>
@@ -44,9 +44,9 @@ if (!empty($_SESSION['usuario'])) {
 
 							<?php
 							//Validação de usuario
-							if (isset($_GET['login']) && ($_GET['login'] == 'emailInexistente')) { ?>
+							if (isset($_GET['solicitacao']) && ($_GET['solicitacao'] == 'emailInexistente')) { ?>
 							<div class="text-center">
-								Email não cadastrado!
+								Email não encontrado!
 							</div>
 							<?php
 							}

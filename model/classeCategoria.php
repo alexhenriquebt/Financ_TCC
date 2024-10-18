@@ -23,6 +23,14 @@ class Categoria
         return $res;
     }
 
+    public function buscarCategoriasGeral()
+    {
+        $cmd = $this->pdo->prepare("SELECT * FROM tblCategoria");
+        $cmd->execute();
+        $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
     public function buscarCategoriasAlterar($catNome)
     {
         $sqlCat = "SELECT * FROM tblCategoria WHERE catNome = :catNome ";

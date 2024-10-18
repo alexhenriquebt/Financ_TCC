@@ -17,7 +17,7 @@ if ($email && $senha)
     if ($dadosUser) 
     {
         $_SESSION['email'] = $dadosUser['usuEmail'];
-        $_SESSION['idUsuario'] = $dadosUser['usuId'];
+        $_SESSION['usuId'] = $dadosUser['usuId'];
         $_SESSION['telefone'] = $dadosUser['usuTelefone'];
         $_SESSION['usuario'] = $dadosUser['usuNome'];
         $_SESSION['logado'] = 'sim';

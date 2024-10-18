@@ -1,4 +1,11 @@
-
+<?php
+require_once "../model/classeCentroCusto.php";
+require_once "../model/classeCategoria.php";
+$classeCentroCusto = new CentroCusto();
+$classeCategoria = new Categoria();
+$listaCentroCusto = $classeCentroCusto->buscarCentroCusto();
+$listaCategoriaGeral = $classeCategoria->buscarCategoriasGeral();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -28,174 +35,214 @@
 
       <div class="container">
         <div class="row g-5 mt-5">
-          
+
           <div class="col-12 col-md-8">
             <form class="row g-3 container-estilizado p-3" action="../model/addCentroCusto.php" method="post">
-            <h3>Adicionar despesas e receitas</h3>
-            <div class="col-12 col-md-6">
-              <label>Nome</label>
-              <input type="text" name="nome" placeholder="Nome" class="form-control" required>
-            </div>
-    
-            <div class="col-12 col-md-12">
-              <label>Descrição</label>
-              <textarea name="descricao" id="" placeholder="Descrição" class="form-control"></textarea>
-            </div>
-    
-            <div class="col-12 col-md-2">
-              <label>Tipo</label>
-              <select name="situacao" id="situacao" class="form-control" required>
-                <option value="">Selecione</option>
-                <option value="Pago">Crédito</option>
-                <option value="Pendente">Débito</option>
-              </select>
-            </div>
+              <h3>Adicionar despesas e receitas</h3>
+              <div class="col-12 col-md-6">
+                <label>Nome</label>
+                <input type="text" name="nome" placeholder="Nome" class="form-control" required>
+              </div>
 
-            <div class="col-12 col-md-2">
-              <label>Situação</label>
-              <select name="situacao" id="situacao" class="form-control" required>
-                <option value="">Selecione</option>
-                <option value="Pago">Pago</option>
-                <option value="Pendente">Pendente</option>
-              </select>
-            </div>
-    
-            <div class="col-6 col-md-4">
-              <label>Valor</label>
-              <input type="number" name="valor" placeholder="Valor" class="form-control" required>
-            </div>
-    
-            <div class="col-8 col-md-4">
-              <label>Categoria</label>
-              <select name="categoria" id="categoria" class="form-control" required>
-                <option value="">Selecione</option>
+              <div class="col-12 col-md-12">
+                <label>Descrição</label>
+                <textarea name="descricao" id="" placeholder="Descrição" class="form-control"></textarea>
+              </div>
 
-              </select>
+              <div class="col-12 col-md-2">
+                <label>Tipo</label>
+                <select name="tipo" id="tipo" class="form-control" required>
+                  <option value="">Selecione</option>
+                  <option value="Receita">Receita</option>
+                  <option value="Despesa">Despesa</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-2">
+                <label>Situação</label>
+                <select name="situacao" id="situacao" class="form-control" required>
+                  <option value="">Selecione</option>
+                  <option value="Realizado">Realizado</option>
+                  <option value="Pendente">Pendente</option>
+                </select>
+              </div>
+
+              <div class="col-6 col-md-4">
+                <label>Valor</label>
+                <input type="number" name="valor" placeholder="Valor" class="form-control" required>
+              </div>
+
+              <div class="col-8 col-md-4">
+                <label>Categoria</label>
+                <select name="categoria" id="categoria" class="form-control" required>
+                  <option value="">Selecione</option>
+                  <?php
+                  foreach ($listaCategoriaGeral as $categoria) {
+                    echo '<option value="' . $categoria['catId'] . '">' . $categoria['catNome'] . '</option>';
+                  }
+                  ?>
+
+                </select>
+              </div>
+
+              <div class="col-8 col-md-4">
+                <label>Forma</label>
+                <select name="forma" id="forma" class="form-control" required>
+                  <option value="">Selecione</option>
+                  <option value="Único">Único</option>
+                  <option value="Mensal">Mensal</option>
+                  <option value="Anual">Anual</option>
+
+                </select>
+              </div>
+
+              <div class="col-8 col-md-4">
+                <label>Prazo de vencimento</label>
+                <input type="date" name="dataVencimento" class="form-control" required>
+              </div>
+
+              <div class="col-12 col-md-12 text-center">
+                <button type="submit" class="btn btn-dark">Adicionar</button>
+              </div>
+
+            </form>
+
+            <?php
+            if (isset($_GET['idcentroAlterar']) && !empty($_GET['idcentroAlterar'])) {
+              $cenId = addslashes($_GET['idcentroAlterar']);
+              $resCentroUpdate = $classeCentroCusto->exibirCategoria($cenId);
+              $dialog = true;
+            }
+            ?>
+
+            <div class="mt-5">
+              <?php
+              require_once "../utils/filtro.php";
+              ?>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Situação</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Vencimento</th>
+                    <th scope="col">Atualizado</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <?php
+                  foreach ($listaCentroCusto as $index => $centroCusto) {
+                  ?>
+                    <tr>
+                      <td><?php echo $centroCusto['cenTipo']; ?></td>
+                      <td><?php echo $centroCusto['lanSituacao']; ?></td>
+                      <td><?php echo $centroCusto['cenNome']; ?></td>
+                      <td><?php echo $centroCusto['lanVencimento']; ?></td>
+                      <td><?php echo $centroCusto['hceUltimoRegistro']; ?></td>
+                      <td>
+                        <a href="centroCusto.php?idcentroAlterar=<?php echo $listaCentroCusto[$index]['cenId']; ?>">
+                          <i class="bi bi-pencil-square m-3"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="../model/deletarCentroCusto.php?cenIdDeletar=<?php echo $listaCentroCusto[$index]['cenId']; ?>" onclick="return confirm('Você realmente deseja excluir?')">
+                          <i class="bi bi-trash3 mx-3"></i>
+                        </a>
+                      </td>
+                      </tr>
+                      <?php
+                  } //foreach
+                  ?>
+
+                </tbody>
+              </table>
             </div>
-    
-            <div class="col-8 col-md-4">
-              <label>Prazo de vencimento</label>
-              <input type="date" name="dataVencimento" class="form-control" required>
+          </div>
+
+
+          <div class="col-12 col-md-4 g-3 text-center">
+            <div class="card-direita p-3">
+              <h5>Saldo</h5>
             </div>
-    
-            <div class="col-12 col-md-12 text-center">
-              <button type="submit" class="btn btn-dark">Adicionar</button>
+            <div class="card-direita p-3">
+              <h5>Receitas<br>
+              <?php $receitas = $classeCentroCusto->somarCreditosDebitos('Crédito');
+              if($receitas == '')
+              {
+                echo 'R$0,00';
+              }
+              else
+              {
+                echo 'R$' . $receitas;
+              }
+                  ?></h5>
             </div>
-    
-          </form>
-          
-          <?php
-           if (isset($_GET['id_cen']) && !empty($_GET['id_cen'])) {
-            $id_ = addslashes($_GET['id_cen']);
-          $resCentroUpdate = $classeDespesa->buscarDespesasUpdate($id_despesa);
-          $dialog = true;
-        }
+            <div class="card-direita p-3">
+              <h5>Despesas<br>
+              <?php $despesas = $classeCentroCusto->somarCreditosDebitos('Débito');
+              if($despesas == '')
+              {
+                echo 'R$0,00';
+              }
+              else
+              {
+                echo 'R$' . $despesas;
+              }
+               ?></h5>
+            </div>
+            <div class="card-direita p-3">
+              <a href="relatorios.php">
+                <h5 class="text-black">Ver relatórios <i class="bi bi-box-arrow-up-right text-black"></i></h5>
+              </a>
+            </div>
+            <div class="card-direita p-3 w-100">
+              <h5 class="mb-5">Maiores gastos por categoria</h5>
+              <div class="container">
+                <div class="row">
+                  <i class="bi bi-backpack2 text-black col-4"></i>
+                  <p class="col-4">Educação</p>
+                  <p class="col-4">R$400,00</p>
+                  <hr>
+                  <i class="bi bi-egg text-black col-4"></i>
+                  <p class="col-4">Alimentação</p>
+                  <p class="col-4">R$700,00</p>
+                  <hr>
+                  <i class="bi bi-bus-front text-black col-4"></i>
+                  <p class="col-4">Transportes</p>
+                  <p class="col-4">R$200,00</p>
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-3 mb-3">
+        <?php
+        /*           if ($mensagem == 'true') {
+            foreach ($dadosDespesas as $index => $despesa) { */
         ?>
 
-        <div class="mt-5">
-          <?php
-           require_once "../utils/filtro.php";
-          ?>
-  
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Tipo</th>
-              <th scope="col">Situação</th>
-              <th scope="col">Nome</th>
-              <th scope="col">Vencimento</th>
-              <th scope="col">Atualizado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                
-              </td>
-              <td>Mark</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-
-      <div class="col-12 col-md-4 g-3 text-center">
-        <div class="card-direita p-3">
-          <h5>Saldo: R$:50,00</h5>
-        </div>
-        <div class="card-direita p-3">
-          <h5>Receitas: R$:200,00</h5>
-        </div>
-        <div class="card-direita p-3">
-          <h5>Despesas: R$:100,00</h5>
-        </div>
-        <div class="card-direita p-3">
-          <a href="relatorios.php">
-            <h5 class="text-black">Ver relatórios <i class="bi bi-box-arrow-up-right text-black"></i></h5>
-          </a>
-        </div>
-        <div class="card-direita p-3 w-100">
-          <h5 class="mb-5">Maiores gastos por categoria</h5>
-          <div class="container">
-            <div class="row">
-              <i class="bi bi-backpack2 text-black col-4"></i>
-              <p class="col-4">Educação</p>
-              <p class="col-4">R$400,00</p>
-              <hr>
-              <i class="bi bi-egg text-black col-4"></i>
-              <p class="col-4">Alimentação</p>
-              <p class="col-4">R$700,00</p>
-              <hr>
-              <i class="bi bi-bus-front text-black col-4"></i>
-              <p class="col-4">Transportes</p>
-              <p class="col-4">R$200,00</p>
-              <hr>
-            </div>
-          </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-        <div class="row g-3 mt-3 mb-3">
-          <?php
-/*           if ($mensagem == 'true') {
-            foreach ($dadosDespesas as $index => $despesa) { */
-          ?>
-
-<!--               <div class="col-12 col-md-6 col-lg-4">
+        <!--               <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="content">
                       <h5 class="card-title"><?php /*echo $despesa['desNome'];*/ ?></h5>
-                      <p class="card-text"><?php /* echo $despesa['desDescricao']; */?></p>
+                      <p class="card-text"><?php /* echo $despesa['desDescricao']; */ ?></p>
                       <p class="card-text">Situação: <?php /* echo $despesa['desSituacao'];*/ ?></p>
-                      <p class="card-text">Valor: <?php /* echo $despesa['desValor']; */?></p>
+                      <p class="card-text">Valor: <?php /* echo $despesa['desValor']; */ ?></p>
                       <p class="card-text">Categoria: <?php /* echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada';
                                                       $catNome = $nomeCategoria[$index]['catNome'];*/
                                                       ?></p>
                       <p class="card-text">Data: <?php /*echo $despesa['desData'];*/ ?></p>
                     </div>
                     <div class="icon-card">
-                      <a href="despesas.php?id_des=<?php /* echo $dadosDespesas[$index]['desId']; */?>">
+                      <a href="despesas.php?id_des=<?php /* echo $dadosDespesas[$index]['desId']; */ ?>">
                         <i class="bi bi-pencil-square m-3"></i>
                       </a>
-                      <a href="../model/deletar_despesas.php?idDespesa=<?php /*echo $dadosDespesas[$index]['desId']; */?>" onclick="return confirm('Você realmente quer excluir essa despesa?')">
+                      <a href="../model/deletar_despesas.php?idDespesa=<?php /*echo $dadosDespesas[$index]['desId']; */ ?>" onclick="return confirm('Você realmente quer excluir essa despesa?')">
                         <i class="bi bi-trash3 mx-3"></i>
                       </a>
                     </div>
@@ -203,9 +250,9 @@
                 </div>
               </div> -->
 
-        </div>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- DIALOGS AQUI -->
@@ -229,20 +276,20 @@
                                                                               } ?></textarea>
     </div>
 
-            <div class="col-12 col-md-4">
-          <label>Situação</label>
-          <select name="situacao" id="situacao" class="form-control" required>
-            <option value="<?php if (isset($resCenreoUpdate)) {
-                                                                                          echo $resCentroUpdate['cenTipo'];
-                                                                                        } ?>">
-                                                                                        <?php if (isset($resCentroUpdate)) {
-                                                                                          echo $resCentroUpdate['cenTipo'];
-                                                                                        } ?>
-                                                                                        </option>
-            <option value="Pago">Pago</option>
-            <option value="Pendente">Pendente</option>
-          </select>
-        </div>
+    <div class="col-12 col-md-4">
+      <label>Situação</label>
+      <select name="situacao" id="situacao" class="form-control" required>
+        <option value="<?php if (isset($resCentroUpdate)) {
+                          echo $resCentroUpdate['cenTipo'];
+                        } ?>">
+          <?php if (isset($resCentroUpdate)) {
+            echo $resCentroUpdate['cenTipo'];
+          } ?>
+        </option>
+        <option value="Pago">Pago</option>
+        <option value="Pendente">Pendente</option>
+      </select>
+    </div>
 
     <div class="col-6 col-md-4">
       <label>Valor</label>
@@ -257,8 +304,8 @@
         <option value="<?php if (isset($resCentroUpdate)) {
                           echo $resCentroUpdate['catId'];
                         } ?>"><?php if (isset($resCentroUpdate)) {
-                                                                                                            echo $resCentroUpdate['catNome'];
-                                                                                                          } ?></option>
+                                echo $resCentroUpdate['catNome'];
+                              } ?></option>
         <?php
         // Obtém todas as categorias
         $categoriasStmt = $conexao->prepare("SELECT * FROM tblCategoria");
@@ -294,7 +341,7 @@
 
 </html>
 
- <?php
+<?php
 /* if (isset($dialog) && $dialog == true) { */
 ?>
 <!--   <script>

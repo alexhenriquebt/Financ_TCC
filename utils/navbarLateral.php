@@ -30,9 +30,9 @@ $base_url = rtrim($base_url, '/view');
         href="<?php echo $base_url; ?>/centroCusto.php"
         data-bs-toggle="popover"
         data-bs-trigger="hover focus"
-        data-bs-content="Visualize e gerencie suas contas">
+        data-bs-content="Visualize e gerencie suas despesas e receitas">
         <i class="bi bi-graph-down-arrow"></i>
-        <p>Centro de custo</p>
+        <p>Contas</p>
       </a>
     </div>
     <div class="col-12">

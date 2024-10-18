@@ -3,12 +3,12 @@
 require_once "classeCentroCusto.php";
 $centroCusto = new CentroCusto();
 
-if (!isset($_GET['cenId'])) {
+if (!isset($_GET['cenIdDeletar'])) {
     die('Parâmetro ID não fornecido.');
 }
 
 // Sanitiza a entrada para garantir que é um número inteiro
-$cenId = filter_input(INPUT_GET, 'cenId', FILTER_SANITIZE_NUMBER_INT);
+$cenId = filter_input(INPUT_GET, 'cenIdDeletar', FILTER_SANITIZE_NUMBER_INT);
 
 if ($cenId === null || $cenId === false) {
     die('ID inválido. Por favor, forneça um ID válido para exclusão.');
