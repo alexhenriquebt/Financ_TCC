@@ -5,6 +5,10 @@ $classeCentroCusto = new CentroCusto();
 $classeCategoria = new Categoria();
 $listaCentroCusto = $classeCentroCusto->buscarCentroCusto();
 $listaCategoriaGeral = $classeCategoria->buscarCategoriasGeral();
+$receitas = $classeCentroCusto->somarCreditosDebitos('Receita');
+$despesas = $classeCentroCusto->somarCreditosDebitos('Despesa');
+$maioresGastosCategoria = $classeCentroCusto->filtrarGastosCategoria();
+$saldo = $receitas - $despesas;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -125,6 +129,8 @@ $listaCategoriaGeral = $classeCategoria->buscarCategoriasGeral();
                     <th scope="col">Tipo</th>
                     <th scope="col">Situação</th>
                     <th scope="col">Nome</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Categoria</th>
                     <th scope="col">Vencimento</th>
                     <th scope="col">Atualizado</th>
                   </tr>
@@ -136,8 +142,20 @@ $listaCategoriaGeral = $classeCategoria->buscarCategoriasGeral();
                   ?>
                     <tr>
                       <td><?php echo $centroCusto['cenTipo']; ?></td>
-                      <td><?php echo $centroCusto['lanSituacao']; ?></td>
+                      <td class="text-center"><?php 
+
+                      if($centroCusto['lanSituacao'] === 'Realizado')
+                      {
+                        echo '<i class="bi bi-check-circle-fill text-success"></i>';
+                      }
+                      else if($centroCusto['lanSituacao'] === 'Pendente')
+                      {
+                        echo '<i class="bi bi-hourglass-split text-danger"></i>';
+                      }
+                      ?></td>
                       <td><?php echo $centroCusto['cenNome']; ?></td>
+                      <td><?php echo $centroCusto['cenValor']; ?></td>
+                      <td><?php echo $centroCusto['catNome']; ?></td>
                       <td><?php echo $centroCusto['lanVencimento']; ?></td>
                       <td><?php echo $centroCusto['hceUltimoRegistro']; ?></td>
                       <td>
@@ -163,12 +181,17 @@ $listaCategoriaGeral = $classeCategoria->buscarCategoriasGeral();
 
           <div class="col-12 col-md-4 g-3 text-center">
             <div class="card-direita p-3">
-              <h5>Saldo</h5>
+              <h5>Saldo<br>
+                <?php
+                echo $saldo == 0 ? 'R$ 0,00' : ($saldo < 0 ? '-R$' : 'R$') . number_format(abs($saldo), 2, ',', '.');
+
+                ?>
+              </h5>
             </div>
             <div class="card-direita p-3">
               <h5>Receitas<br>
-              <?php $receitas = $classeCentroCusto->somarCreditosDebitos('Crédito');
-              if($receitas == '')
+              <?php
+              if($receitas == 0)
               {
                 echo 'R$0,00';
               }
@@ -180,8 +203,8 @@ $listaCategoriaGeral = $classeCategoria->buscarCategoriasGeral();
             </div>
             <div class="card-direita p-3">
               <h5>Despesas<br>
-              <?php $despesas = $classeCentroCusto->somarCreditosDebitos('Débito');
-              if($despesas == '')
+              <?php
+              if($despesas == 0)
               {
                 echo 'R$0,00';
               }
@@ -200,18 +223,17 @@ $listaCategoriaGeral = $classeCategoria->buscarCategoriasGeral();
               <h5 class="mb-5">Maiores gastos por categoria</h5>
               <div class="container">
                 <div class="row">
+                  <?php
+                  foreach($maioresGastosCategoria as $index => $categoriaDespesa)
+                  {
+                    ?>
                   <i class="bi bi-backpack2 text-black col-4"></i>
-                  <p class="col-4">Educação</p>
-                  <p class="col-4">R$400,00</p>
+                  <p class="col-4"><?php echo $categoriaDespesa['catNome'] ?></p>
+                  <p class="col-4"><?php echo $categoriaDespesa['totalValor'] ?></p>
                   <hr>
-                  <i class="bi bi-egg text-black col-4"></i>
-                  <p class="col-4">Alimentação</p>
-                  <p class="col-4">R$700,00</p>
-                  <hr>
-                  <i class="bi bi-bus-front text-black col-4"></i>
-                  <p class="col-4">Transportes</p>
-                  <p class="col-4">R$200,00</p>
-                  <hr>
+                  <?php
+                  }
+                  ?>
                 </div>
               </div>
             </div>

@@ -21,6 +21,7 @@ FROM tblCentroCusto cen
 JOIN tblDetCentroCusto det ON cen.cenId = det.cenId
 JOIN tblLancamento lan ON lan.decId = det.decId
 JOIN tblHisCentroCusto his ON his.lanId = lan.lanId
+JOIN tblCategoria cat ON cat.catId = cen.catId
 WHERE det.usuId = :usuId;
 ");
         $cmd->bindValue(':usuId', $_SESSION['usuId']);
@@ -217,24 +218,25 @@ AND dece.usuId = :usuId;
     return $soma; 
     }
 
-    public function filtrarCentroCustoTipo($cenTipo)
+    public function filtrarGastosCategoria()
     {
         $cmd = $this->pdo->prepare("
-        SELECT * FROM tblCentroCusto cen 
-        JOIN tblDetCentroCusto dece
-        JOIN tblHisCentroCusto hce 
-        JOIN tblLancamento lan 
-        WHERE cen.cenTipo = :cenTipo
-        AND dece.usuId = :usuId
-        AND cen.cenId = dece.cenId 
-        AND hce.lanId = lan.lanId
-        AND lan.decId = dece.decId;
-    ");
-    $cmd->bindValue(':cenTipo', $cenTipo);
-    $cmd->bindValue(':usuId', $_SESSION['usuId']);
-    $cmd->execute();
-    $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
-    
-    return $res; 
+            SELECT cat.catNome, SUM(cen.cenValor) AS totalValor
+            FROM tblCentroCusto cen
+            JOIN tblDetCentroCusto dece ON cen.cenId = dece.cenId
+            JOIN tblCategoria cat ON cat.catId = cen.catId
+            WHERE cen.cenTipo = :cenTipo
+            AND dece.usuId = :usuId
+            GROUP BY cat.catNome
+            ORDER BY totalValor DESC
+            LIMIT 12
+        ");
+        $cmd->bindValue(':cenTipo', 'Despesa');
+        $cmd->bindValue(':usuId', $_SESSION['usuId']);
+        $cmd->execute();
+        $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $res; 
     }
+    
 }
