@@ -11,7 +11,6 @@ function fecharModalAdicionar() {
   modalPrincipal.close();
 }
 
-//abrir modal de alterar
 function abrirModalAlterar() {
   modalAlterar.showModal();
 }

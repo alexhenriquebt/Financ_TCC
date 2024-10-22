@@ -9,7 +9,16 @@ $receitas = $classeCentroCusto->somarCreditosDebitos('Receita');
 $despesas = $classeCentroCusto->somarCreditosDebitos('Despesa');
 $maioresGastosCategoria = $classeCentroCusto->filtrarGastosCategoria();
 $saldo = $receitas - $despesas;
+$dialog = '';
+
+if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
+  $cenId = addslashes($_GET['idCentroAlterar']);
+  $resCentroUpdate = $classeCentroCusto->exibirCategoria($cenId);
+  $dialog = 'liberar';
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -25,7 +34,6 @@ $saldo = $receitas - $despesas;
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -111,14 +119,6 @@ $saldo = $receitas - $despesas;
 
             </form>
 
-            <?php
-            if (isset($_GET['idcentroAlterar']) && !empty($_GET['idcentroAlterar'])) {
-              $cenId = addslashes($_GET['idcentroAlterar']);
-              $resCentroUpdate = $classeCentroCusto->exibirCategoria($cenId);
-              $dialog = true;
-            }
-            ?>
-
             <div class="mt-5">
               <?php
               require_once "../utils/filtro.php";
@@ -142,34 +142,32 @@ $saldo = $receitas - $despesas;
                   ?>
                     <tr>
                       <td><?php echo $centroCusto['cenTipo']; ?></td>
-                      <td class="text-center"><?php 
+                      <td class="text-center"><?php
 
-                      if($centroCusto['lanSituacao'] === 'Realizado')
-                      {
-                        echo '<i class="bi bi-check-circle-fill text-success"></i>';
-                      }
-                      else if($centroCusto['lanSituacao'] === 'Pendente')
-                      {
-                        echo '<i class="bi bi-hourglass-split text-danger"></i>';
-                      }
-                      ?></td>
+                                              if ($centroCusto['lanSituacao'] === 'Realizado') {
+                                                echo '<i class="bi bi-check-circle-fill text-success"></i>';
+                                              } else if ($centroCusto['lanSituacao'] === 'Pendente') {
+                                                echo '<i class="bi bi-hourglass-split text-danger"></i>';
+                                              }
+                                              ?></td>
                       <td><?php echo $centroCusto['cenNome']; ?></td>
                       <td><?php echo $centroCusto['cenValor']; ?></td>
                       <td><?php echo $centroCusto['catNome']; ?></td>
-                      <td><?php echo $centroCusto['lanVencimento']; ?></td>
-                      <td><?php echo $centroCusto['hceUltimoRegistro']; ?></td>
+                      <td class="text-danger"><?php echo DateTime::createFromFormat( 'Y-m-d', $centroCusto['lanVencimento'])->format('d/m/Y') ?></td>
+                      <td class="text-success"><?php echo DateTime::createFromFormat('Y-m-d', $centroCusto['hceUltimoRegistro'])->format('d/m/Y');
+                          ?></td>
                       <td>
-                        <a href="centroCusto.php?idcentroAlterar=<?php echo $listaCentroCusto[$index]['cenId']; ?>">
-                          <i class="bi bi-pencil-square m-3"></i>
+                        <a href="centroCusto.php?idCentroAlterar=<?php echo $listaCentroCusto[$index]['cenId']; ?>">
+                          <i class="bi bi-pencil-square m-3 text-black"></i>
                         </a>
                       </td>
                       <td>
                         <a href="../model/deletarCentroCusto.php?cenIdDeletar=<?php echo $listaCentroCusto[$index]['cenId']; ?>" onclick="return confirm('Você realmente deseja excluir?')">
-                          <i class="bi bi-trash3 mx-3"></i>
+                          <i class="bi bi-trash3 mx-3 text-danger"></i>
                         </a>
                       </td>
-                      </tr>
-                      <?php
+                    </tr>
+                  <?php
                   } //foreach
                   ?>
 
@@ -190,29 +188,23 @@ $saldo = $receitas - $despesas;
             </div>
             <div class="card-direita p-3">
               <h5>Receitas<br>
-              <?php
-              if($receitas == 0)
-              {
-                echo 'R$0,00';
-              }
-              else
-              {
-                echo 'R$' . $receitas;
-              }
-                  ?></h5>
+                <?php
+                if ($receitas == 0) {
+                  echo 'R$0,00';
+                } else {
+                  echo 'R$' . $receitas;
+                }
+                ?></h5>
             </div>
             <div class="card-direita p-3">
               <h5>Despesas<br>
-              <?php
-              if($despesas == 0)
-              {
-                echo 'R$0,00';
-              }
-              else
-              {
-                echo 'R$' . $despesas;
-              }
-               ?></h5>
+                <?php
+                if ($despesas == 0) {
+                  echo 'R$0,00';
+                } else {
+                  echo 'R$' . $despesas;
+                }
+                ?></h5>
             </div>
             <div class="card-direita p-3">
               <a href="relatorios.php">
@@ -224,13 +216,12 @@ $saldo = $receitas - $despesas;
               <div class="container">
                 <div class="row">
                   <?php
-                  foreach($maioresGastosCategoria as $index => $categoriaDespesa)
-                  {
-                    ?>
-                  <i class="bi bi-backpack2 text-black col-4"></i>
-                  <p class="col-4"><?php echo $categoriaDespesa['catNome'] ?></p>
-                  <p class="col-4"><?php echo $categoriaDespesa['totalValor'] ?></p>
-                  <hr>
+                  foreach ($maioresGastosCategoria as $index => $categoriaDespesa) {
+                  ?>
+                    <i class="bi bi-backpack2 text-black col-4"></i>
+                    <p class="col-4"><?php echo $categoriaDespesa['catNome'] ?></p>
+                    <p class="col-4"><?php echo $categoriaDespesa['totalValor'] ?></p>
+                    <hr>
                   <?php
                   }
                   ?>
@@ -239,39 +230,6 @@ $saldo = $receitas - $despesas;
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="row g-3 mt-3 mb-3">
-        <?php
-        /*           if ($mensagem == 'true') {
-            foreach ($dadosDespesas as $index => $despesa) { */
-        ?>
-
-        <!--               <div class="col-12 col-md-6 col-lg-4">
-                <div class="card h-100">
-                  <div class="card-body">
-                    <div class="content">
-                      <h5 class="card-title"><?php /*echo $despesa['desNome'];*/ ?></h5>
-                      <p class="card-text"><?php /* echo $despesa['desDescricao']; */ ?></p>
-                      <p class="card-text">Situação: <?php /* echo $despesa['desSituacao'];*/ ?></p>
-                      <p class="card-text">Valor: <?php /* echo $despesa['desValor']; */ ?></p>
-                      <p class="card-text">Categoria: <?php /* echo isset($nomeCategoria[$index]['catNome']) ? $nomeCategoria[$index]['catNome'] : 'Categoria não encontrada';
-                                                      $catNome = $nomeCategoria[$index]['catNome'];*/
-                                                      ?></p>
-                      <p class="card-text">Data: <?php /*echo $despesa['desData'];*/ ?></p>
-                    </div>
-                    <div class="icon-card">
-                      <a href="despesas.php?id_des=<?php /* echo $dadosDespesas[$index]['desId']; */ ?>">
-                        <i class="bi bi-pencil-square m-3"></i>
-                      </a>
-                      <a href="../model/deletar_despesas.php?idDespesa=<?php /*echo $dadosDespesas[$index]['desId']; */ ?>" onclick="return confirm('Você realmente quer excluir essa despesa?')">
-                        <i class="bi bi-trash3 mx-3"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-
       </div>
     </div>
   </div>
@@ -356,19 +314,19 @@ $saldo = $receitas - $despesas;
     <button class="btn btn-outline-danger mt-3" onclick="fecharModalAlterar()">Fechar</button>
   </dialog>
 
-  <script src="../js/limitaCaractere.js"></script>
-  <script src="../js/modal.js"></script>
-  <script src="../js/popover.js"></script>
-</body>
 
+  <script src="../js/limitaCaractere.js"></script>
+    <script src="../js/modal.js"></script>
+    <script src="../js/popover.js"></script>
+</body>
 </html>
 
 <?php
-/* if (isset($dialog) && $dialog == true) { */
+if ($dialog == 'liberar') {
 ?>
-<!--   <script>
+  <script>
     abrirModalAlterar()
-  </script> -->
+  </script>
 <?php
-/* } */
+}
 ?>
