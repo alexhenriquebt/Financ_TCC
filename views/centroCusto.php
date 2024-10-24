@@ -9,6 +9,7 @@ $receitas = $classeCentroCusto->somarCreditosDebitos('Receita');
 $despesas = $classeCentroCusto->somarCreditosDebitos('Despesa');
 $maioresGastosCategoria = $classeCentroCusto->filtrarGastosCategoria();
 $saldo = $receitas - $despesas;
+
 $dialog = '';
 
 if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
