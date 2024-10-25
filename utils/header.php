@@ -11,6 +11,11 @@ $titulos_paginas = [
 
 $titulo = $titulos_paginas[$page_name] ?? ucfirst($page_name);
 
+//Calcula o saldo disponível
+$receitas = $classeCentroCusto->somarCreditosDebitos('Receita');
+$despesas = $classeCentroCusto->somarCreditosDebitos('Despesa');
+$saldo = $receitas - $despesas;
+
 ?>
 <link rel="stylesheet" href="../css/header.css">
 <header>
@@ -25,14 +30,16 @@ $titulo = $titulos_paginas[$page_name] ?? ucfirst($page_name);
                 <div class="user-config">
                     <div class="btn-group">
                         <button type="button" class="btn-dropdown dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle"></i>
+                            <i class="bi bi-person"></i>
+
                         </button>
                         <button style="border: none; background-color: white;" data-bs-toggle="popover" data-bs-title="Notificações" data-bs-content="Sem notificações" data-bs-placement="bottom">
-                            <i class="bi bi-bell-fill"></i>
+                            <i class="bi bi-bell"></i>
                         </button>
-                        <button type="button" class="btn-dropdown" data-bs-toggle="dropdown">
+                        <div class="saldoExibir">
                             <i class="bi bi-eye"></i>
-                        </button>
+                            <h5><?php echo $saldo == 0 ? 'R$ 0,00' : ($saldo < 0 ? '-R$' : 'R$') . number_format(abs($saldo), 2, ',', '.'); ?></h5>
+                        </div>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/home.php">Home</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/centroCusto.php">Contas</a></li>

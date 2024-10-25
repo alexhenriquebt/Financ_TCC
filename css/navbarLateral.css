@@ -16,7 +16,9 @@
 }
 
 .navbar-lateral img {
-    border-radius: 50px;
+    border-radius: 70px;
+    width: 70px;
+    height: 70px;
 }
 
 .navbar-lateral p {

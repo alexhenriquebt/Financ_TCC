@@ -28,12 +28,25 @@
     width: 100px;
 }
 
-.btn-group .bi-bell-fill {
+.btn-group .bi-bell {
     font-size: x-large;
 }
 
 .btn-dropdown .bi {
     font-size: xx-large;
+}
+
+.saldoExibir {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.saldoExibir .bi {
+    font-size: x-large;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

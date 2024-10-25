@@ -5,10 +5,28 @@ $classeCentroCusto = new CentroCusto();
 $classeCategoria = new Categoria();
 $listaCentroCusto = $classeCentroCusto->buscarCentroCusto();
 $listaCategoriaGeral = $classeCategoria->buscarCategoriasGeral();
-$receitas = $classeCentroCusto->somarCreditosDebitos('Receita');
-$despesas = $classeCentroCusto->somarCreditosDebitos('Despesa');
-$maioresGastosCategoria = $classeCentroCusto->filtrarGastosCategoria();
-$saldo = $receitas - $despesas;
+$maioresGastosCategoria = $classeCentroCusto->filtrarDespesasReceitasCategoria('Despesa');
+
+
+$iconesCategorias = [
+  'Renda' => '<i class="bi bi-coin text-warning"></i>',
+  'Investimento' => '<i class="bi bi-graph-up-arrow text-success"></i>',
+  'Empréstimos' => '<i class="bi bi-bank2 text-danger"></i>',
+  'Impostos e taxas' => '<i class="bi bi-file-earmark-text text-secondary"></i>',
+  'Moradia' => '<i class="bi bi-house-door-fill text-primary"></i>',
+  'Alimentação' => '<i class="bi bi-basket-fill text-success"></i>',
+  'Transporte' => '<i class="bi bi-truck-front-fill text-primary"></i>',
+  'Educação' => '<i class="bi bi-book text-primary"></i>',
+  'Animais' => '<i class="bi bi-paw text-warning"></i>',
+  'Viagem' => '<i class="bi bi-airplane-fill text-info"></i>',
+  'Transferências e pagamentos' => '<i class="bi bi-cash-stack text-success"></i>',
+  'Emergências' => '<i class="bi bi-exclamation-triangle-fill text-danger"></i>',
+  'Seguros' => '<i class="bi bi-shield-lock-fill text-secondary"></i>',
+  'Compras e lazer' => '<i class="bi bi-cart-fill text-info"></i>',
+  'Manutenção e reparos' => '<i class="bi bi-wrench-adjustable text-warning"></i>',
+  'Assinaturas' => '<i class="bi bi-card-checklist text-primary"></i>',
+  'Outros' => '<i class="bi bi-three-dots text-muted"></i>',
+];
 
 $dialog = '';
 
@@ -153,13 +171,13 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
                                               ?></td>
                       <td><?php echo $centroCusto['cenNome']; ?></td>
                       <td><?php echo $centroCusto['cenValor']; ?></td>
-                      <td><?php echo $centroCusto['catNome']; ?></td>
+                      <td class="text-center"><?php echo $iconesCategorias[$centroCusto['catNome']] ?? ''; ?></td>
                       <td class="text-danger"><?php echo DateTime::createFromFormat( 'Y-m-d', $centroCusto['lanVencimento'])->format('d/m/Y') ?></td>
                       <td class="text-success"><?php echo DateTime::createFromFormat('Y-m-d', $centroCusto['hceUltimoRegistro'])->format('d/m/Y');
                           ?></td>
                       <td>
                         <a href="centroCusto.php?idCentroAlterar=<?php echo $listaCentroCusto[$index]['cenId']; ?>">
-                          <i class="bi bi-pencil-square m-3 text-black"></i>
+                          <i class="bi bi-pencil-square m-3 text-primary"></i>
                         </a>
                       </td>
                       <td>
@@ -179,7 +197,17 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
 
 
           <div class="col-12 col-md-4 g-3 text-center">
-            <div class="card-direita p-3">
+            <?php if($saldo < 0) {
+              ?>
+            <div class="card-direita p-3 text-danger">
+              <?php
+            } 
+            else {
+              ?>
+            <div class="card-direita p-3 text-success">
+              <?php
+            } 
+            ?>
               <h5>Saldo<br>
                 <?php
                 echo $saldo == 0 ? 'R$ 0,00' : ($saldo < 0 ? '-R$' : 'R$') . number_format(abs($saldo), 2, ',', '.');
@@ -187,23 +215,23 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
                 ?>
               </h5>
             </div>
-            <div class="card-direita p-3">
+            <div class="card-direita p-3 text-success">
               <h5>Receitas<br>
                 <?php
                 if ($receitas == 0) {
                   echo 'R$0,00';
                 } else {
-                  echo 'R$' . $receitas;
+                  echo 'R$' . number_format(abs($receitas), 2, ',', '.');
                 }
                 ?></h5>
             </div>
-            <div class="card-direita p-3">
+            <div class="card-direita p-3 text-danger">
               <h5>Despesas<br>
                 <?php
                 if ($despesas == 0) {
                   echo 'R$0,00';
                 } else {
-                  echo 'R$' . $despesas;
+                  echo 'R$' . number_format(abs($despesas), 2, ',', '.');
                 }
                 ?></h5>
             </div>
@@ -219,7 +247,11 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
                   <?php
                   foreach ($maioresGastosCategoria as $index => $categoriaDespesa) {
                   ?>
-                    <i class="bi bi-backpack2 text-black col-4"></i>
+                    <p class="col-4">
+                      <?php 
+                          echo $iconesCategorias[$centroCusto['catNome']] ?? '';
+                      ?>
+                    </p>
                     <p class="col-4"><?php echo $categoriaDespesa['catNome'] ?></p>
                     <p class="col-4"><?php echo $categoriaDespesa['totalValor'] ?></p>
                     <hr>

@@ -31,7 +31,7 @@ $base_url = rtrim($base_url, '/view');
         data-bs-toggle="popover"
         data-bs-trigger="hover focus"
         data-bs-content="Visualize e gerencie suas despesas e receitas">
-        <i class="bi bi-graph-down-arrow"></i>
+        <i class="bi bi-receipt"></i>
         <p>Contas</p>
       </a>
     </div>

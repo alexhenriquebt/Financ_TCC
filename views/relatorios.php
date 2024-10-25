@@ -1,8 +1,35 @@
 <?php
 require_once "../model/classeCentroCusto.php";
+require_once "../model/classeCategoria.php";
+$classeCentroCusto = new CentroCusto();
+$classeCategoria = new Categoria();
+$maioresGastosCategoria = $classeCentroCusto->filtrarDespesasReceitasCategoria('Despesa');
+$maioresRecebimentosCategoria = $classeCentroCusto->filtrarDespesasReceitasCategoria('Receita');
+$listaDespesa = $classeCentroCusto->filtrarTipo('Despesa');
+$listaReceita = $classeCentroCusto->filtrarTipo('Receita');
 $receitas = $classeCentroCusto->somarCreditosDebitos('Receita');
 $despesas = $classeCentroCusto->somarCreditosDebitos('Despesa');
-$balançoMensal = $receitas - $despesas;
+$balançoMensal[] = $receitas - $despesas;
+
+$iconesCategorias = [
+  'Renda' => '<i class="bi bi-coin text-warning"></i>',
+  'Investimento' => '<i class="bi bi-graph-up-arrow text-success"></i>',
+  'Empréstimos' => '<i class="bi bi-bank2 text-danger"></i>',
+  'Impostos e taxas' => '<i class="bi bi-file-earmark-text text-secondary"></i>',
+  'Moradia' => '<i class="bi bi-house-door-fill text-primary"></i>',
+  'Alimentação' => '<i class="bi bi-basket-fill text-success"></i>',
+  'Transporte' => '<i class="bi bi-truck-front-fill text-primary"></i>',
+  'Educação' => '<i class="bi bi-book text-primary"></i>',
+  'Animais' => '<i class="bi bi-paw text-warning"></i>',
+  'Viagem' => '<i class="bi bi-airplane-fill text-info"></i>',
+  'Transferências e pagamentos' => '<i class="bi bi-cash-stack text-success"></i>',
+  'Emergências' => '<i class="bi bi-exclamation-triangle-fill text-danger"></i>',
+  'Seguros' => '<i class="bi bi-shield-lock-fill text-secondary"></i>',
+  'Compras e lazer' => '<i class="bi bi-cart-fill text-info"></i>',
+  'Manutenção e reparos' => '<i class="bi bi-wrench-adjustable text-warning"></i>',
+  'Assinaturas' => '<i class="bi bi-card-checklist text-primary"></i>',
+  'Outros' => '<i class="bi bi-three-dots text-muted"></i>',
+];
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -52,34 +79,42 @@ $balançoMensal = $receitas - $despesas;
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Tipo</th>
                     <th scope="col">Situação</th>
                     <th scope="col">Nome</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Categoria</th>
                     <th scope="col">Vencimento</th>
                     <th scope="col">Atualizado</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
+                  <?php
+                  foreach ($listaDespesa as $index => $despesa) {
+                  ?>
+                    <tr>
+                      <td class="text-center">
+                        <?php
 
-                    </td>
-                    <td>Mark</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
+                        if ($despesa['lanSituacao'] === 'Realizado') {
+                          echo '<i class="bi bi-check-circle-fill text-success"></i>';
+                        } else if ($despesa['lanSituacao'] === 'Pendente') {
+                          echo '<i class="bi bi-hourglass-split text-danger"></i>';
+                        }
+                        ?></td>
+                      <td><?php echo $despesa['cenNome']; ?></td>
+                      <td><?php echo $despesa['cenValor']; ?></td>
+                      <td class="text-center"><?php echo $iconesCategorias[$despesa['catNome']] ?? ''; ?></td>
+                      <td class="text-danger">
+                        <?php echo DateTime::createFromFormat('Y-m-d', $despesa['lanVencimento'])->format('d/m/Y') ?>
+                      </td>
+                      <td class="text-success">
+                        <?php echo DateTime::createFromFormat('Y-m-d', $despesa['hceUltimoRegistro'])->format('d/m/Y');
+                        ?>
+                      </td>
+                    </tr>
+                  <?php
+                  } //foreach
+                  ?>
                 </tbody>
               </table>
             </div>
@@ -94,32 +129,44 @@ $balançoMensal = $receitas - $despesas;
                   <tr>
                     <th scope="col">Situação</th>
                     <th scope="col">Nome</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Categoria</th>
                     <th scope="col">Vencimento</th>
                     <th scope="col">Atualizado</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <i class="bi bi-check-circle-fill text-success"></i>
-                    </td>
-                    <td>Recebimento de fevereiro</td>
-                    <td>05/02/2024</td>
-                    <td>03/01/2024</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i class="bi bi-check-circle-fill text-success"></i>
-                    </td>
-                    <td>Recebimento de fevereiro</td>
-                    <td>05/02/2024</td>
-                    <td>03/01/2024</td>
+                  <?php
+                  foreach ($listaReceita as $index => $receita) {
+                  ?>
+                    <tr>
+                      <td class="text-center">
+                        <?php
 
-                  </tr>
-                  <tr>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
+                        if ($receita['lanSituacao'] === 'Realizado') {
+                          echo '<i class="bi bi-check-circle-fill text-success"></i>';
+                        } else if ($receita['lanSituacao'] === 'Pendente') {
+                          echo '<i class="bi bi-hourglass-split text-danger"></i>';
+                        }
+                        ?></td>
+                      <td><?php echo $receita['cenNome']; ?></td>
+                      <td><?php echo $receita['cenValor']; ?></td>
+                      <td>
+                        <?php
+                        echo $iconesCategorias[$receita['catNome']] ?? '';
+                        ?>
+                      </td>
+                      <td class="text-danger">
+                        <?php echo DateTime::createFromFormat('Y-m-d', $receita['lanVencimento'])->format('d/m/Y') ?>
+                      </td>
+                      <td class="text-success">
+                        <?php echo DateTime::createFromFormat('Y-m-d', $receita['hceUltimoRegistro'])->format('d/m/Y');
+                        ?>
+                      </td>
+                    </tr>
+                  <?php
+                  } //foreach
+                  ?>
                 </tbody>
               </table>
             </div>
@@ -130,18 +177,19 @@ $balançoMensal = $receitas - $despesas;
               <h5>Maiores gastos</h5>
               <div class="container mt-5 mb-0">
                 <div class="row">
-                  <p class="col-6">Escola particular</p>
-                  <p class="col-6">R$800,00</p>
-                  <hr>
-                  <p class="col-6">Compras de janeiro</p>
-                  <p class="col-6">R$760,00</p>
-                  <hr>
-                  <p class="col-6">Passagem de trem</p>
-                  <p class="col-6">R$290,00</p>
-                  <hr>
-                  <p class="col-6">Passagem de ônibus</p>
-                  <p class="col-6">R$250,00</p>
-                  <hr>
+                  <?php
+                  foreach ($maioresGastosCategoria as $index => $categoriaDespesa) {
+                    echo '<p class="col-4">';
+                    echo $iconesCategorias[$categoriaDespesa['catNome']] ?? '';
+                    echo  '</p>';
+
+                  ?>
+                    <p class="col-4"><?php echo $categoriaDespesa['catNome'] ?></p>
+                    <p class="col-4"><?php echo $categoriaDespesa['totalValor'] ?></p>
+                    <hr>
+                  <?php
+                  }
+                  ?>
                 </div>
               </div>
             </div>
@@ -150,18 +198,19 @@ $balançoMensal = $receitas - $despesas;
               <h5>Maiores recebimentos</h5>
               <div class="container mt-5 mb-0">
                 <div class="row">
-                  <p class="col-6">Recebimento de janeiro</p>
-                  <p class="col-6">R$3800,00</p>
-                  <hr>
-                  <p class="col-6">Dividendos de FIs</p>
-                  <p class="col-6">R$230,00</p>
-                  <hr>
-                  <p class="col-6">Rendimento dos CDBs, LCIs</p>
-                  <p class="col-6">R$240,00</p>
-                  <hr>
-                  <p class="col-6">Rendimento do tesouro direto</p>
-                  <p class="col-6">R$119,00</p>
-                  <hr>
+                  <?php
+                  foreach ($maioresRecebimentosCategoria as $index => $categoriaReceita) {
+                    echo '<p class="col-4">';
+                    echo $iconesCategorias[$categoriaReceita['catNome']] ?? '';
+                    echo  '</p>';
+
+                  ?>
+                    <p class="col-4"><?php echo $categoriaReceita['catNome'] ?></p>
+                    <p class="col-4"><?php echo $categoriaReceita['totalValor'] ?></p>
+                    <hr>
+                  <?php
+                  }
+                  ?>
                 </div>
               </div>
             </div>

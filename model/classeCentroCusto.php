@@ -218,7 +218,34 @@ AND dece.usuId = :usuId;
     return $soma; 
     }
 
-    public function filtrarGastosCategoria()
+    public function filtrarTipo($cenTipo)
+    {
+        $cmd = $this->pdo->prepare("SELECT * FROM tblCentroCusto cen
+        JOIN tblDetCentroCusto det
+        JOIN tblLancamento lan
+        JOIN tblCategoria cat
+        JOIN tblHisCentroCusto his
+        WHERE cen.cenId = det.cenId
+        AND
+        cen.cenTipo = :cenTipo
+        AND
+        det.usuId = :usuId
+        AND
+        lan.decId = det.decId
+        AND
+        his.lanId = lan.lanId
+        AND
+        cat.catId = cen.catId
+        ");
+        $cmd->bindValue('usuId', $_SESSION['usuId']);
+        $cmd->bindValue('cenTipo', $cenTipo);
+        $cmd->execute();
+        $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
+
+        return $res;
+    }
+
+    public function filtrarDespesasReceitasCategoria($cenTipo)
     {
         $cmd = $this->pdo->prepare("
             SELECT cat.catNome, SUM(cen.cenValor) AS totalValor
@@ -231,7 +258,7 @@ AND dece.usuId = :usuId;
             ORDER BY totalValor DESC
             LIMIT 12
         ");
-        $cmd->bindValue(':cenTipo', 'Despesa');
+        $cmd->bindValue(':cenTipo', $cenTipo);
         $cmd->bindValue(':usuId', $_SESSION['usuId']);
         $cmd->execute();
         $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
