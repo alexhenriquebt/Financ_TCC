@@ -1,3 +1,7 @@
+<?php
+require_once '../model/validarAcesso.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 

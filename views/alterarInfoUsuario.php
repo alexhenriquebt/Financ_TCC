@@ -1,3 +1,7 @@
+<?php
+require_once '../model/validarAcesso.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -6,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../css/alterarconfig.css">
+    <link rel="stylesheet" href="../css/alterarConfiguracoes.css">
     <link rel="shortcut icon" href="../assets/images/iconTituloPg.png" />
     <title>Alterar informações</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -28,10 +32,17 @@
                 <input class="form-control" type="email" name="email" placeholder="Email" required/> 
               </div>
               
+              <?php
+              if(!empty($_SESSION['telefone']))
+              {
+              ?>
               <div class="col-10 col-md-4"> 
                 <label>Telefone</label>
                 <input class="form-control" type="tel" name="telefone" id="telefone" placeholder="Ex.:(xx) xxxxx-xxxx" pattern=".{15,}" title="15 caracteres no mínimo" required/> 
               </div>
+              <?php
+              }
+              ?>
               
               <div class="mt-3 w-100 text-center"> 
                 <button type="submit" class="btn btn-outline-danger w-50">Alterar</button> 

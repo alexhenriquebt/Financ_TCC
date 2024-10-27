@@ -1,5 +1,8 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE)
+{
+    session_start();
+}
 
 if (!isset($_SESSION["logado"]) || $_SESSION["logado"] !== 'sim') {
     // Gera um novo ID de sessão para prevenir ataques de fixação de sessão
@@ -32,3 +35,4 @@ if (isset($_GET['path'])) {
     }
 }
 
+?>

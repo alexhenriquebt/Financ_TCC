@@ -1,4 +1,5 @@
 <?php
+require_once "../model/validarAcesso.php";
 require_once "../model/classeCentroCusto.php";
 require_once "../model/classeCategoria.php";
 $classeCentroCusto = new CentroCusto();
@@ -67,7 +68,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
       <div class="container">
         <div class="row g-5 mt-5">
 
-          <div class="col-12 col-md-8">
+          <div class="col-12 col-md-9">
             <form class="row g-3 container-estilizado p-3" action="../model/addCentroCusto.php" method="post">
               <h3>Adicionar despesas e receitas</h3>
               <div class="col-12 col-md-6">
@@ -151,6 +152,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
                     <th scope="col">Valor</th>
                     <th scope="col">Categoria</th>
                     <th scope="col">Vencimento</th>
+                    <th scope="col">Forma</th>
                     <th scope="col">Atualizado</th>
                   </tr>
                 </thead>
@@ -169,10 +171,25 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
                                                 echo '<i class="bi bi-hourglass-split text-danger"></i>';
                                               }
                                               ?></td>
-                      <td><?php echo $centroCusto['cenNome']; ?></td>
-                      <td><?php echo $centroCusto['cenValor']; ?></td>
+                      <td><?php echo $centroCusto['cenNome']; ?></td> 
+
+
+                      <td class="
+                      <?php if($centroCusto['cenTipo'] === 'Despesa') {
+                        echo 'text-danger';
+                      }
+                      else {
+                        echo 'text-success';
+                      }
+                      ?>
+                      ">
+                        <?php echo 'R$ ' . number_format( abs($centroCusto['cenValor']), 2, ',', '.') ?>
+                      </td>
+
+
                       <td class="text-center"><?php echo $iconesCategorias[$centroCusto['catNome']] ?? ''; ?></td>
                       <td class="text-danger"><?php echo DateTime::createFromFormat( 'Y-m-d', $centroCusto['lanVencimento'])->format('d/m/Y') ?></td>
+                      <td><?php echo $centroCusto['lanForma']; ?></td> 
                       <td class="text-success"><?php echo DateTime::createFromFormat('Y-m-d', $centroCusto['hceUltimoRegistro'])->format('d/m/Y');
                           ?></td>
                       <td>
@@ -196,7 +213,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
           </div>
 
 
-          <div class="col-12 col-md-4 g-3 text-center">
+          <div class="col-12 col-md-3 g-3 text-center">
             <?php if($saldo < 0) {
               ?>
             <div class="card-direita p-3 text-danger">
@@ -210,7 +227,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
             ?>
               <h5>Saldo<br>
                 <?php
-                echo $saldo == 0 ? 'R$ 0,00' : ($saldo < 0 ? '-R$' : 'R$') . number_format(abs($saldo), 2, ',', '.');
+                echo $saldo == 0 ? 'R$ 0,00' : ($saldo < 0 ? '-R$ ' : 'R$ ') . number_format(abs($saldo), 2, ',', '.');
 
                 ?>
               </h5>
@@ -219,9 +236,9 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
               <h5>Receitas<br>
                 <?php
                 if ($receitas == 0) {
-                  echo 'R$0,00';
+                  echo 'R$ 0';
                 } else {
-                  echo 'R$' . number_format(abs($receitas), 2, ',', '.');
+                  echo 'R$ ' . number_format(abs($receitas), 2, ',', '.');
                 }
                 ?></h5>
             </div>
@@ -229,9 +246,9 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
               <h5>Despesas<br>
                 <?php
                 if ($despesas == 0) {
-                  echo 'R$0,00';
+                  echo 'R$ 0';
                 } else {
-                  echo 'R$' . number_format(abs($despesas), 2, ',', '.');
+                  echo 'R$ ' . number_format(abs($despesas), 2, ',', '.');
                 }
                 ?></h5>
             </div>
@@ -253,7 +270,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
                       ?>
                     </p>
                     <p class="col-4"><?php echo $categoriaDespesa['catNome'] ?></p>
-                    <p class="col-4"><?php echo $categoriaDespesa['totalValor'] ?></p>
+                    <p class="col-4"><?php echo 'R$ ' . number_format(abs($categoriaDespesa['totalValor']), 2, ',', '.'); ?></p>
                     <hr>
                   <?php
                   }

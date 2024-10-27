@@ -1,5 +1,6 @@
 <!-- <?php
  /* 
+ require_once '../model/validarAcesso.php';
 require_once "../config/conexao.php";
 $conexao = novaConexao();
 
@@ -26,7 +27,6 @@ if (count($dadosObjetivos) > 0) {
   $mensagem = 'false'; // Defina uma variável para a mensagem
 }
 
-require_once '../model/validador_acesso.php';
 */
 
 ?> -->

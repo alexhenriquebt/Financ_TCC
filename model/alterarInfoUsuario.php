@@ -10,7 +10,7 @@ $telefone = filter_input(INPUT_POST, 'telefone', FILTER_SANITIZE_NUMBER_INT);
 $senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
 
 // Validar se os campos obrigatórios foram preenchidos
-if (empty($nome) || empty($email) || empty($telefone) || empty($senha)) {
+if (empty($nome) || empty($email)) {
     die('Por favor, preencha todos os campos obrigatórios.');
 }
 // Hash da senha antes de armazenar

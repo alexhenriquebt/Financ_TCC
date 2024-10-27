@@ -21,12 +21,12 @@ $saldo = $receitas - $despesas;
 <header>
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <div class="">
                     <h2 class="mt-3"><?= $titulo; ?></h2>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <div class="user-config">
                     <div class="btn-group">
                         <button type="button" class="btn-dropdown dropdown-toggle" data-bs-toggle="dropdown">
@@ -36,9 +36,9 @@ $saldo = $receitas - $despesas;
                         <button style="border: none; background-color: white;" data-bs-toggle="popover" data-bs-title="Notificações" data-bs-content="Sem notificações" data-bs-placement="bottom">
                             <i class="bi bi-bell"></i>
                         </button>
-                        <div class="saldoExibir">
+                        <div class="saldoExibir d-flex flex-row align-items-end h-100">
                             <i class="bi bi-eye"></i>
-                            <h5><?php echo $saldo == 0 ? 'R$ 0,00' : ($saldo < 0 ? '-R$' : 'R$') . number_format(abs($saldo), 2, ',', '.'); ?></h5>
+                            <h4><?php echo $saldo == 0 ? 'R$ 0,00' : ($saldo < 0 ? '-R$' : 'R$') . number_format(abs($saldo), 2, ',', '.'); ?></h4>
                         </div>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/home.php">Home</a></li>

@@ -245,6 +245,29 @@ AND dece.usuId = :usuId;
         return $res;
     }
 
+    public function filtrarPendencias($cenTipo) {
+        $cmd = $this->pdo->prepare("
+        SELECT * FROM tblCentroCusto cen 
+        JOIN tblDetCentroCusto det 
+        JOIN tblLancamento lan 
+        WHERE cen.cenTipo = :cenTipo
+        AND
+        det.usuId = :usuId
+        AND
+        cen.cenId = det.cenId
+        AND
+        lan.decId = det.decId
+        AND
+        lan.lanSituacao = :lanSituacao");
+        $cmd->bindValue(':cenTipo', $cenTipo);
+        $cmd->bindValue(':usuId', $_SESSION['usuId']);
+        $cmd->bindValue(':lanSituacao', value: 'Pendente');
+        $cmd->execute();
+        $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
+
+        return $res;
+    }
+
     public function filtrarDespesasReceitasCategoria($cenTipo)
     {
         $cmd = $this->pdo->prepare("

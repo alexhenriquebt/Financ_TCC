@@ -1,8 +1,11 @@
 <?php
+require_once '../model/validarAcesso.php';
 require_once "../model/classeCentroCusto.php";
 require_once "../model/classeCategoria.php";
 $classeCentroCusto = new CentroCusto();
 $classeCategoria = new Categoria();
+$despesasPendentes = $classeCentroCusto->filtrarPendencias('Despesa');
+$receitasPendentes = $classeCentroCusto->filtrarPendencias('Receita');
 $maioresGastosCategoria = $classeCentroCusto->filtrarDespesasReceitasCategoria('Despesa');
 $maioresRecebimentosCategoria = $classeCentroCusto->filtrarDespesasReceitasCategoria('Receita');
 $listaDespesa = $classeCentroCusto->filtrarTipo('Despesa');
@@ -60,7 +63,7 @@ $iconesCategorias = [
 
       <div class="container p-5">
         <h2 class="mb-5">Resumo do ano</h2>
-        <div class="col-6">
+        <div class="col-12">
           <?php
           require_once "../utils/filtro.php";
           ?>
@@ -68,15 +71,15 @@ $iconesCategorias = [
 
         <div class="row mt-5">
 
-          <div class="col-12 col-md-7">
+          <div class="col-12 col-xxl-8">
 
             <div class="container-estilizado">
               <canvas id="saldoVariacoes"></canvas>
             </div>
 
-            <div class="container-estilizado mt-3">
+            <div class="container-estilizado table-responsive mt-3">
               <h5>Despesas</h5>
-              <table class="table table-striped">
+              <table class="table table-striped text-center">
                 <thead>
                   <tr>
                     <th scope="col">Situação</th>
@@ -84,6 +87,7 @@ $iconesCategorias = [
                     <th scope="col">Valor</th>
                     <th scope="col">Categoria</th>
                     <th scope="col">Vencimento</th>
+                    <th scope="col">Forma</th>
                     <th scope="col">Atualizado</th>
                   </tr>
                 </thead>
@@ -92,7 +96,7 @@ $iconesCategorias = [
                   foreach ($listaDespesa as $index => $despesa) {
                   ?>
                     <tr>
-                      <td class="text-center">
+                      <td>
                         <?php
 
                         if ($despesa['lanSituacao'] === 'Realizado') {
@@ -102,11 +106,12 @@ $iconesCategorias = [
                         }
                         ?></td>
                       <td><?php echo $despesa['cenNome']; ?></td>
-                      <td><?php echo $despesa['cenValor']; ?></td>
-                      <td class="text-center"><?php echo $iconesCategorias[$despesa['catNome']] ?? ''; ?></td>
+                      <td><?php echo 'R$ ' . number_format( abs($despesa['cenValor']), 2, ',', '.') ?></td>
+                      <td><?php echo $iconesCategorias[$despesa['catNome']] ?? ''; ?></td>
                       <td class="text-danger">
                         <?php echo DateTime::createFromFormat('Y-m-d', $despesa['lanVencimento'])->format('d/m/Y') ?>
                       </td>
+                      <td><?php echo $despesa['lanForma']; ?></td>
                       <td class="text-success">
                         <?php echo DateTime::createFromFormat('Y-m-d', $despesa['hceUltimoRegistro'])->format('d/m/Y');
                         ?>
@@ -119,7 +124,7 @@ $iconesCategorias = [
               </table>
             </div>
 
-            <div class="container-estilizado mt-3">
+            <div class="container-estilizado table-responsive mt-3">
               <h5>Receitas</h5>
               <?php
               require_once "../utils/filtro.php";
@@ -132,6 +137,7 @@ $iconesCategorias = [
                     <th scope="col">Valor</th>
                     <th scope="col">Categoria</th>
                     <th scope="col">Vencimento</th>
+                    <th scope="col">Forma</th>
                     <th scope="col">Atualizado</th>
                   </tr>
                 </thead>
@@ -140,7 +146,7 @@ $iconesCategorias = [
                   foreach ($listaReceita as $index => $receita) {
                   ?>
                     <tr>
-                      <td class="text-center">
+                      <td>
                         <?php
 
                         if ($receita['lanSituacao'] === 'Realizado') {
@@ -150,7 +156,7 @@ $iconesCategorias = [
                         }
                         ?></td>
                       <td><?php echo $receita['cenNome']; ?></td>
-                      <td><?php echo $receita['cenValor']; ?></td>
+                      <td><?php echo 'R$ ' . number_format( abs($receita['cenValor']), 2, ',', '.') ?></td>
                       <td>
                         <?php
                         echo $iconesCategorias[$receita['catNome']] ?? '';
@@ -159,6 +165,7 @@ $iconesCategorias = [
                       <td class="text-danger">
                         <?php echo DateTime::createFromFormat('Y-m-d', $receita['lanVencimento'])->format('d/m/Y') ?>
                       </td>
+                      <td><?php echo $despesa['lanForma']; ?></td>
                       <td class="text-success">
                         <?php echo DateTime::createFromFormat('Y-m-d', $receita['hceUltimoRegistro'])->format('d/m/Y');
                         ?>
@@ -172,20 +179,20 @@ $iconesCategorias = [
             </div>
           </div>
 
-          <div class="col-12 col-md-5 text-center">
+          <div class="col-12 col-xxl-4 text-center mt-3">
             <div class="container-estilizado">
               <h5>Maiores gastos</h5>
               <div class="container mt-5 mb-0">
                 <div class="row">
                   <?php
                   foreach ($maioresGastosCategoria as $index => $categoriaDespesa) {
-                    echo '<p class="col-4">';
+                    echo '<p class="col-6 col-lg-4">';
                     echo $iconesCategorias[$categoriaDespesa['catNome']] ?? '';
                     echo  '</p>';
 
                   ?>
-                    <p class="col-4"><?php echo $categoriaDespesa['catNome'] ?></p>
-                    <p class="col-4"><?php echo $categoriaDespesa['totalValor'] ?></p>
+                    <p class="col-6 col-lg-4"><?php echo $categoriaDespesa['catNome'] ?></p>
+                    <p class="col-6 col-lg-4"><?php echo 'R$ ' . number_format(abs($categoriaDespesa['totalValor']), 2, ',', '.'); ?></p>
                     <hr>
                   <?php
                   }
@@ -200,13 +207,13 @@ $iconesCategorias = [
                 <div class="row">
                   <?php
                   foreach ($maioresRecebimentosCategoria as $index => $categoriaReceita) {
-                    echo '<p class="col-4">';
+                    echo '<p class="col-6 col-lg-4">';
                     echo $iconesCategorias[$categoriaReceita['catNome']] ?? '';
                     echo  '</p>';
 
                   ?>
-                    <p class="col-4"><?php echo $categoriaReceita['catNome'] ?></p>
-                    <p class="col-4"><?php echo $categoriaReceita['totalValor'] ?></p>
+                    <p class="col-6 col-lg-4"><?php echo $categoriaReceita['catNome'] ?></p>
+                    <p class="col-6 col-lg-4"><?php echo 'R$ ' . number_format(abs($categoriaReceita['totalValor']), 2, ',', '.') ?></p>
                     <hr>
                   <?php
                   }
@@ -242,41 +249,37 @@ $iconesCategorias = [
           <h2 class="mt-5 mb-5">Pendências</h2>
           <div class="row g-5 text-center">
             <div class="col-12 col-md-5 container-estilizado mx-3">
-              <h5>Dívidas</h5>
+              <h5 class="text-danger">Dívidas</h5>
               <div class="container mt-5 mb-0">
                 <div class="row">
-                  <p class="col-6">Recebimento de janeiro</p>
-                  <p class="col-6">R$3800,00</p>
-                  <hr>
-                  <p class="col-6">Dividendos de FIs</p>
-                  <p class="col-6">R$230,00</p>
-                  <hr>
-                  <p class="col-6">Rendimento dos CDBs, LCIs</p>
-                  <p class="col-6">R$240,00</p>
-                  <hr>
-                  <p class="col-6">Rendimento do tesouro direto</p>
-                  <p class="col-6">R$119,00</p>
-                  <hr>
+                <?php
+                  foreach ($despesasPendentes as $index => $divida) {
+                  ?>
+                    <p class="col-6 col-lg-4 text-danger"><?php echo $divida['cenNome'] ?></p>
+                    <p class="col-6 col-lg-4 text-danger"><?php echo 'R$ ' . number_format( abs($divida['cenValor']), 2, ',', '.') ?></p>
+                    <p class="col-6 col-lg-4 text-danger"><?php echo DateTime::createFromFormat('Y-m-d', $receita['lanVencimento'])->format('d/m/Y') ?></p>
+                    <hr>
+                  <?php
+                  }
+                  ?>
                 </div>
               </div>
             </div>
 
             <div class="col-12 col-md-5 container-estilizado mx-3">
-              <h5>A receber</h5>
+              <h5 class="text-success">A receber</h5>
               <div class="container mt-5 mb-0 text-center">
                 <div class="row">
-                  <p class="col-6">Recebimento de janeiro</p>
-                  <p class="col-6">R$3800,00</p>
-                  <hr>
-                  <p class="col-6">Dividendos de FIs</p>
-                  <p class="col-6">R$230,00</p>
-                  <hr>
-                  <p class="col-6">Rendimento dos CDBs, LCIs</p>
-                  <p class="col-6">R$240,00</p>
-                  <hr>
-                  <p class="col-6">Rendimento do tesouro direto</p>
-                  <p class="col-6">R$119,00</p>
-                  <hr>
+                <?php
+                  foreach ($receitasPendentes as $index => $aReceber) {
+                  ?>
+                    <p class="col-4 text-success"><?php echo $aReceber['cenNome'] ?></p>
+                    <p class="col-4 text-success"><?php echo 'R$ ' . number_format( abs($aReceber['cenValor']), 2, ',', '.') ?></p>
+                    <p class="col-4 text-success"><?php echo DateTime::createFromFormat('Y-m-d', $receita['lanVencimento'])->format('d/m/Y') ?></p>
+                    <hr>
+                  <?php
+                  }
+                  ?>
                 </div>
               </div>
             </div>
@@ -303,7 +306,7 @@ $iconesCategorias = [
         </div>
 
       </div>
-      <div class="container p-5">
+      <div class="container px-5">
         <h2 class="mb-5">Previsões</h2>
 
         <div class="row g-5">

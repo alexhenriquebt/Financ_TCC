@@ -41,7 +41,7 @@ $base_url = rtrim($base_url, '/view');
         data-bs-toggle="popover"
         data-bs-trigger="hover focus"
         data-bs-content="Defina metas">
-        <i class="bi bi-bullseye"></i>
+        <i class="bi bi-flag"></i>
         <p>Metas</p>
       </a>
     </div>
