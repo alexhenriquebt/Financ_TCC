@@ -3,6 +3,7 @@ const modalAlterar = document.getElementById("modalAlterar");
 const modalOrcAddDes = document.getElementById("despesasExistentes");
 
 //abrir modal de add
+
 function abrirModalAdicionar() {
   modalPrincipal.showModal();
 }

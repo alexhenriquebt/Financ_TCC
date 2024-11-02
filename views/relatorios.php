@@ -25,7 +25,7 @@ $iconesCategorias = [
   'Educação' => '<i class="bi bi-book text-primary"></i>',
   'Animais' => '<i class="bi bi-paw text-warning"></i>',
   'Viagem' => '<i class="bi bi-airplane-fill text-info"></i>',
-  'Transferências e pagamentos' => '<i class="bi bi-cash-stack text-success"></i>',
+  'Transferências ou pagamentos' => '<i class="bi bi-cash-stack text-success"></i>',
   'Emergências' => '<i class="bi bi-exclamation-triangle-fill text-danger"></i>',
   'Seguros' => '<i class="bi bi-shield-lock-fill text-secondary"></i>',
   'Compras e lazer' => '<i class="bi bi-cart-fill text-info"></i>',
@@ -165,7 +165,7 @@ $iconesCategorias = [
                       <td class="text-danger">
                         <?php echo DateTime::createFromFormat('Y-m-d', $receita['lanVencimento'])->format('d/m/Y') ?>
                       </td>
-                      <td><?php echo $despesa['lanForma']; ?></td>
+                      <td><?php echo $receita['lanForma']; ?></td>
                       <td class="text-success">
                         <?php echo DateTime::createFromFormat('Y-m-d', $receita['hceUltimoRegistro'])->format('d/m/Y');
                         ?>

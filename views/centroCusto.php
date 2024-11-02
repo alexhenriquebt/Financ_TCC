@@ -20,7 +20,7 @@ $iconesCategorias = [
   'Educação' => '<i class="bi bi-book text-primary"></i>',
   'Animais' => '<i class="bi bi-paw text-warning"></i>',
   'Viagem' => '<i class="bi bi-airplane-fill text-info"></i>',
-  'Transferências e pagamentos' => '<i class="bi bi-cash-stack text-success"></i>',
+  'Transferências ou pagamentos' => '<i class="bi bi-cash-coin text-success"></i>',
   'Emergências' => '<i class="bi bi-exclamation-triangle-fill text-danger"></i>',
   'Seguros' => '<i class="bi bi-shield-lock-fill text-secondary"></i>',
   'Compras e lazer' => '<i class="bi bi-cart-fill text-info"></i>',
@@ -60,6 +60,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
   <div class="row g-3 m-0">
     <!-- navbar lateral -->
     <?php require_once '../utils/navbarLateral.php' ?>
+    
 
     <div class="col-10">
       <!-- user icon, navbar mobile e as notificações -->
@@ -139,7 +140,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
 
             </form>
 
-            <div class="mt-5">
+            <div class="mt-5 mb-5">
               <?php
               require_once "../utils/filtro.php";
               ?>
@@ -194,12 +195,12 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
                           ?></td>
                       <td>
                         <a href="centroCusto.php?idCentroAlterar=<?php echo $listaCentroCusto[$index]['cenId']; ?>">
-                          <i class="bi bi-pencil-square m-3 text-primary"></i>
+                          <i class="bi bi-pencil-square m-3 text-dark"></i>
                         </a>
                       </td>
                       <td>
                         <a href="../model/deletarCentroCusto.php?cenIdDeletar=<?php echo $listaCentroCusto[$index]['cenId']; ?>" onclick="return confirm('Você realmente deseja excluir?')">
-                          <i class="bi bi-trash3 mx-3 text-danger"></i>
+                          <i class="bi bi-trash3 mx-3 text-dark"></i>
                         </a>
                       </td>
                     </tr>
@@ -266,7 +267,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
                   ?>
                     <p class="col-4">
                       <?php 
-                          echo $iconesCategorias[$centroCusto['catNome']] ?? '';
+                          echo $iconesCategorias[$categoriaDespesa['catNome']] ?? '';
                       ?>
                     </p>
                     <p class="col-4"><?php echo $categoriaDespesa['catNome'] ?></p>
@@ -285,8 +286,33 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
   </div>
   </div>
 
-  <!-- DIALOGS AQUI -->
-  <!-- dialog alterar -->
+  <dialog id="modalAlterar">
+        <div class="container">
+            <form class="row g-3" action="../model/alterarCentroCusto.php?id_update=<?php echo $resDespesaUpdate['cenId']; ?>" method="post">
+                <h4>Alterar despesa</h4>
+                <!-- Campos do formulário aqui -->
+                <div class="col-12 col-md-12 mt-3 text-center">
+                    <button type="submit" class="btn btn-outline-success">Alterar</button>
+                </div>
+            </form>
+            <button class="btn btn-outline-danger mt-3" onclick="fecharModalAlterar()">Fechar</button>
+        </div>
+    </dialog>
+
+
+    <script src="../js/limitaCaractere.js"></script>
+    <script src="../js/modal.js"></script>
+    <script src="../js/popover.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            <?php if ($dialog === 'liberar') { ?>
+                abrirModalAlterar();
+            <?php } ?>
+        });
+    </script>
+</body>
+<!--   
   <dialog id="modalAlterar">
     <div class="container">
       <form class="row g-3" action="../model/alterarCentroCusto.php?id_update=<?php echo $resDespesaUpdate['cenId']; ?>" method="post">
@@ -362,21 +388,7 @@ if (isset($_GET['idCentroAlterar']) && !empty($_GET['idCentroAlterar'])) {
     </form>
     </div>
     <button class="btn btn-outline-danger mt-3" onclick="fecharModalAlterar()">Fechar</button>
-  </dialog>
-
-
-  <script src="../js/limitaCaractere.js"></script>
-    <script src="../js/modal.js"></script>
-    <script src="../js/popover.js"></script>
-</body>
+  </dialog> -->
 </html>
 
-<?php
-if ($dialog == 'liberar') {
-?>
-  <script>
-    abrirModalAlterar()
-  </script>
-<?php
-}
-?>
+
