@@ -33,7 +33,14 @@ WHERE det.usuId = :usuId;
     public function exibirCategoria($cenId)
     {
         $res = [];
-        $cmd = $this->pdo->prepare("SELECT * FROM tblCentroCusto cen JOIN tblCategoria cat WHERE cen.catId = cat.catId AND cen.cenId = :cenId");
+        $cmd = $this->pdo->prepare("SELECT * FROM tblCentroCusto cen
+        JOIN tblLancamento lan
+        JOIN tblDetCentroCusto det 
+        JOIN tblCategoria cat
+        WHERE cen.catId = cat.catId 
+        AND cen.cenId = :cenId
+        AND det.cenId = :cenId
+        AND lan.decId = det.decId");
         $cmd->bindValue(':cenId', $cenId);
         $cmd->execute();
         $res = $cmd->fetch(PDO::FETCH_ASSOC);
