@@ -70,7 +70,7 @@ $base_url = rtrim($base_url, '/view');
       </a>
     </div>
     <div class="col-12">
-      <a href="<?php echo $base_url; ?>/blog.php" data-bs-toggle="popover" data-bs-trigger="hover focus"
+      <a href="<?php echo $base_url; ?>/avisoManutencao.html" data-bs-toggle="popover" data-bs-trigger="hover focus"
         data-bs-content="Veja dicas para melhorar suas finanças">
         <div>
           <i class="bi bi-card-text"></i>

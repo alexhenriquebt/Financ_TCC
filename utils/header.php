@@ -43,9 +43,11 @@ $saldo = $receitas - $despesas;
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/home.php">Home</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/centroCusto.php">Contas</a></li>
+                            <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/metas.php">Metas</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/relatorios.php">Relatórios</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/configuracoes.php">Configurações</a></li>
                             <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/ajuda.php">Ajuda</a></li>
+                            <li><a class="dropdown-item item-mobile" href="<?= $base_url; ?>/avisoManutencao.html">Blog</a></li>
                             <li><a class="dropdown-item" href="<?= $base_url; ?>/../model/logoff.php">Sair</a></li>
                         </ul>
                     </div>

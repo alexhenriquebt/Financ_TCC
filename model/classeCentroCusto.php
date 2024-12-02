@@ -47,7 +47,7 @@ WHERE det.usuId = :usuId;
         return $res;
     }
 
-    public function editarCentroCusto($cenId, $catId, $cenValor, $vencimento, $cenDescricao, $cenTipo, $cenNome, $situacao)
+    public function editarCentroCusto($cenId, $catId, $cenTipo, $cenValor, $vencimento, $cenDescricao, $cenNome, $situacao, $forma)
     {
         // Iniciar transação para garantir que todas as atualizações sejam feitas de forma atômica
         $this->pdo->beginTransaction();
@@ -94,11 +94,12 @@ WHERE det.usuId = :usuId;
             // Atualizar a tabela tblLancamento
             $cmdAtualizaLancamento = $this->pdo->prepare("
                 UPDATE tblLancamento 
-                SET lanVencimento = :vencimento, lanSituacao = :situacao 
+                SET lanVencimento = :vencimento, lanSituacao = :situacao, lanForma = :forma
                 WHERE lanId = :lanId
             ");
             $cmdAtualizaLancamento->bindValue(':vencimento', $vencimento);
             $cmdAtualizaLancamento->bindValue(':situacao', $situacao);
+            $cmdAtualizaLancamento->bindValue(':forma', $forma);
             $cmdAtualizaLancamento->bindValue(':lanId', $lanId);
             $cmdAtualizaLancamento->execute();
     
@@ -185,8 +186,6 @@ WHERE det.usuId = :usuId;
 
             // Finaliza a transação
             $this->pdo->commit();
-
-            echo "Dados inseridos com sucesso!";
         } catch (Exception $e) {
             // Em caso de erro, desfaz todas as inserções
             $this->pdo->rollBack();

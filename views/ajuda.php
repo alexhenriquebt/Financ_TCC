@@ -1,5 +1,7 @@
 <?php
 require_once '../model/validarAcesso.php';
+require_once "../model/classeCentroCusto.php";
+$classeCentroCusto = new CentroCusto();
 ?>
 
 <!DOCTYPE html>

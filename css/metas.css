@@ -39,8 +39,17 @@ a,
     animation: ampliar 0ms linear forwards;
 }
 
+.card-direita {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    margin: 30px;
+}
+
 .container-estilizado {
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.progress {
+color: rgb(218, 100, 22);
 }
 
 /* DIALOG */
