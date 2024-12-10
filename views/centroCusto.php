@@ -355,7 +355,7 @@ if ($centroCusto['lanSituacao'] === 'Realizado') {
                       echo $resCentroUpdate['lanSituacao'];
                     } ?>
                   </option>
-                  <option value="Pago">Pago</option>
+                  <option value="Realizado">Realizado</option>
                   <option value="Pendente">Pendente</option>
                 </select>
               </div>

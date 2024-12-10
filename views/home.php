@@ -134,7 +134,7 @@
   </div>
   
   
-  <script src="../js/popup_notificacoes.js"></script>
+  <script src="../js/popover.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     // const patrimonioData = <?php echo json_encode($historicoPatrimonio); ?>
